@@ -1,0 +1,749 @@
+<!-- ==========================================================
+     employee-dashboard.html: TRANG NHÂN VIÊN
+     Cấu trúc file:
+       0. Khung ngoài + nền mờ
+       1. Sidebar (đóng/mở)
+       2. Header trên cùng
+       3. Nội dung chính
+          3.1 Chào hỏi & kỳ đánh giá
+          3.2 Sáu thẻ chỉ số
+          3.3 Task mới được giao (chờ nhận)
+          3.4 AI nhận xét & đề xuất (dữ liệu mock)
+          3.5 Tiến độ theo từng mục tiêu (goal)
+          3.6 Bảng chi tiết KPI
+       4. Ba modal: check-in, tự đánh giá, đề xuất AI
+     Quy ước icon: <span class="material-symbols-outlined">tên_icon</span>
+     Tên icon phải nằm TRONG thẻ span. Nếu để trống, ô icon sẽ không hiện gì.
+     ========================================================== -->
+<div class="app">
+
+  <!-- ===================== 0. NỀN MỜ (BACKDROP) =====================
+       Lớp phủ mờ khi sidebar mở.
+       Dữ liệu: sidebarOpen (boolean trong .ts)
+       Sự kiện: bấm vào nền mờ gọi closeSidebar() để đóng sidebar -->
+  <div class="backdrop" [class.is-visible]="sidebarOpen" (click)="closeSidebar()"></div>
+
+  <!-- ===================== 1. SIDEBAR (đóng/mở) =====================
+       Class is-open làm sidebar trượt ra khỏi mép trái.
+       aria-hidden báo trình đọc màn hình biết sidebar đang ẩn. -->
+  <aside class="sidebar" [class.is-open]="sidebarOpen" [attr.aria-hidden]="!sidebarOpen">
+    <div class="sidebar__main">
+
+      <!-- 1.1 Logo + tên công ty + nút đóng sidebar -->
+      <div class="sidebar__brand">
+        <img class="sidebar__logo" [src]="assets.logo" alt="Logo DONASA Sơn Công Nghiệp">
+        <div class="sidebar__brand-text">
+          <span class="sidebar__name">DONASA</span>
+          <span class="sidebar__sub">Sơn Công Nghiệp</span>
+        </div>
+        <button type="button" class="icon-btn icon-btn--light" (click)="closeSidebar()" aria-label="Đóng menu">
+          <span class="material-symbols-outlined icon-xl">close</span>
+        </button>
+      </div>
+
+      <!-- 1.2 Menu điều hướng
+           Dữ liệu: navItems (mảng path, label, icon trong .ts)
+           routerLink: chuyển trang kiểu SPA, không tải lại trang
+           routerLinkActive: tự thêm class is-active cho mục khớp URL hiện tại
+           Bấm một mục sẽ đóng sidebar -->
+      <nav class="nav">
+        <a *ngFor="let item of navItems"
+           class="nav__link"
+           [routerLink]="item.path"
+           routerLinkActive="is-active"
+           (click)="closeSidebar()">
+          <span class="material-symbols-outlined icon-lg">{{ item.icon }}</span>
+          <span>{{ item.label }}</span>
+        </a>
+      </nav>
+    </div>
+
+    <!-- 1.3 Chân sidebar: số phiên bản -->
+    <div class="sidebar__footer">
+      <span>Phiên bản CPM-AI v1.0</span>
+    </div>
+  </aside>
+
+  <!-- ===================== 2. HEADER TRÊN CÙNG ===================== -->
+  <header class="topbar">
+
+    <!-- 2.1 Bên trái: nút ☰, tên hệ thống, kỳ đánh giá -->
+    <div class="topbar__left">
+      <!-- Nút mở/đóng sidebar. Icon đổi theo trạng thái: menu_open khi đang mở, menu khi đang đóng -->
+      <button type="button" class="icon-btn" (click)="toggleSidebar()"
+              [attr.aria-expanded]="sidebarOpen" aria-label="Đóng/mở menu">
+        <span class="material-symbols-outlined icon-2xl">{{ sidebarOpen ? 'menu_open' : 'menu' }}</span>
+      </button>
+
+      <div class="topbar__title">
+        <span class="material-symbols-outlined icon-xl text-primary">business_center</span>
+        <span>Hệ thống Quản lý Hiệu suất Liên tục (CPM)</span>
+      </div>
+
+      <div class="topbar__divider"></div>
+
+      <!-- Dữ liệu: period.label -->
+      <div class="topbar__period">
+        <span>Kỳ đánh giá:</span>
+        <strong>{{ period.label }}</strong>
+      </div>
+    </div>
+
+    <!-- 2.2 Bên phải: trạng thái AI, chuông, thông tin người dùng, đăng xuất -->
+    <div class="topbar__right">
+      <!-- <div class="ai-status"> -->
+        <!-- <span class="ai-status__dot"><span class="ai-status__ping"></span></span> -->
+        <!-- <span>AI Đang hoạt động</span> -->
+      <!-- </div> -->
+
+      <button type="button" class="icon-btn bell" aria-label="Thông báo">
+        <span class="material-symbols-outlined icon-xl">notifications</span>
+        <span class="bell__badge"></span>
+      </button>
+
+      <div class="topbar__divider topbar__divider--tall"></div>
+
+      <!-- Dữ liệu: employee.name, employee.position (gán trong setEmployee() ở .ts) -->
+      <div class="user">
+        <div class="user__text">
+          <span class="user__name">{{ employee.name }}</span>
+          <span class="user__role">{{ employee.position }}</span>
+        </div>
+        <img class="user__avatar" [src]="assets.avatar" alt="Ảnh đại diện">
+      </div>
+
+      <!-- Sự kiện: logout() xóa phiên đăng nhập rồi chuyển về trang login -->
+      <button type="button" class="logout-btn" (click)="logout()">
+        Đăng xuất
+      </button>
+    </div>
+  </header>
+
+  <!-- ===================== 3. NỘI DUNG CHÍNH ===================== -->
+  <main class="page">
+
+    <!-- ---------- 3.1 CHÀO HỎI & KỲ ĐÁNH GIÁ ----------
+         Dữ liệu: employee (name, code, department, cycleBadge),
+                  period (label, selfEvalDeadline), metrics.days_remaining
+         Logo công ty đặt trong ô xanh bên trái, gán từ assets.logo.
+         Cần thêm CSS cho .welcome__logo (xem hướng dẫn kèm theo). -->
+    <section class="card welcome">
+      <div class="welcome__left">
+        <div class="welcome__icon">
+          <img class="welcome__logo" [src]="assets.logo" alt="Logo DONASA">
+        </div>
+        <div>
+          <div class="welcome__title-row">
+            <span class="welcome__title">Xin chào, {{ employee.name }}</span>
+            <span class="pill pill--primary">{{ employee.cycleBadge }}</span>
+          </div>
+          <p class="welcome__meta">
+            <strong>Mã NV: {{ employee.code }}</strong> • {{ employee.department }}
+          </p>
+        </div>
+      </div>
+
+      <div class="welcome__period">
+        <div class="welcome__period-item">
+          <div class="stack">
+            <span class="caption">Kỳ đánh giá trọng tâm</span>
+            <span class="welcome__period-value text-primary">{{ period.label }}</span>
+          </div>
+        </div>
+        <div class="welcome__period-sep"></div>
+        <div class="stack">
+          <span class="caption">Hạn tự đánh giá</span>
+          <span class="welcome__period-deadline">{{ period.selfEvalDeadline }} (còn {{ metrics.days_remaining }} ngày)</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ---------- 3.2 SÁU THẺ CHỈ SỐ ----------
+         Dữ liệu: metrics, score, achieved (tính trong applyGoals() ở .ts, nguồn là DataService).
+         Icon đã khôi phục: target, schedule, difference, military_tech,
+         check_circle, task_alt, warning. -->
+    <section class="grid-3">
+
+      <!-- Thẻ 1: Tiến độ thực tế (Actual)
+           Dữ liệu: metrics.actual_progress
+           Vòng tròn: stroke-dasharray = "<phần trăm>, 100"
+           Icon giữa vòng: target -->
+      <div class="card metric">
+        <div class="metric__head">
+          <span class="caption">Tiến độ thực tế (Actual)</span>
+        </div>
+        <div class="metric__body metric__body--between">
+          <div>
+            <div class="metric__value text-primary">{{ metrics.actual_progress }}%</div>
+            <span class="pill pill--primary pill--with-dot">
+              <span class="dot dot--primary dot--pulse"></span>
+              Đang thực hiện
+            </span>
+          </div>
+          <div class="ring">
+            <svg class="ring__svg" viewBox="0 0 36 36">
+              <path class="ring__track" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"></path>
+              <path class="ring__value" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                    [attr.stroke-dasharray]="metrics.actual_progress + ', 100'"></path>
+            </svg>
+            <span class="material-symbols-outlined icon-lg ring__icon">target</span>
+          </div>
+        </div>
+        <p class="metric__note">Tổng trọng số các task đã hoàn thành trong goal đang chạy.</p>
+      </div>
+
+      <!-- Thẻ 2: Tiến độ kỳ vọng (Expected)
+           Dữ liệu: metrics.expected_progress (tính theo thời gian đã trôi qua)
+           Icon: schedule (đầu thẻ và giữa vòng) -->
+      <div class="card metric">
+        <div class="metric__head">
+          <span class="caption">Tiến độ kỳ vọng</span>
+          <span class="material-symbols-outlined icon-xl text-tertiary">schedule</span>
+        </div>
+        <div class="metric__body metric__body--between">
+          <div>
+            <div class="metric__value text-tertiary">{{ metrics.expected_progress }}%</div>
+            <span class="pill pill--soft">Theo thời gian đã trôi qua</span>
+          </div>
+          <div class="ring">
+            <svg class="ring__svg" viewBox="0 0 36 36">
+              <path class="ring__track" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"></path>
+              <path class="ring__value ring__value--expected" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                    [attr.stroke-dasharray]="metrics.expected_progress + ', 100'"></path>
+            </svg>
+            <span class="material-symbols-outlined icon-lg ring__icon ring__icon--expected">schedule</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Thẻ 3: Độ lệch tiến độ (Gap = Expected trừ Actual)
+           Dữ liệu: metrics.gap
+           Gap dương nghĩa là chậm hơn kế hoạch, nên đổi sang màu vàng (text-warn); ngược lại màu xanh (text-good)
+           Icon: difference -->
+      <div class="card metric">
+        <div class="metric__head">
+          <span class="caption">Độ lệch tiến độ</span>
+          <span class="material-symbols-outlined icon-xl" [ngClass]="metrics.gap > 0 ? 'text-warn' : 'text-good'">difference</span>
+        </div>
+        <div class="metric__body">
+          <span class="metric__value" [ngClass]="metrics.gap > 0 ? 'text-warn' : 'text-good'">{{ metrics.gap > 0 ? '+' : '' }}{{ metrics.gap }}%</span>
+        </div>
+        <p class="metric__note">{{ metrics.gap > 0 ? 'Chậm hơn kế hoạch' : metrics.gap < 0 ? 'Vượt kế hoạch' : 'Đúng kế hoạch' }} · Expected − Actual</p>
+      </div>
+
+      <!-- Thẻ 4: Điểm số KPI
+           Dữ liệu: score.value, score.max, score.grade
+           Icon: military_tech -->
+      <div class="card metric">
+        <div class="metric__head">
+          <span class="caption">Điểm số KPI hiện tại</span>
+          <span class="material-symbols-outlined icon-xl text-tertiary">military_tech</span>
+        </div>
+        <div class="metric__body">
+          <span class="metric__value">{{ score.value }}</span>
+          <span class="metric__unit">/{{ score.max }}</span>
+        </div>
+        <div class="metric__grade">
+          <span>Xếp loại tháng:</span>
+          <span class="tag tag--primary">{{ score.grade }}</span>
+        </div>
+      </div>
+
+      <!-- Thẻ 5: Chỉ tiêu đã đạt
+           Dữ liệu: achieved.done và achieved.total (số goal hoàn thành trên tổng số goal)
+           Icon: check_circle (đầu thẻ), task_alt (trong nhãn xanh) -->
+      <div class="card metric">
+        <div class="metric__head">
+          <span class="caption">Chỉ tiêu đã đạt</span>
+          <span class="material-symbols-outlined icon-xl text-good">check_circle</span>
+        </div>
+        <div class="metric__body">
+          <span class="metric__value">{{ achieved.done }}</span>
+          <span class="metric__unit">/{{ achieved.total }} KPI</span>
+        </div>
+        <span class="pill-block pill-block--good">
+          <span class="material-symbols-outlined icon-sm">task_alt</span>
+          {{ achieved.done }} chỉ tiêu hoàn thành tốt
+        </span>
+      </div>
+
+      <!-- Thẻ 6: Việc quá hạn
+           Dữ liệu: metrics.overdue_tasks
+           Có việc quá hạn thì chuyển màu vàng, không có thì màu xanh
+           Icon: warning -->
+      <div class="card metric">
+        <div class="metric__head">
+          <span class="caption">Việc quá hạn</span>
+          <span class="material-symbols-outlined icon-xl" [ngClass]="metrics.overdue_tasks > 0 ? 'text-warn' : 'text-good'">warning</span>
+        </div>
+        <div class="metric__body">
+          <span class="metric__value" [ngClass]="metrics.overdue_tasks > 0 ? 'text-warn' : 'text-good'">{{ metrics.overdue_tasks }}</span>
+          <span class="metric__unit">đầu việc</span>
+        </div>
+        <span class="pill-block"
+              [class.pill-block--warn]="metrics.overdue_tasks > 0"
+              [class.pill-block--good]="metrics.overdue_tasks === 0">
+          <span class="material-symbols-outlined icon-sm">warning</span>
+          {{ metrics.overdue_tasks }} đầu việc cần xử lý ngay
+        </span>
+      </div>
+    </section>
+
+    <!-- ---------- 3.3 TASK MỚI ĐƯỢC GIAO ----------
+         Chỉ hiện khi có task đang chờ nhận (pendingTasks.length > 0).
+         Dữ liệu: pendingTasks (TaskAssignmentService lọc theo mã nhân viên, trạng thái pending)
+         Sự kiện: acceptTask(task) chấp nhận task; sendFeedbackToManager() nhắn quản lý -->
+    <section class="task-alert-list" *ngIf="pendingTasks.length > 0" aria-label="Task mới đang chờ xác nhận">
+      <article class="task-alert card" *ngFor="let task of pendingTasks">
+        <div class="task-alert__icon" aria-hidden="true">
+          <span class="material-symbols-outlined">assignment_add</span>
+        </div>
+        <div class="task-alert__content">
+          <span class="task-alert__eyebrow">Mục tiêu mới từ quản lý · Chờ xác nhận</span>
+          <h2 class="task-alert__title">Quản lý vừa giao cho bạn một mục tiêu mới: {{ task.name }}</h2>
+          <p class="task-alert__desc">{{ task.description }}</p>
+          <div class="task-alert__details">
+            <span><span class="task-alert__label">Deadline</span><strong>{{ task.deadline }}</strong></span>
+          </div>
+        </div>
+        <div class="task-alert__actions">
+          <button type="button" class="btn btn--primary" (click)="acceptTask(task)">
+            <span class="material-symbols-outlined icon-sm">task_alt</span>
+            Chấp nhận Task
+          </button>
+          <button type="button" class="btn btn--outline" (click)="sendFeedbackToManager()">
+            <span class="material-symbols-outlined icon-sm">chat</span>
+            Liên hệ Quản lý
+          </button>
+        </div>
+      </article>
+    </section>
+
+    <!-- ---------- 3.4 AI NHẬN XÉT & ĐỀ XUẤT (DỮ LIỆU MOCK) ----------
+         Toàn bộ nội dung lấy từ đối tượng ai trong .ts (đang là dữ liệu giả, sẽ nối API sau).
+         Dữ liệu: ai.updatedAt, ai.risk_label, ai.engineLabel, ai.feedback, ai.shapFactors, ai.actions
+         Lưu ý: ai.engineLabel phải tồn tại trong .ts (bỏ dấu // ở dòng engineLabel), nếu không sẽ lỗi biên dịch.
+         Màu nhãn rủi ro: Normal là xanh, Low Risk là vàng, High Risk là đỏ (qua ngClass) -->
+    <section class="card ai">
+      <div class="ai__head">
+        <div class="ai__head-left">
+          <div class="ai__head-icon">
+            <span class="material-symbols-outlined icon-xl">psychology</span>
+          </div>
+          <span class="ai__title">AI Nhận xét &amp; Đề xuất tự động</span>
+          <span class="pill pill--high">{{ ai.updatedAt }}</span>
+          <span class="risk"
+                [ngClass]="{
+                  'risk--normal': ai.risk_label === 'Normal',
+                  'risk--low': ai.risk_label === 'Low Risk',
+                  'risk--high': ai.risk_label === 'High Risk'
+                }">
+            <span class="material-symbols-outlined icon-sm">flag</span>
+            {{ ai.risk_label }}
+          </span>
+        </div>
+        <!-- <div class="ai__engine"> -->
+          <!-- <span class="material-symbols-outlined icon-sm text-good">verified</span> -->
+          <!-- <span>{{ ai.engineLabel }}</span> -->
+        <!-- </div> -->
+      </div>
+
+      <div class="ai__box">
+        <div class="ai__box-icon">
+          <span class="material-symbols-outlined icon-2xl">insights</span>
+        </div>
+        <div class="ai__content">
+          <!-- Đoạn nhận xét do Gemini sinh (hiện là chữ mẫu) -->
+          <p class="ai__text">“{{ ai.feedback }}”</p>
+
+          <!-- Các yếu tố ảnh hưởng theo SHAP: dương (đỏ) làm tăng rủi ro, âm (xanh) làm giảm rủi ro -->
+          <div class="shap">
+            <span class="caption">Yếu tố ảnh hưởng (SHAP):</span>
+            <span *ngFor="let f of ai.shapFactors" class="chip"
+                  [class.chip--up]="f.impact > 0"
+                  [class.chip--down]="f.impact <= 0">
+              {{ f.label }} · {{ f.impact > 0 ? '+' : '' }}{{ f.impact | number:'1.2-2' }}
+            </span>
+          </div>
+
+          <!-- Sự kiện: openAiModal() mở modal 3; sendFeedbackToManager() nhắn quản lý -->
+          <div class="btn-row-group">
+            <button type="button" class="btn btn--primary" (click)="openAiModal()">
+              <span class="material-symbols-outlined icon-base">auto_fix_high</span>
+              <span>Xem chi tiết đề xuất</span>
+            </button>
+            <button type="button" class="btn btn--white" (click)="sendFeedbackToManager()">
+              <span class="material-symbols-outlined icon-base text-secondary">chat</span>
+              <span>Gửi phản hồi cho Trưởng phòng</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FEEDBACK CỦA MANAGER -->
+     <section class="card manager-feedback" *ngIf="feedbacks.length">
+      <header class="manager-feedback__head">
+        <span class="manager-feedback__icon">
+          <span class="material-symbols-outlined">rate_review</span>
+        </span>
+        <div>
+          <h3>Nhận xét của quản lý</h3>
+          <span class="manager-feedback__count">{{ feedbacks.length }} nhận xét</span>
+        </div>
+      </header>
+
+      <article class="manager-feedback__item"
+              *ngFor="let f of feedbacks; let first = first"
+              [class.is-latest]="first">
+        <span class="manager-feedback__badge" *ngIf="first">Mới nhất</span>
+        <p class="manager-feedback__text">{{ f.text }}</p>
+        <footer class="manager-feedback__meta">
+          <span class="material-symbols-outlined">person</span>
+          <strong>{{ f.by }}</strong>
+          <span>·</span>
+          <span>{{ f.date }}</span>
+        </footer>
+      </article>
+    </section>
+    <!-- ---------- 3.5 TIẾN ĐỘ THEO TỪNG MỤC TIÊU ----------
+         Mỗi mục tiêu (goal) là một khối.
+         Dữ liệu: progressBlocks (dựng từ goals trong applyGoals() ở .ts)
+         Màu theo tone: good là xanh, warn là vàng, bad là đỏ (class tone-good/warn/bad, qua ngClass)
+         Sự kiện: completeGoalTask(goalId, taskId) đánh dấu một task hoàn thành -->
+    <section class="card progress">
+      <div class="section-head">
+        <div>
+          <h3 class="section-title">Tiến độ Trọng tâm theo Khối Tiêu chí</h3>
+          <p class="section-sub">Số liệu đồng bộ từ hệ thống CRM và phần mềm kế toán công nợ</p>
+        </div>
+        <span class="tag tag--soft">{{ employee.department }}</span>
+      </div>
+
+      <!-- Trạng thái trống khi chưa có mục tiêu nào -->
+      <p class="section-sub" *ngIf="progressBlocks.length === 0">
+        Chưa có mục tiêu nào. Hãy liên hệ quản lý để được giao mục tiêu.
+      </p>
+
+      <div class="progress__grid">
+        <div *ngFor="let p of progressBlocks" class="progress__item" [ngClass]="'tone-' + p.tone">
+
+          <!-- Tên mục tiêu và phần trăm thực tế -->
+          <div class="progress__row">
+            <div class="progress__label">
+              <span class="material-symbols-outlined icon-lg tone-text">{{ p.icon }}</span>
+              <span>{{ p.title }}</span>
+            </div>
+            <span class="progress__percent">{{ p.percent }}%</span>
+          </div>
+
+          <!-- Hai thanh so sánh Thực tế và Kỳ vọng -->
+          <div class="progress__comparison">
+            <div class="progress__measure">
+              <div class="progress__measure-label"><span>Thực tế</span><strong>{{ p.percent }}%</strong></div>
+              <div class="bar"><div class="bar__fill" [style.width.%]="p.percent"></div></div>
+            </div>
+            <div class="progress__measure">
+              <div class="progress__measure-label"><span>Kỳ vọng</span><strong>{{ p.expectedPercent }}%</strong></div>
+              <div class="bar bar--expected"><div class="bar__fill" [style.width.%]="p.expectedPercent"></div></div>
+            </div>
+          </div>
+
+          <!-- Dòng độ lệch, số ngày còn lại, số task quá hạn (chỉ hiện khi có) -->
+          <div class="progress__gap" [class.progress__gap--behind]="p.gap > 0" [class.progress__gap--ahead]="p.gap < 0">
+            Gap: {{ p.gap > 0 ? '+' : '' }}{{ p.gap }} điểm % · Còn {{ p.daysRemaining }} ngày
+            <span *ngIf="p.overdueTasks > 0"> · {{ p.overdueTasks }} task quá hạn</span>
+          </div>
+
+          <!-- Số task hoàn thành và hạn hoàn thành -->
+          <div class="progress__foot">
+            <span>{{ p.leftLabel }}: <strong>{{ p.leftValue }}</strong></span>
+            <span>{{ p.rightLabel }}: <strong>{{ p.rightValue }}</strong></span>
+          </div>
+
+          <!-- Danh sách task con. Task chưa xong có nút "Hoàn thành", task đã xong hiện chữ "Đã xong" -->
+          <ul class="progress__tasks">
+            <li *ngFor="let task of p.tasks" [class.progress__task--done]="task.done">
+                <span class="material-symbols-outlined icon-sm">{{ task.done ? 'check_circle' : 'radio_button_unchecked' }}</span>
+                <span>{{ task.name }}</span>
+                <time [attr.datetime]="task.dueDate">{{ task.dueDate }}</time>
+                <span class="progress__task-status"
+                    [class.progress__task-status--pending]="!task.done">
+                {{ task.done ? 'Đã xong' : 'Chưa xong' }}
+                </span>     
+           </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ---------- 3.6 BẢNG CHI TIẾT KPI CỦA TÔI ----------
+         Dữ liệu: kpiRows (mỗi goal một dòng, cộng thêm các task được giao mà nhân viên đã nhận)
+         Nút đầu bảng: openDailyModal() mở modal 1; openSelfEvalModal() mở modal 2 -->
+    <section class="card table-card">
+      <div class="section-head section-head--pad">
+        <div>
+          <h3 class="section-title">Bảng Chi tiết KPI Của Tôi</h3>
+          <p class="section-sub">Dữ liệu đánh giá kỳ {{ period.label }} - Dành cho nhân viên xác nhận và cập nhật</p>
+        </div>
+        <div class="btn-row-group">
+          <button type="button" class="btn btn--primary btn--lg" (click)="openManageModal()">
+            <span class="material-symbols-outlined icon-base">add_circle</span>
+            <span>Quản lý công việc</span>
+          </button>
+          <button type="button" class="btn btn--soft btn--lg" (click)="openSelfEvalModal()">
+            <span class="material-symbols-outlined icon-base">rate_review</span>
+            <span>Tự đánh giá tháng</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table class="table">
+            <thead>
+            <tr>
+                <th>KPI / Chỉ tiêu công việc</th>
+                <th>Thời hạn</th>
+                <th>Thực tế</th>
+                <th class="ta-right">Đạt (%)</th>
+                <th class="ta-center">Trạng thái</th>
+                <th class="ta-center">Thao tác</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngIf="visibleKpiRows.length === 0">
+                <td colspan="6" class="cell-muted ta-center">Chưa có chỉ tiêu nào.</td>
+            </tr>
+
+            <tr *ngFor="let row of visibleKpiRows" [ngClass]="'tone-' + row.tone">
+                <td>
+                    <div class="kpi-name">
+                        <span class="material-symbols-outlined icon-lg tone-text">{{ row.icon }}</span>
+                    <div>
+                        <span class="kpi-name__title">{{ row.name }}</span>
+                        <span class="kpi-name__desc">{{ row.description }}</span>
+                    </div>
+                    </div>
+                </td>
+                <td class="cell-muted">{{ row.target }}</td>
+                <td class="cell-strong tone-text">{{ row.actual }}</td>
+                <td class="ta-right cell-strong tone-text">{{ row.percent }}%</td>
+                <td class="ta-center">
+                    <span class="badge">
+                    <span class="dot dot--tone" [class.dot--ping]="row.tone !== 'good'"></span>
+                    {{ row.statusLabel }}
+                    </span>
+                </td>
+                <td class="ta-center">
+                    <button *ngIf="tasksOf(row.id).length" type="button" class="btn-row"
+                        (click)="openUpdateModal(row.id)">Cập nhật task</button>
+                    <button *ngIf="!tasksOf(row.id).length" type="button" class="btn-row btn-row--ghost"
+                        (click)="viewKpiDetail(row)">Xem </button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <button *ngIf="historyCount > 0" type="button" class="btn-row btn-row--ghost"
+                (click)="showHistory = !showHistory">
+            {{ showHistory ? 'Ẩn mục đã hoàn thành' : 'Xem ' + historyCount + ' mục đã hoàn thành' }}
+        </button>
+        </div>
+
+      <!-- Chân bảng: ghi chú và người cập nhật gần nhất (dữ liệu: lastUpdate.by, lastUpdate.at) -->
+      <div class="table-foot">
+        <div class="table-foot__item">
+          <span class="material-symbols-outlined icon-base text-primary">info</span>
+          <span>Đánh dấu hoàn thành đầu việc để tiến độ được cập nhật theo.</span>
+        </div>
+        <span>Cập nhật gần nhất bởi: <strong>{{ lastUpdate.by }} ({{ lastUpdate.at }})</strong></span>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===================== 4. CÁC MODAL =====================
+       Mỗi modal bật tắt bằng *ngIf theo một biến trạng thái trong .ts.
+       Bấm nền mờ ngoài hộp sẽ đóng modal; $event.stopPropagation() chặn việc bấm bên trong hộp cũng đóng modal. -->
+
+  <!-- ---------- MODAL 1: CẬP NHẬT TASK ----------
+       Hiện khi showDailyModal bằng true.
+       Form Template-Driven: [(ngModel)] gắn vào dailyReport.taskId; mỗi ô cần có name="..."
+       Gửi form: submitDailyReport() đánh dấu task hoàn thành -->
+  <div class="modal" *ngIf="updatingGoal as goal" (click)="closeUpdateModal()">
+  <div class="modal__dialog modal__dialog--lg" (click)="$event.stopPropagation()">
+    <div class="modal__head">
+      <div class="modal__title">
+        <span class="material-symbols-outlined icon-2xl">task_alt</span>
+        <h4>{{ goal.name }}</h4>
+      </div>
+      <button type="button" class="icon-btn" (click)="closeUpdateModal()" aria-label="Đóng">
+        <span class="material-symbols-outlined icon-2xl">close</span>
+      </button>
+    </div>
+
+    <ul class="progress__tasks">
+      <li *ngFor="let task of goal.tasks" [class.progress__task--done]="task.doneDate">
+        <span class="material-symbols-outlined icon-sm">
+          {{ task.doneDate ? 'check_circle' : 'radio_button_unchecked' }}
+        </span>
+        <span>{{ task.name }}</span>
+        <time [attr.datetime]="task.dueDate">{{ task.dueDate }}</time>
+        <button *ngIf="!task.doneDate" type="button" class="progress__complete"
+                (click)="completeGoalTask(goal.id, task.id)">Hoàn thành</button>
+        <span *ngIf="task.doneDate" class="progress__task-status">Đã xong</span>
+      </li>
+    </ul>
+
+    <div class="form__actions">
+        <button type="button" class="btn btn--primary btn--lg" (click)="closeUpdateModal()">Đóng</button>
+    </div>
+  </div>
+</div>
+
+  <!-- ---------- MODAL 2: TỰ ĐÁNH GIÁ THÁNG ----------
+       Hiện khi showSelfEvalModal bằng true.
+       Form Template-Driven gắn vào selfEval (level, difficulties, proposal)
+       Gửi form: submitSelfEval(). Nút gửi bị khóa khi form chưa hợp lệ (có ô required bỏ trống) -->
+  <div class="modal" *ngIf="showSelfEvalModal" (click)="closeSelfEvalModal()">
+    <div class="modal__dialog modal__dialog--lg" (click)="$event.stopPropagation()">
+      <div class="modal__head">
+        <div class="modal__title">
+          <span class="material-symbols-outlined icon-2xl">rate_review</span>
+          <h4>Phiếu Tự Đánh Giá KPI - {{ period.label }}</h4>
+        </div>
+        <button type="button" class="icon-btn" (click)="closeSelfEvalModal()" aria-label="Đóng">
+          <span class="material-symbols-outlined icon-2xl">close</span>
+        </button>
+      </div>
+
+      <form #selfForm="ngForm" class="form" (ngSubmit)="submitSelfEval()">
+        <div class="field">
+          <label class="field__label" for="self-level">Mức độ hoàn thành tự nhận xét *</label>
+          <select id="self-level" class="input" name="level" required [(ngModel)]="selfEval.level">
+            <option *ngFor="let l of selfEvalLevels" [value]="l">{{ l }}</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label class="field__label" for="self-diff">Khó khăn thực tế gặp phải trong công việc *</label>
+          <textarea id="self-diff" class="input" rows="2" name="difficulties" required
+                    placeholder="Ví dụ: Khách hàng chậm duyệt báo giá 2 đợt; đại lý nợ quá hạn cần hỗ trợ từ phòng Kế toán..."
+                    [(ngModel)]="selfEval.difficulties"></textarea>
+        </div>
+
+        <div class="field">
+          <label class="field__label" for="self-prop">Đề xuất cải thiện cho kỳ làm việc tiếp theo</label>
+          <textarea id="self-prop" class="input" rows="2" name="proposal"
+                    placeholder="Ví dụ: Đề xuất họp rà soát công nợ định kỳ vào sáng thứ Hai hằng tuần..."
+                    [(ngModel)]="selfEval.proposal"></textarea>
+        </div>
+
+        <div class="notice">
+          <span class="material-symbols-outlined icon-base text-primary">verified_user</span>
+          <span>Bản tự đánh giá sẽ được gửi trực tiếp đến Trưởng phòng Kinh doanh xem xét duyệt kỳ.</span>
+        </div>
+
+        <div class="form__actions">
+          <button type="button" class="btn btn--soft-muted btn--lg" (click)="closeSelfEvalModal()">Đóng</button>
+          <button type="submit" class="btn btn--primary btn--lg" [disabled]="selfForm.invalid">
+            <span class="material-symbols-outlined icon-base">check</span>
+            <span>Xác nhận nộp đánh giá</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ---------- MODAL 3: CHI TIẾT ĐỀ XUẤT AI ----------
+       Hiện khi showAiModal bằng true.
+       Dữ liệu: ai.actions (mock). Màu từng mục theo tone: good xanh, warn vàng, bad đỏ -->
+  <div class="modal" *ngIf="showAiModal" (click)="closeAiModal()">
+    <div class="modal__dialog modal__dialog--md" (click)="$event.stopPropagation()">
+      <div class="modal__head">
+        <div class="modal__title">
+          <span class="material-symbols-outlined icon-2xl">psychology</span>
+          <h4>Kế hoạch cải thiện từ Trợ lý AI</h4>
+        </div>
+        <button type="button" class="icon-btn" (click)="closeAiModal()" aria-label="Đóng">
+          <span class="material-symbols-outlined icon-2xl">close</span>
+        </button>
+      </div>
+
+      <div class="actions">
+        <div *ngFor="let a of ai.actions" class="action" [ngClass]="'tone-' + a.tone">
+          <span class="material-symbols-outlined icon-xl tone-text">{{ a.icon }}</span>
+          <div>
+            <strong class="action__title tone-text">{{ a.title }}</strong>
+            <p class="action__detail">{{ a.detail }}</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="form__actions">
+        <button type="button" class="btn btn--primary btn--lg" (click)="closeAiModal()">Tôi đã hiểu &amp; sẽ áp dụng</button>
+      </div>
+    </div>
+  </div>
+  <!--  ---------- MODAL 4: THÊM XOÁ SUBTASK ---------- -->
+
+    <div class="modal" *ngIf="selectedGoal as goal" (click)="closeManageModal()">
+        <div class="modal__dialog modal__dialog--lg" (click)="$event.stopPropagation()">
+            <div class="modal__head">
+                <div class="modal__title">
+                    <span class="material-symbols-outlined icon-2xl">playlist_add</span>
+                    <h4>Quản lý công việc</h4>
+                </div>
+                <button type="button" class="icon-btn" (click)="closeManageModal()" aria-label="Đóng">
+                    <span class="material-symbols-outlined icon-2xl">close</span>
+                </button>
+            </div>
+
+            <div class="field">
+                <label class="field__label" for="manage-goal">Mục tiêu (task lớn)</label>
+                <select id="manage-goal" class="input" name="manageGoal"
+                    [ngModel]="selectedGoalId" (ngModelChange)="selectGoal($event)">
+                    <option *ngFor="let g of manageableGoals" [ngValue]="g.id">{{ g.name }}</option>
+                </select>
+            </div>
+
+            <ul class="progress__tasks">
+                <li *ngFor="let task of goal.tasks" [class.progress__task--done]="task.doneDate">
+                    <span class="material-symbols-outlined icon-sm">
+                        {{ task.doneDate ? 'check_circle' : 'radio_button_unchecked' }}
+                    </span>
+                    <span>{{ task.name }}</span>
+                    <span class="caption">{{ task.weight }}%</span>
+                        <time [attr.datetime]="task.dueDate">{{ task.dueDate }}</time>
+                    <button *ngIf="isCustomTask(task.id)" type="button" class="progress__complete"
+                        (click)="removeSubTask(task.id)">Xóa</button>
+                </li>
+            </ul>
+
+            <div class="notice">
+                <span class="material-symbols-outlined icon-base text-primary">balance</span>
+                <span>Phần trăm do hệ thống tự chia đều cho các đầu việc, bạn chỉ cần thêm hoặc xóa.</span>
+            </div>
+
+            <form #addForm="ngForm" class="form" (ngSubmit)="addSubTask()">
+                <div class="field">
+                    <label class="field__label" for="new-task-name">Thêm đầu việc mới</label>
+                    <input id="new-task-name" class="input" name="newTaskName" [(ngModel)]="newTask.name"
+                                    placeholder="Ví dụ: Gọi xác nhận công nợ với đại lý A">
+                </div>
+                <div class="field">
+                    <label class="field__label" for="new-task-due">Hạn hoàn thành</label>
+                    <input id="new-task-due" class="input" type="date" name="newTaskDue"
+                        [(ngModel)]="newTask.dueDate" [max]="goal.dueDate">
+                </div>
+                    <p *ngIf="addError" style="color:#b3261e;margin:0">{{ addError }}</p>
+                <div class="form__actions">
+                    <button type="button" class="btn btn--soft-muted btn--lg" (click)="closeManageModal()">Đóng</button>
+                    <button type="submit" class="btn btn--primary btn--lg">
+                        <span class="material-symbols-outlined icon-base">add</span>
+                        <span>Thêm đầu việc</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

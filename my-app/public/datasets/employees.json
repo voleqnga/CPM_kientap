@@ -1,0 +1,182 @@
+[
+  {
+    "id": "BUS-01",
+    "username": "bus01",
+    "password": "123456",
+    "fullName": "Trần Trung Hiếu",
+    "role": "employee",
+    "department": "Business Dept.",
+    "managerId": "MGR-01"
+  },
+  {
+    "id": "BUS-02",
+    "username": "bus02",
+    "password": "123456",
+    "fullName": "Lê Hà Anh",
+    "role": "employee",
+    "department": "Business Dept.",
+    "managerId": "MGR-01"
+  },
+  {
+    "id": "BUS-03",
+    "username": "bus03",
+    "password": "123456",
+    "fullName": "Phạm Duy Minh",
+    "role": "employee",
+    "department": "Business Dept.",
+    "managerId": "MGR-01"
+  },
+  {
+    "id": "BUS-04",
+    "username": "bus04",
+    "password": "123456",
+    "fullName": "Nguyễn Dũng Nghi",
+    "role": "employee",
+    "department": "Business Dept.",
+    "managerId": "MGR-01"
+  },
+  {
+    "id": "BUS-05",
+    "username": "bus05",
+    "password": "123456",
+    "fullName": "Hoàng Ngân Phi",
+    "role": "employee",
+    "department": "Business Dept.",
+    "managerId": "MGR-01"
+  },
+  {
+    "id": "BUS-06",
+    "username": "bus06",
+    "password": "123456",
+    "fullName": "Đặng Uyên Chi",
+    "role": "employee",
+    "department": "Business Dept.",
+    "managerId": "MGR-01"
+  },
+  {
+    "id": "BUS-07",
+    "username": "bus07",
+    "password": "123456",
+    "fullName": "Bùi Nguyên Anh",
+    "role": "employee",
+    "department": "Business Dept.",
+    "managerId": "MGR-01"
+  },
+  {
+    "id": "BUS-08",
+    "username": "bus08",
+    "password": "123456",
+    "fullName": "Lý Vinh Hạo",
+    "role": "employee",
+    "department": "Business Dept.",
+    "managerId": "MGR-01"
+  },
+  {
+    "id": "RND-01",
+    "username": "rnd01",
+    "password": "123456",
+    "fullName": "Đỗ Thế Hưng",
+    "role": "employee",
+    "department": "R&D Technical Dept.",
+    "managerId": "MGR-02"
+  },
+  {
+    "id": "RND-02",
+    "username": "rnd02",
+    "password": "123456",
+    "fullName": "Hồ Nam Tuấn",
+    "role": "employee",
+    "department": "R&D Technical Dept.",
+    "managerId": "MGR-02"
+  },
+  {
+    "id": "RND-03",
+    "username": "rnd03",
+    "password": "123456",
+    "fullName": "Ngô Minh Quân",
+    "role": "employee",
+    "department": "R&D Technical Dept.",
+    "managerId": "MGR-02"
+  },
+  {
+    "id": "RND-04",
+    "username": "rnd04",
+    "password": "123456",
+    "fullName": "Dương Minh Trân",
+    "role": "employee",
+    "department": "R&D Technical Dept.",
+    "managerId": "MGR-02"
+  },
+  {
+    "id": "RND-05",
+    "username": "rnd05",
+    "password": "123456",
+    "fullName": "Đinh Hải Nam",
+    "role": "employee",
+    "department": "R&D Technical Dept.",
+    "managerId": "MGR-02"
+  },
+  {
+    "id": "RND-06",
+    "username": "rnd06",
+    "password": "123456",
+    "fullName": "Trương Du Nhã",
+    "role": "employee",
+    "department": "R&D Technical Dept.",
+    "managerId": "MGR-02"
+  },
+  {
+    "id": "RND-07",
+    "username": "rnd07",
+    "password": "123456",
+    "fullName": "Lâm Quế Hải",
+    "role": "employee",
+    "department": "R&D Technical Dept.",
+    "managerId": "MGR-02"
+  },
+  {
+    "id": "ACC-01",
+    "username": "acc01",
+    "password": "123456",
+    "fullName": "Mai Quốc Khánh",
+    "role": "employee",
+    "department": "Accounting and Statistics Dept.",
+    "managerId": "MGR-03"
+  },
+  {
+    "id": "ACC-02",
+    "username": "acc02",
+    "password": "123456",
+    "fullName": "Tô Siêu Quang",
+    "role": "employee",
+    "department": "Accounting and Statistics Dept.",
+    "managerId": "MGR-03"
+  },
+  {
+    "id": "ACC-03",
+    "username": "acc03",
+    "password": "123456",
+    "fullName": "Đào Thị Na",
+    "role": "employee",
+    "department": "Accounting and Statistics Dept.",
+    "managerId": "MGR-03"
+  },
+  {
+    "id": "ACC-04",
+    "username": "acc04",
+    "password": "123456",
+    "fullName": "Phùng Uyên Thảo",
+    "role": "employee",
+    "department": "Accounting and Statistics Dept.",
+    "managerId": "MGR-03"
+  },
+  {
+    "id": "ACC-05",
+    "username": "acc05",
+    "password": "123456",
+    "fullName": "Trịnh Vi Anh",
+    "role": "employee",
+    "department": "Accounting and Statistics Dept.",
+    "managerId": "MGR-03"
+  }
+]

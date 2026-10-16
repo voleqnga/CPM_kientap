@@ -1,0 +1,3698 @@
+[
+  {
+    "id": "G-001",
+    "employeeId": "BUS-01",
+    "name": "Soạn hồ sơ năng lực gửi nhà thầu dự án Sun Group",
+    "startDate": "2026-07-06",
+    "dueDate": "2026-08-05",
+    "totalDurationDays": 30,
+    "status": "completed",
+    "completedDate": "2026-08-05",
+    "tasks": [
+      {
+        "id": "T-0001",
+        "name": "Chuẩn bị hồ sơ và báo giá",
+        "weight": 10,
+        "dueDate": "2026-07-12",
+        "doneDate": "2026-07-08",
+        "status": "done"
+      },
+      {
+        "id": "T-0002",
+        "name": "Liên hệ và gặp khách hàng",
+        "weight": 20,
+        "dueDate": "2026-07-18",
+        "doneDate": "2026-07-13",
+        "status": "done"
+      },
+      {
+        "id": "T-0003",
+        "name": "Thương lượng điều khoản",
+        "weight": 20,
+        "dueDate": "2026-07-24",
+        "doneDate": "2026-07-22",
+        "status": "done"
+      },
+      {
+        "id": "T-0004",
+        "name": "Hoàn thiện hợp đồng hoặc đề xuất",
+        "weight": 25,
+        "dueDate": "2026-07-30",
+        "doneDate": "2026-08-05",
+        "status": "done"
+      },
+      {
+        "id": "T-0005",
+        "name": "Theo dõi và chăm sóc sau chốt",
+        "weight": 25,
+        "dueDate": "2026-08-05",
+        "doneDate": "2026-08-01",
+        "status": "done"
+      }
+    ]
+  },
+  {
+    "id": "G-002",
+    "employeeId": "BUS-01",
+    "name": "Ký kết mở mới đại lý phân phối cấp 1 tại Cần Thơ",
+    "startDate": "2026-08-28",
+    "dueDate": "2026-09-27",
+    "totalDurationDays": 30,
+    "status": "completed",
+    "completedDate": "2026-09-26",
+    "tasks": [
+      {
+        "id": "T-0006",
+        "name": "Chuẩn bị hồ sơ và báo giá",
+        "weight": 10,
+        "dueDate": "2026-09-03",
+        "doneDate": "2026-09-08",
+        "status": "done"
+      },
+      {
+        "id": "T-0007",
+        "name": "Liên hệ và gặp khách hàng",
+        "weight": 15,
+        "dueDate": "2026-09-09",
+        "doneDate": "2026-09-06",
+        "status": "done"
+      },
+      {
+        "id": "T-0008",
+        "name": "Thương lượng điều khoản",
+        "weight": 25,
+        "dueDate": "2026-09-15",
+        "doneDate": "2026-09-10",
+        "status": "done"
+      },
+      {
+        "id": "T-0009",
+        "name": "Hoàn thiện hợp đồng hoặc đề xuất",
+        "weight": 25,
+        "dueDate": "2026-09-21",
+        "doneDate": "2026-09-18",
+        "status": "done"
+      },
+      {
+        "id": "T-0010",
+        "name": "Theo dõi và chăm sóc sau chốt",
+        "weight": 25,
+        "dueDate": "2026-09-27",
+        "doneDate": "2026-09-26",
+        "status": "done"
+      }
+    ]
+  },
+  {
+    "id": "G-003",
+    "employeeId": "BUS-01",
+    "name": "Cập nhật bảng giá Sơn nội thất lau chùi cho hệ thống đại lý tháng 10",
+    "startDate": "2026-09-18",
+    "dueDate": "2026-10-03",
+    "totalDurationDays": 15,
+    "status": "completed",
+    "completedDate": "2026-10-02",
+    "tasks": [
+      {
+        "id": "T-0011",
+        "name": "Chuẩn bị hồ sơ và báo giá",
+        "weight": 15,
+        "dueDate": "2026-09-22",
+        "doneDate": "2026-09-19",
+        "status": "done"
+      },
+      {
+        "id": "T-0012",
+        "name": "Liên hệ và gặp khách hàng",
+        "weight": 25,
+        "dueDate": "2026-09-26",
+        "doneDate": "2026-09-27",
+        "status": "done"
+      },
+      {
+        "id": "T-0013",
+        "name": "Thương lượng điều khoản",
+        "weight": 30,
+        "dueDate": "2026-09-29",
+        "doneDate": "2026-09-27",
+        "status": "done"
+      },
+      {
+        "id": "T-0014",
+        "name": "Hoàn thiện hợp đồng hoặc đề xuất",
+        "weight": 30,
+        "dueDate": "2026-10-03",
+        "doneDate": "2026-10-02",
+        "status": "done"
+      }
+    ]
+  },
+  {
+    "id": "G-004",
+    "employeeId": "BUS-01",
+    "name": "Chốt hợp đồng cung cấp Sơn lót Epoxy E-204 cho dự án KCN Amata",
+    "startDate": "2026-10-08",
+    "dueDate": "2026-10-11",
+    "totalDurationDays": 3,
+    "status": "completed",
+    "completedDate": "2026-10-11",
+    "tasks": [
+      {
+        "id": "T-0015",
+        "name": "Chuẩn bị hồ sơ và báo giá",
+        "weight": 25,
+        "dueDate": "2026-10-09",
+        "doneDate": "2026-10-09",
+        "status": "done"
+      },
+      {
+        "id": "T-0016",
+        "name": "Liên hệ và gặp khách hàng",
+        "weight": 35,
+        "dueDate": "2026-10-10",
+        "doneDate": "2026-10-10",
+        "status": "done"
+      },
+      {
+        "id": "T-0017",
+        "name": "Thương lượng điều khoản",
+        "weight": 40,
+        "dueDate": "2026-10-11",
+        "doneDate": "2026-10-11",
+        "status": "done"
+      }
+    ]
+  },
+  {
+    "id": "G-005",
+    "employeeId": "BUS-02",
+    "name": "Soạn hồ sơ năng lực gửi nhà thầu dự án Sun Group",
+    "startDate": "2026-06-19",
+    "dueDate": "2026-07-19",
+    "totalDurationDays": 30,
+    "status": "completed",
+    "completedDate": "2026-07-17",
+    "tasks": [
+      {
+        "id": "T-0018",
+        "name": "Chuẩn bị hồ sơ và báo giá",
+        "weight": 15,
+        "dueDate": "2026-06-25",
+        "doneDate": "2026-06-20",
+        "status": "done"
+      },
+      {
+        "id": "T-0019",
+        "name": "Liên hệ và gặp khách hàng",
+        "weight": 15,
+        "dueDate": "2026-07-01",
+        "doneDate": "2026-06-27",
+        "status": "done"
+      },
+      {
+        "id": "T-0020",
+        "name": "Thương lượng điều khoản",
+        "weight": 20,
+        "dueDate": "2026-07-07",
+        "doneDate": "2026-07-06",
+        "status": "done"
+      },
+      {
+        "id": "T-0021",
+        "name": "Hoàn thiện hợp đồng hoặc đề xuất",
+        "weight": 25,
+        "dueDate": "2026-07-13",
+        "doneDate": "2026-07-08",
+        "status": "done"
+      },
+      {
+        "id": "T-0022",
+        "name": "Theo dõi và chăm sóc sau chốt",
+        "weight": 25,
+        "dueDate": "2026-07-19",
+        "doneDate": "2026-07-17",
+        "status": "done"
+      }
+    ]
+  },
+  {
+    "id": "G-006",
+    "employeeId": "BUS-02",
+    "name": "Gửi mẫu màu Sơn giao thông cho chủ đầu tư dự án Sun Group",
+    "startDate": "2026-08-18",
+    "dueDate": "2026-09-17",
+    "totalDurationDays": 30,
+    "status": "completed",
+    "completedDate": "2026-09-16",
+    "tasks": [
+      {
+        "id": "T-0023",
+        "name": "Chuẩn bị hồ sơ và báo giá",
+        "weight": 15,
+        "dueDate": "2026-08-24",
+        "doneDate": "2026-08-19",
+        "status": "done"
+      },
+      {
+        "id": "T-0024",
+        "name": "Liên hệ và gặp khách hàng",
+        "weight": 15,
+        "dueDate": "2026-08-30",
+        "doneDate": "2026-08-26",
+        "status": "done"
+      },
+      {
+        "id": "T-0025",
+        "name": "Thương lượng điều khoản",
+        "weight": 20,
+        "dueDate": "2026-09-05",
+        "doneDate": "2026-09-02",
+        "status": "done"
+      },
+      {
+        "id": "T-0026",
+        "name": "Hoàn thiện hợp đồng hoặc đề xuất",
+        "weight": 25,
+        "dueDate": "2026-09-11",
+        "doneDate": "2026-09-09",
+        "status": "done"
+      },
+      {
+        "id": "T-0027",
+        "name": "Theo dõi và chăm sóc sau chốt",
+        "weight": 25,
+        "dueDate": "2026-09-17",
+        "doneDate": "2026-09-16",
+        "status": "done"
+      }
+    ]
+  },
+  {
+    "id": "G-007",
+    "employeeId": "BUS-02",
+    "name": "Ký kết mở mới đại lý phân phối cấp 1 tại Vĩnh Long",
+    "startDate": "2026-09-29",
+    "dueDate": "2026-10-14",
+    "totalDurationDays": 15,
+    "status": "in_progress",
+    "completedDate": null,
+    "tasks": [
+      {
+        "id": "T-0028",
+        "name": "Chuẩn bị hồ sơ và báo giá",
+        "weight": 20,
+        "dueDate": "2026-10-03",
+        "doneDate": "2026-10-02",
+        "status": "done"
+      },
+      {
+        "id": "T-0029",
+        "name": "Liên hệ và gặp khách hàng",
+        "weight": 20,
+        "dueDate": "2026-10-07",
+        "doneDate": "2026-10-05",
+        "status": "done"
+      },
+      {
+        "id": "T-0030",
+        "name": "Thương lượng điều khoản",
+        "weight": 30,
+        "dueDate": "2026-10-10",
+        "doneDate": null,
+        "status": "in_progress"
+      },
+      {
+        "id": "T-0031",
+        "name": "Hoàn thiện hợp đồng hoặc đề xuất",
+        "weight": 30,
+        "dueDate": "2026-10-14",
+        "doneDate": "2026-10-11",
+        "status": "done"
+      }
+    ]
+  },
+  {
+    "id": "G-008",
+    "employeeId": "BUS-02",
+    "name": "Khảo sát giá đối thủ cạnh tranh tại Vĩnh Long Quý 4",
+    "startDate": "2026-10-06",
+    "dueDate": "2026-10-13",
+    "totalDurationDays": 7,
+    "status": "in_progress",
+    "completedDate": null,
+    "tasks": [
+      {
+        "id": "T-0032",
+        "name": "Chuẩn bị hồ sơ và báo giá",
+        "weight": 25,
+        "dueDate": "2026-10-08",
+        "doneDate": "2026-10-07",
+        "status": "done"
+      },
+      {
+        "id": "T-0033",
+        "name": "Liên hệ và gặp khách hàng",
+        "weight": 35,
+        "dueDate": "2026-10-11",
+        "doneDate": null,
+        "status": "in_progress"
+      },
+      {
+        "id": "T-0034",
+        "name": "Thương lượng điều khoản",
+        "weight": 40,
+        "dueDate": "2026-10-13",
+        "doneDate": null,
+        "status": "todo"
+      }
+    ]
+  },
+  {
+    "id": "G-009",
+    "employeeId": "BUS-03",
+    "name": "Gửi báo giá Sơn chịu nhiệt 500 độ cho khách hàng tại Tiền Giang",
+    "startDate": "2026-07-03",
+    "dueDate": "2026-09-01",
+    "totalDurationDays": 60,
+    "status": "completed",
+    "completedDate": "2026-08-28",
+    "tasks": [
+      {
+        "id": "T-0035",
+        "name": "Chuẩn bị hồ sơ và báo giá",
+        "weight": 15,
+        "dueDate": "2026-07-15",
+        "doneDate": "2026-07-04",
+        "status": "done"
+      },
+      {
+        "id": "T-0036",
+        "name": "Liên hệ và gặp khách hàng",
+        "weight": 15,
+        "dueDate": "2026-07-27",
+        "doneDate": "2026-07-20",
+        "status": "done"
+      },
+      {
+        "id": "T-0037",
+        "name": "Thương lượng điều khoản",
+        "weight": 20,
+        "dueDate": "2026-08-08",
+        "doneDate": "2026-08-06",
+        "status": "done"
+      },
+      {
+        "id": "T-0038",
+        "name": "Hoàn thiện hợp đồng hoặc đề xuất",
+        "weight": 25,
+        "dueDate": "2026-08-20",
+        "doneDate": "2026-08-21",
+        "status": "done"
+      },
+      {
+        "id": "T-0039",
+        "name": "Theo dõi và chăm sóc sau chốt",
+        "weight": 25,
+        "dueDate": "2026-09-01",
+        "doneDate": "2026-08-28",
+        "status": "done"
+      }
+    ]
+  },
+  {
+    "id": "G-010",
+    "employeeId": "BUS-03",
+    "name": "Đạt doanh số chỉ tiêu Sơn giao thông trong tháng 8",
+    "startDate": "2026-08-11",
+    "dueDate": "2026-08-26",
+    "totalDurationDays": 15,
+    "status": "completed",
+    "completedDate": "2026-08-25",
+    "tasks": [
+      {
+        "id": "T-0040",
+        "name": "Chuẩn bị hồ sơ và báo giá",
+        "weight": 20,
+        "dueDate": "2026-08-15",
+        "doneDate": "2026-08-12",
+        "status": "done"
+      },
+      {
+        "id": "T-0041",
+        "name": "Liên hệ và gặp khách hàng",
+        "weight": 20,
+        "dueDate": "2026-08-19",
+        "doneDate": "2026-08-20",
+        "status": "done"
+      },
+      {
+        "id": "T-0042",
+        "name": "Thương lượng điều khoản",
+        "weight": 30,
+        "dueDate": "2026-08-22",
+        "doneDate": "2026-08-21",
+        "status": "done"
+      },
+      {
+        "id": "T-0043",
+        "name": "Hoàn thiện hợp đồng hoặc đề xuất",
+        "weight": 30,
+        "dueDate": "2026-08-26",
+        "doneDate": "2026-08-25",
+        "status": "done"
+      }
+    ]
+  },
+  {
+    "id": "G-011",
+    "employeeId": "BUS-03",
+    "name": "Ký kết mở mới đại lý phân phối cấp 1 tại Tiền Giang",
+    "startDate": "2026-10-05",
+    "dueDate": "2026-10-20",
+    "totalDurationDays": 15,
+    "status": "in_progress",
+    "completedDate": null,
+    "tasks": [
+      {
+        "id": "T-0044",
+        "name": "Chuẩn bị hồ sơ và báo giá",
+        "weight": 15,
+        "dueDate": "2026-10-09",
+        "doneDate": "2026-10-08",
+        "status": "done"
+      },
+      {
+        "id": "T-0045",
+        "name": "Liên hệ và gặp khách hàng",
+        "weight": 25,
+        "dueDate": "2026-10-13",
+        "doneDate": "2026-10-11",
+        "status": "done"
+      },
+      {
+        "id": "T-0046",
+        "name": "Thương lượng điều khoản",
+        "weight": 30,
+        "dueDate": "2026-10-16",
+        "doneDate": null,
+        "status": "in_progress"
+      },
+      {
+        "id": "T-0047",
+        "name": "Hoàn thiện hợp đồng hoặc đề xuất",
+        "weight": 30,
+        "dueDate": "2026-10-20",
+        "doneDate": null,
+        "status": "todo"
+      }
+    ]
+  },
+  {
+    "id": "G-012",
+    "employeeId": "BUS-03",
+    "name": "Gửi mẫu màu Sơn lót Epoxy E-204 cho chủ đầu tư dự án Landmark",
+    "startDate": "2026-10-09",
+    "dueDate": "2026-10-16",
+    "totalDurationDays": 7,
+    "status": "in_progress",
+    "completedDate": null,
+    "tasks": [
+      {
+        "id": "T-0048",
+        "name": "Chuẩn bị hồ sơ và báo giá",
+        "weight": 25,
+        "dueDate": "2026-10-11",
+        "doneDate": "2026-10-10",
+        "status": "done"
+      },
+      {
+        "id": "T-0049",
+        "name": "Liên hệ và gặp khách hàng",
+        "weight": 35,
+        "dueDate": "2026-10-14",
+        "doneDate": null,
+        "status": "in_progress"
+      },
+      {
+        "id": "T-0050",
+        "name": "Thương lượng điều khoản",
+        "weight": 40,
+        "dueDate": "2026-10-16",
+        "doneDate": null,
+        "status": "todo"
+      }
+    ]
+  },
+  {
+    "id": "G-013",
+    "employeeId": "BUS-04",
+    "name": "Thuyết phục nhà thầu dự án KCN Amata chuyển sang dùng Sơn chịu nhiệt 500 độ",
+    "startDate": "2026-06-17",
+    "dueDate": "2026-08-16",
+    "totalDurationDays": 60,
+    "status": "completed",
+    "completedDate": "2026-08-09",
+    "tasks": [
+      {
+        "id": "T-0051",
+        "name": "Chuẩn bị hồ sơ và báo giá",
+        "weight": 10,
+        "dueDate": "2026-06-29",
+        "doneDate": "2026-06-21",
+        "status": "done"
+      },
+      {
+        "id": "T-0052",
+        "name": "Liên hệ và gặp khách hàng",
+        "weight": 20,
+        "dueDate": "2026-07-11",
+        "doneDate": "2026-07-05",
+        "status": "done"
+      },
+      {
+        "id": "T-0053",
+        "name": "Thương lượng điều khoản",
+        "weight": 20,
+        "dueDate": "2026-07-23",
+        "doneDate": "2026-07-19",
+        "status": "done"
+      },
+      {
+        "id": "T-0054",
+        "name": "Hoàn thiện hợp đồng hoặc đề xuất",
+        "weight": 25,
+        "dueDate": "2026-08-04",
+        "doneDate": "2026-07-27",
+        "status": "done"
+      },
+      {
+        "id": "T-0055",
+        "name": "Theo dõi và chăm sóc sau chốt",
+        "weight": 25,
+        "dueDate": "2026-08-16",
+        "doneDate": "2026-08-09",
+        "status": "done"
+      }
+    ]
+  },
+  {
+    "id": "G-014",
+    "employeeId": "BUS-04",
+    "name": "Gửi mẫu màu Sơn Alkyd chống rỉ cho chủ đầu tư dự án Vincom",
+    "startDate": "2026-08-26",
+    "dueDate": "2026-09-25",
+    "totalDurationDays": 30,
+    "status": "completed",
+    "completedDate": "2026-09-24",
+    "tasks": [
+      {
+        "id": "T-0056",
+        "name": "Chuẩn bị hồ sơ và báo giá",
+        "weight": 10,
+        "dueDate": "2026-09-01",
+        "doneDate": "2026-08-30",
+        "status": "done"
+      },
+      {
+        "id": "T-0057",
+        "name": "Liên hệ và gặp khách hàng",
+        "weight": 20,
+        "dueDate": "2026-09-07",
+        "doneDate": "2026-09-03",
+        "status": "done"
+      },
+      {
+        "id": "T-0058",
+        "name": "Thương lượng điều khoản",
+        "weight": 20,
+        "dueDate": "2026-09-13",
+        "doneDate": "2026-09-11",
+        "status": "done"
+      },
+      {
+        "id": "T-0059",
+        "name": "Hoàn thiện hợp đồng hoặc đề xuất",
+        "weight": 25,
+        "dueDate": "2026-09-19",
+        "doneDate": "2026-09-17",
+        "status": "done"
+      },
+      {
+        "id": "T-0060",
+        "name": "Theo dõi và chăm sóc sau chốt",
+        "weight": 25,
+        "dueDate": "2026-09-25",
+        "doneDate": "2026-09-24",
+        "status": "done"
+      }
+    ]
+  },
+  {
+    "id": "G-015",
+    "employeeId": "BUS-04",
+    "name": "Gửi mẫu màu Sơn lót Epoxy E-204 cho chủ đầu tư dự án Cầu Mỹ Thuận",
+    "startDate": "2026-10-05",
+    "dueDate": "2026-12-04",
+    "totalDurationDays": 60,
+    "status": "in_progress",
+    "completedDate": null,
+    "tasks": [
+      {
+        "id": "T-0061",
+        "name": "Chuẩn bị hồ sơ và báo giá",
+        "weight": 10,
+        "dueDate": "2026-10-17",
+        "doneDate": "2026-10-08",
+        "status": "done"
+      },
+      {
+        "id": "T-0062",
+        "name": "Liên hệ và gặp khách hàng",
+        "weight": 15,
+        "dueDate": "2026-10-29",
+        "doneDate": null,
+        "status": "in_progress"
+      },
+      {
+        "id": "T-0063",
+        "name": "Thương lượng điều khoản",
+        "weight": 25,
+        "dueDate": "2026-11-10",
+        "doneDate": null,
+        "status": "todo"
+      },
+      {
+        "id": "T-0064",
+        "name": "Hoàn thiện hợp đồng hoặc đề xuất",
+        "weight": 25,
+        "dueDate": "2026-11-22",
+        "doneDate": null,
+        "status": "todo"
+      },
+      {
+        "id": "T-0065",
+        "name": "Theo dõi và chăm sóc sau chốt",
+        "weight": 25,
+        "dueDate": "2026-12-04",
+        "doneDate": null,
+        "status": "todo"
+      }
+    ]
+  },
+  {
+    "id": "G-016",
+    "employeeId": "BUS-04",
+    "name": "Gửi báo giá Sơn PU sàn công nghiệp cho khách hàng tại Vĩnh Long",
+    "startDate": "2026-10-09",
+    "dueDate": "2026-10-12",
+    "totalDurationDays": 3,
+    "status": "in_progress",
+    "completedDate": null,
+    "tasks": [
+      {
+        "id": "T-0066",
+        "name": "Chuẩn bị hồ sơ và báo giá",
+        "weight": 25,
+        "dueDate": "2026-10-10",
+        "doneDate": "2026-10-10",
+        "status": "done"
+      },
+      {
+        "id": "T-0067",
+        "name": "Liên hệ và gặp khách hàng",
+        "weight": 35,
+        "dueDate": "2026-10-11",
+        "doneDate": "2026-10-11",
+        "status": "done"
+      },
+      {
+        "id": "T-0068",
+        "name": "Thương lượng điều khoản",
+        "weight": 40,
+        "dueDate": "2026-10-12",
+        "doneDate": null,
+        "status": "in_progress"
+      }
+    ]
+  },
+  {
+    "id": "G-017",
+    "employeeId": "BUS-05",
+    "name": "Khảo sát giá đối thủ cạnh tranh tại Tp. Hồ Chí Minh Quý 3",
+    "startDate": "2026-07-08",
+    "dueDate": "2026-07-23",
+    "totalDurationDays": 15,
+    "status": "completed",
+    "completedDate": "2026-07-22",
+    "tasks": [
+      {
+        "id": "T-0069",
+        "name": "Chuẩn bị hồ sơ và báo giá",
+        "weight": 20,
+        "dueDate": "2026-07-12",
+        "doneDate": "2026-07-10",
+        "status": "done"
+      },
+      {
+        "id": "T-0070",
+        "name": "Liên hệ và gặp khách hàng",
+        "weight": 20,
+        "dueDate": "2026-07-16",
+        "doneDate": "2026-07-15",
+        "status": "done"
+      },
+      {
+        "id": "T-0071",
+        "name": "Thương lượng điều khoản",
+        "weight": 30,
+        "dueDate": "2026-07-19",
+        "doneDate": "2026-07-17",
+        "status": "done"
+      },
+      {
+        "id": "T-0072",
+        "name": "Hoàn thiện hợp đồng hoặc đề xuất",
+        "weight": 30,
+        "dueDate": "2026-07-23",
+        "doneDate": "2026-07-22",
+        "status": "done"
+      }
+    ]
+  },
+  {
+    "id": "G-018",
+    "employeeId": "BUS-05",
+    "name": "Chốt hợp đồng cung cấp Sơn nội thất lau chùi cho dự án KCN Sóng Thần",
+    "startDate": "2026-08-21",
+    "dueDate": "2026-09-05",
+    "totalDurationDays": 15,
+    "status": "completed",
+    "completedDate": "2026-09-02",
+    "tasks": [
+      {
+        "id": "T-0073",
+        "name": "Chuẩn bị hồ sơ và báo giá",
+        "weight": 20,
+        "dueDate": "2026-08-25",
+        "doneDate": "2026-08-22",
+        "status": "done"
+      },
+      {
+        "id": "T-0074",
+        "name": "Liên hệ và gặp khách hàng",
+        "weight": 25,
+        "dueDate": "2026-08-29",
+        "doneDate": "2026-09-01",
+        "status": "done"
+      },
+      {
+        "id": "T-0075",
+        "name": "Thương lượng điều khoản",
+        "weight": 25,
+        "dueDate": "2026-09-01",
+        "doneDate": "2026-08-30",
+        "status": "done"
+      },
+      {
+        "id": "T-0076",
+        "name": "Hoàn thiện hợp đồng hoặc đề xuất",
+        "weight": 30,
+        "dueDate": "2026-09-05",
+        "doneDate": "2026-09-02",
+        "status": "done"
+      }
+    ]
+  },
+  {
+    "id": "G-019",
+    "employeeId": "BUS-05",
+    "name": "Khảo sát giá đối thủ cạnh tranh tại Tiền Giang Quý 4",
+    "startDate": "2026-09-28",
+    "dueDate": "2026-10-13",
+    "totalDurationDays": 15,
+    "status": "in_progress",
+    "completedDate": null,
+    "tasks": [
+      {
+        "id": "T-0077",
+        "name": "Chuẩn bị hồ sơ và báo giá",
+        "weight": 20,
+        "dueDate": "2026-10-02",
+        "doneDate": "2026-09-29",
+        "status": "done"
+      },
+      {
+        "id": "T-0078",
+        "name": "Liên hệ và gặp khách hàng",
+        "weight": 25,
+        "dueDate": "2026-10-06",
+        "doneDate": "2026-10-04",
+        "status": "done"
+      },
+      {
+        "id": "T-0079",
+        "name": "Thương lượng điều khoản",
+        "weight": 25,
+        "dueDate": "2026-10-09",
+        "doneDate": "2026-10-07",
+        "status": "done"
+      },
+      {
+        "id": "T-0080",
+        "name": "Hoàn thiện hợp đồng hoặc đề xuất",
+        "weight": 30,
+        "dueDate": "2026-10-13",
+        "doneDate": null,
+        "status": "in_progress"
+      }
+    ]
+  },
+  {
+    "id": "G-020",
+    "employeeId": "BUS-05",
+    "name": "Thu hồi công nợ đại lý khu vực Vĩnh Long Quý 4",
+    "startDate": "2026-10-09",
+    "dueDate": "2026-10-12",
+    "totalDurationDays": 3,
+    "status": "in_progress",
+    "completedDate": null,
+    "tasks": [
+      {
+        "id": "T-0081",
+        "name": "Chuẩn bị hồ sơ và báo giá",
+        "weight": 25,
+        "dueDate": "2026-10-10",
+        "doneDate": "2026-10-10",
+        "status": "done"
+      },
+      {
+        "id": "T-0082",
+        "name": "Liên hệ và gặp khách hàng",
+        "weight": 35,
+        "dueDate": "2026-10-11",
+        "doneDate": "2026-10-11",
+        "status": "done"
+      },
+      {
+        "id": "T-0083",
+        "name": "Thương lượng điều khoản",
+        "weight": 40,
+        "dueDate": "2026-10-12",
+        "doneDate": null,
+        "status": "in_progress"
+      }
+    ]
+  },
+  {
+    "id": "G-021",
+    "employeeId": "BUS-06",
+    "name": "Khảo sát giá đối thủ cạnh tranh tại Bình Dương Quý 2",
+    "startDate": "2026-06-12",
+    "dueDate": "2026-06-27",
+    "totalDurationDays": 15,
+    "status": "completed",
+    "completedDate": "2026-06-25",
+    "tasks": [
+      {
+        "id": "T-0084",
+        "name": "Chuẩn bị hồ sơ và báo giá",
+        "weight": 20,
+        "dueDate": "2026-06-16",
+        "doneDate": "2026-06-13",
+        "status": "done"
+      },
+      {
+        "id": "T-0085",
+        "name": "Liên hệ và gặp khách hàng",
+        "weight": 25,
+        "dueDate": "2026-06-20",
+        "doneDate": "2026-06-19",
+        "status": "done"
+      },
+      {
+        "id": "T-0086",
+        "name": "Thương lượng điều khoản",
+        "weight": 25,
+        "dueDate": "2026-06-23",
+        "doneDate": "2026-06-21",
+        "status": "done"
+      },
+      {
+        "id": "T-0087",
+        "name": "Hoàn thiện hợp đồng hoặc đề xuất",
+        "weight": 30,
+        "dueDate": "2026-06-27",
+        "doneDate": "2026-06-25",
+        "status": "done"
+      }
+    ]
+  },
+  {
+    "id": "G-022",
+    "employeeId": "BUS-06",
+    "name": "Thuyết phục nhà thầu dự án Sun Group chuyển sang dùng Sơn nội thất lau chùi",
+    "startDate": "2026-08-18",
+    "dueDate": "2026-09-17",
+    "totalDurationDays": 30,
+    "status": "completed",
+    "completedDate": "2026-09-12",
+    "tasks": [
+      {
+        "id": "T-0088",
+        "name": "Chuẩn bị hồ sơ và báo giá",
+        "weight": 15,
+        "dueDate": "2026-08-24",
+        "doneDate": "2026-08-22",
+        "status": "done"
+      },
+      {
+        "id": "T-0089",
+        "name": "Liên hệ và gặp khách hàng",
+        "weight": 15,
+        "dueDate": "2026-08-30",
+        "doneDate": "2026-08-28",
+        "status": "done"
+      },
+      {
+        "id": "T-0090",
+        "name": "Thương lượng điều khoản",
+        "weight": 20,
+        "dueDate": "2026-09-05",
+        "doneDate": "2026-09-02",
+        "status": "done"
+      },
+      {
+        "id": "T-0091",
+        "name": "Hoàn thiện hợp đồng hoặc đề xuất",
+        "weight": 25,
+        "dueDate": "2026-09-11",
+        "doneDate": "2026-09-09",
+        "status": "done"
+      },
+      {
+        "id": "T-0092",
+        "name": "Theo dõi và chăm sóc sau chốt",
+        "weight": 25,
+        "dueDate": "2026-09-17",
+        "doneDate": "2026-09-12",
+        "status": "done"
+      }
+    ]
+  },
+  {
+    "id": "G-023",
+    "employeeId": "BUS-06",
+    "name": "Khảo sát giá đối thủ cạnh tranh tại Tp. Hồ Chí Minh Quý 4",
+    "startDate": "2026-09-25",
+    "dueDate": "2026-10-25",
+    "totalDurationDays": 30,
+    "status": "in_progress",
+    "completedDate": null,
+    "tasks": [
+      {
+        "id": "T-0093",
+        "name": "Chuẩn bị hồ sơ và báo giá",
+        "weight": 10,
+        "dueDate": "2026-10-01",
+        "doneDate": "2026-09-30",
+        "status": "done"
+      },
+      {
+        "id": "T-0094",
+        "name": "Liên hệ và gặp khách hàng",
+        "weight": 15,
+        "dueDate": "2026-10-07",
+        "doneDate": "2026-10-05",
+        "status": "done"
+      },
+      {
+        "id": "T-0095",
+        "name": "Thương lượng điều khoản",
+        "weight": 25,
+        "dueDate": "2026-10-13",
+        "doneDate": "2026-10-08",
+        "status": "done"
+      },
+      {
+        "id": "T-0096",
+        "name": "Hoàn thiện hợp đồng hoặc đề xuất",
+        "weight": 25,
+        "dueDate": "2026-10-19",
+        "doneDate": null,
+        "status": "in_progress"
+      },
+      {
+        "id": "T-0097",
+        "name": "Theo dõi và chăm sóc sau chốt",
+        "weight": 25,
+        "dueDate": "2026-10-25",
+        "doneDate": null,
+        "status": "todo"
+      }
+    ]
+  },
+  {
+    "id": "G-024",
+    "employeeId": "BUS-06",
+    "name": "Soạn hồ sơ năng lực gửi nhà thầu dự án Landmark",
+    "startDate": "2026-10-07",
+    "dueDate": "2026-10-10",
+    "totalDurationDays": 3,
+    "status": "completed",
+    "completedDate": "2026-10-10",
+    "tasks": [
+      {
+        "id": "T-0098",
+        "name": "Chuẩn bị hồ sơ và báo giá",
+        "weight": 30,
+        "dueDate": "2026-10-08",
+        "doneDate": "2026-10-08",
+        "status": "done"
+      },
+      {
+        "id": "T-0099",
+        "name": "Liên hệ và gặp khách hàng",
+        "weight": 30,
+        "dueDate": "2026-10-09",
+        "doneDate": "2026-10-09",
+        "status": "done"
+      },
+      {
+        "id": "T-0100",
+        "name": "Thương lượng điều khoản",
+        "weight": 40,
+        "dueDate": "2026-10-10",
+        "doneDate": "2026-10-10",
+        "status": "done"
+      }
+    ]
+  },
+  {
+    "id": "G-025",
+    "employeeId": "BUS-07",
+    "name": "Ký kết mở mới đại lý phân phối cấp 1 tại Tiền Giang",
+    "startDate": "2026-07-10",
+    "dueDate": "2026-07-25",
+    "totalDurationDays": 15,
+    "status": "completed",
+    "completedDate": "2026-07-22",
+    "tasks": [
+      {
+        "id": "T-0101",
+        "name": "Chuẩn bị hồ sơ và báo giá",
+        "weight": 20,
+        "dueDate": "2026-07-14",
+        "doneDate": "2026-07-12",
+        "status": "done"
+      },
+      {
+        "id": "T-0102",
+        "name": "Liên hệ và gặp khách hàng",
+        "weight": 25,
+        "dueDate": "2026-07-18",
+        "doneDate": "2026-07-17",
+        "status": "done"
+      },
+      {
+        "id": "T-0103",
+        "name": "Thương lượng điều khoản",
+        "weight": 25,
+        "dueDate": "2026-07-21",
+        "doneDate": "2026-07-20",
+        "status": "done"
+      },
+      {
+        "id": "T-0104",
+        "name": "Hoàn thiện hợp đồng hoặc đề xuất",
+        "weight": 30,
+        "dueDate": "2026-07-25",
+        "doneDate": "2026-07-22",
+        "status": "done"
+      }
+    ]
+  },
+  {
+    "id": "G-026",
+    "employeeId": "BUS-07",
+    "name": "Gửi mẫu màu Sơn chống thấm K-11 cho chủ đầu tư dự án Landmark",
+    "startDate": "2026-08-11",
+    "dueDate": "2026-09-10",
+    "totalDurationDays": 30,
+    "status": "completed",
+    "completedDate": "2026-09-09",
+    "tasks": [
+      {
+        "id": "T-0105",
+        "name": "Chuẩn bị hồ sơ và báo giá",
+        "weight": 10,
+        "dueDate": "2026-08-17",
+        "doneDate": "2026-08-19",
+        "status": "done"
+      },
+      {
+        "id": "T-0106",
+        "name": "Liên hệ và gặp khách hàng",
+        "weight": 15,
+        "dueDate": "2026-08-23",
+        "doneDate": "2026-08-21",
+        "status": "done"
+      },
+      {
+        "id": "T-0107",
+        "name": "Thương lượng điều khoản",
+        "weight": 25,
+        "dueDate": "2026-08-29",
+        "doneDate": "2026-08-24",
+        "status": "done"
+      },
+      {
+        "id": "T-0108",
+        "name": "Hoàn thiện hợp đồng hoặc đề xuất",
+        "weight": 25,
+        "dueDate": "2026-09-04",
+        "doneDate": "2026-09-03",
+        "status": "done"
+      },
+      {
+        "id": "T-0109",
+        "name": "Theo dõi và chăm sóc sau chốt",
+        "weight": 25,
+        "dueDate": "2026-09-10",
+        "doneDate": "2026-09-09",
+        "status": "done"
+      }
+    ]
+  },
+  {
+    "id": "G-027",
+    "employeeId": "BUS-07",
+    "name": "Gửi báo giá Sơn lót Epoxy E-204 cho khách hàng tại Tiền Giang",
+    "startDate": "2026-10-02",
+    "dueDate": "2026-10-17",
+    "totalDurationDays": 15,
+    "status": "in_progress",
+    "completedDate": null,
+    "tasks": [
+      {
+        "id": "T-0110",
+        "name": "Chuẩn bị hồ sơ và báo giá",
+        "weight": 20,
+        "dueDate": "2026-10-06",
+        "doneDate": "2026-10-03",
+        "status": "done"
+      },
+      {
+        "id": "T-0111",
+        "name": "Liên hệ và gặp khách hàng",
+        "weight": 20,
+        "dueDate": "2026-10-10",
+        "doneDate": "2026-10-08",
+        "status": "done"
+      },
+      {
+        "id": "T-0112",
+        "name": "Thương lượng điều khoản",
+        "weight": 30,
+        "dueDate": "2026-10-13",
+        "doneDate": null,
+        "status": "in_progress"
+      },
+      {
+        "id": "T-0113",
+        "name": "Hoàn thiện hợp đồng hoặc đề xuất",
+        "weight": 30,
+        "dueDate": "2026-10-17",
+        "doneDate": null,
+        "status": "todo"
+      }
+    ]
+  },
+  {
+    "id": "G-028",
+    "employeeId": "BUS-07",
+    "name": "Gửi báo giá Sơn lót Epoxy E-204 cho khách hàng tại Tiền Giang",
+    "startDate": "2026-10-09",
+    "dueDate": "2026-10-16",
+    "totalDurationDays": 7,
+    "status": "in_progress",
+    "completedDate": null,
+    "tasks": [
+      {
+        "id": "T-0114",
+        "name": "Chuẩn bị hồ sơ và báo giá",
+        "weight": 25,
+        "dueDate": "2026-10-11",
+        "doneDate": "2026-10-11",
+        "status": "done"
+      },
+      {
+        "id": "T-0115",
+        "name": "Liên hệ và gặp khách hàng",
+        "weight": 35,
+        "dueDate": "2026-10-14",
+        "doneDate": null,
+        "status": "in_progress"
+      },
+      {
+        "id": "T-0116",
+        "name": "Thương lượng điều khoản",
+        "weight": 40,
+        "dueDate": "2026-10-16",
+        "doneDate": null,
+        "status": "todo"
+      }
+    ]
+  },
+  {
+    "id": "G-029",
+    "employeeId": "BUS-08",
+    "name": "Đạt doanh số chỉ tiêu Sơn nội thất lau chùi trong tháng 8",
+    "startDate": "2026-06-16",
+    "dueDate": "2026-08-15",
+    "totalDurationDays": 60,
+    "status": "completed",
+    "completedDate": "2026-08-10",
+    "tasks": [
+      {
+        "id": "T-0117",
+        "name": "Chuẩn bị hồ sơ và báo giá",
+        "weight": 10,
+        "dueDate": "2026-06-28",
+        "doneDate": "2026-06-19",
+        "status": "done"
+      },
+      {
+        "id": "T-0118",
+        "name": "Liên hệ và gặp khách hàng",
+        "weight": 20,
+        "dueDate": "2026-07-10",
+        "doneDate": "2026-07-05",
+        "status": "done"
+      },
+      {
+        "id": "T-0119",
+        "name": "Thương lượng điều khoản",
+        "weight": 20,
+        "dueDate": "2026-07-22",
+        "doneDate": "2026-07-16",
+        "status": "done"
+      },
+      {
+        "id": "T-0120",
+        "name": "Hoàn thiện hợp đồng hoặc đề xuất",
+        "weight": 25,
+        "dueDate": "2026-08-03",
+        "doneDate": "2026-08-09",
+        "status": "done"
+      },
+      {
+        "id": "T-0121",
+        "name": "Theo dõi và chăm sóc sau chốt",
+        "weight": 25,
+        "dueDate": "2026-08-15",
+        "doneDate": "2026-08-10",
+        "status": "done"
+      }
+    ]
+  },
+  {
+    "id": "G-030",
+    "employeeId": "BUS-08",
+    "name": "Chốt hợp đồng cung cấp Sơn lót Epoxy E-204 cho dự án Sun Group",
+    "startDate": "2026-08-14",
+    "dueDate": "2026-09-13",
+    "totalDurationDays": 30,
+    "status": "completed",
+    "completedDate": "2026-09-12",
+    "tasks": [
+      {
+        "id": "T-0122",
+        "name": "Chuẩn bị hồ sơ và báo giá",
+        "weight": 10,
+        "dueDate": "2026-08-20",
+        "doneDate": "2026-08-19",
+        "status": "done"
+      },
+      {
+        "id": "T-0123",
+        "name": "Liên hệ và gặp khách hàng",
+        "weight": 20,
+        "dueDate": "2026-08-26",
+        "doneDate": "2026-08-21",
+        "status": "done"
+      },
+      {
+        "id": "T-0124",
+        "name": "Thương lượng điều khoản",
+        "weight": 20,
+        "dueDate": "2026-09-01",
+        "doneDate": "2026-08-30",
+        "status": "done"
+      },
+      {
+        "id": "T-0125",
+        "name": "Hoàn thiện hợp đồng hoặc đề xuất",
+        "weight": 25,
+        "dueDate": "2026-09-07",
+        "doneDate": "2026-09-02",
+        "status": "done"
+      },
+      {
+        "id": "T-0126",
+        "name": "Theo dõi và chăm sóc sau chốt",
+        "weight": 25,
+        "dueDate": "2026-09-13",
+        "doneDate": "2026-09-12",
+        "status": "done"
+      }
+    ]
+  },
+  {
+    "id": "G-031",
+    "employeeId": "BUS-08",
+    "name": "Gửi mẫu màu Sơn giao thông cho chủ đầu tư dự án Cầu Mỹ Thuận",
+    "startDate": "2026-09-25",
+    "dueDate": "2026-11-24",
+    "totalDurationDays": 60,
+    "status": "in_progress",
+    "completedDate": null,
+    "tasks": [
+      {
+        "id": "T-0127",
+        "name": "Chuẩn bị hồ sơ và báo giá",
+        "weight": 15,
+        "dueDate": "2026-10-07",
+        "doneDate": "2026-09-30",
+        "status": "done"
+      },
+      {
+        "id": "T-0128",
+        "name": "Liên hệ và gặp khách hàng",
+        "weight": 15,
+        "dueDate": "2026-10-19",
+        "doneDate": null,
+        "status": "in_progress"
+      },
+      {
+        "id": "T-0129",
+        "name": "Thương lượng điều khoản",
+        "weight": 20,
+        "dueDate": "2026-10-31",
+        "doneDate": null,
+        "status": "todo"
+      },
+      {
+        "id": "T-0130",
+        "name": "Hoàn thiện hợp đồng hoặc đề xuất",
+        "weight": 25,
+        "dueDate": "2026-11-12",
+        "doneDate": null,
+        "status": "todo"
+      },
+      {
+        "id": "T-0131",
+        "name": "Theo dõi và chăm sóc sau chốt",
+        "weight": 25,
+        "dueDate": "2026-11-24",
+        "doneDate": null,
+        "status": "todo"
+      }
+    ]
+  },
+  {
+    "id": "G-032",
+    "employeeId": "BUS-08",
+    "name": "Cập nhật bảng giá Sơn Alkyd chống rỉ cho hệ thống đại lý tháng 10",
+    "startDate": "2026-10-09",
+    "dueDate": "2026-10-16",
+    "totalDurationDays": 7,
+    "status": "in_progress",
+    "completedDate": null,
+    "tasks": [
+      {
+        "id": "T-0132",
+        "name": "Chuẩn bị hồ sơ và báo giá",
+        "weight": 25,
+        "dueDate": "2026-10-11",
+        "doneDate": null,
+        "status": "in_progress"
+      },
+      {
+        "id": "T-0133",
+        "name": "Liên hệ và gặp khách hàng",
+        "weight": 35,
+        "dueDate": "2026-10-14",
+        "doneDate": null,
+        "status": "todo"
+      },
+      {
+        "id": "T-0134",
+        "name": "Thương lượng điều khoản",
+        "weight": 40,
+        "dueDate": "2026-10-16",
+        "doneDate": null,
+        "status": "todo"
+      }
+    ]
+  },
+  {
+    "id": "G-033",
+    "employeeId": "RND-01",
+    "name": "Lập báo cáo thử nghiệm mẫu Sơn lót Epoxy E-204 gửi dự án Sun Group",
+    "startDate": "2026-06-30",
+    "dueDate": "2026-08-29",
+    "totalDurationDays": 60,
+    "status": "completed",
+    "completedDate": "2026-08-23",
+    "tasks": [
+      {
+        "id": "T-0135",
+        "name": "Thu thập yêu cầu và tài liệu",
+        "weight": 10,
+        "dueDate": "2026-07-12",
+        "doneDate": "2026-07-05",
+        "status": "done"
+      },
+      {
+        "id": "T-0136",
+        "name": "Chuẩn bị mẫu thử",
+        "weight": 15,
+        "dueDate": "2026-07-24",
+        "doneDate": "2026-07-16",
+        "status": "done"
+      },
+      {
+        "id": "T-0137",
+        "name": "Thực hiện thử nghiệm",
+        "weight": 25,
+        "dueDate": "2026-08-05",
+        "doneDate": "2026-07-27",
+        "status": "done"
+      },
+      {
+        "id": "T-0138",
+        "name": "Phân tích kết quả",
+        "weight": 25,
+        "dueDate": "2026-08-17",
+        "doneDate": "2026-08-12",
+        "status": "done"
+      },
+      {
+        "id": "T-0139",
+        "name": "Lập báo cáo kỹ thuật",
+        "weight": 25,
+        "dueDate": "2026-08-29",
+        "doneDate": "2026-08-23",
+        "status": "done"
+      }
+    ]
+  },
+  {
+    "id": "G-034",
+    "employeeId": "RND-01",
+    "name": "Test độ bám dính màng sơn lô Sơn Alkyd chống rỉ xuất xưởng tháng 9",
+    "startDate": "2026-08-19",
+    "dueDate": "2026-09-03",
+    "totalDurationDays": 15,
+    "status": "completed",
+    "completedDate": "2026-08-31",
+    "tasks": [
+      {
+        "id": "T-0140",
+        "name": "Thu thập yêu cầu và tài liệu",
+        "weight": 20,
+        "dueDate": "2026-08-23",
+        "doneDate": "2026-08-20",
+        "status": "done"
+      },
+      {
+        "id": "T-0141",
+        "name": "Chuẩn bị mẫu thử",
+        "weight": 20,
+        "dueDate": "2026-08-27",
+        "doneDate": "2026-08-25",
+        "status": "done"
+      },
+      {
+        "id": "T-0142",
+        "name": "Thực hiện thử nghiệm",
+        "weight": 30,
+        "dueDate": "2026-08-30",
+        "doneDate": "2026-08-28",
+        "status": "done"
+      },
+      {
+        "id": "T-0143",
+        "name": "Phân tích kết quả",
+        "weight": 30,
+        "dueDate": "2026-09-03",
+        "doneDate": "2026-08-31",
+        "status": "done"
+      }
+    ]
+  },
+  {
+    "id": "G-035",
+    "employeeId": "RND-01",
+    "name": "Test độ bám dính màng sơn lô Sơn PU sàn công nghiệp xuất xưởng tháng 11",
+    "startDate": "2026-09-25",
+    "dueDate": "2026-11-24",
+    "totalDurationDays": 60,
+    "status": "in_progress",
+    "completedDate": null,
+    "tasks": [
+      {
+        "id": "T-0144",
+        "name": "Thu thập yêu cầu và tài liệu",
+        "weight": 10,
+        "dueDate": "2026-10-07",
+        "doneDate": "2026-10-01",
+        "status": "done"
+      },
+      {
+        "id": "T-0145",
+        "name": "Chuẩn bị mẫu thử",
+        "weight": 15,
+        "dueDate": "2026-10-19",
+        "doneDate": null,
+        "status": "in_progress"
+      },
+      {
+        "id": "T-0146",
+        "name": "Thực hiện thử nghiệm",
+        "weight": 25,
+        "dueDate": "2026-10-31",
+        "doneDate": null,
+        "status": "todo"
+      },
+      {
+        "id": "T-0147",
+        "name": "Phân tích kết quả",
+        "weight": 25,
+        "dueDate": "2026-11-12",
+        "doneDate": null,
+        "status": "todo"
+      },
+      {
+        "id": "T-0148",
+        "name": "Lập báo cáo kỹ thuật",
+        "weight": 25,
+        "dueDate": "2026-11-24",
+        "doneDate": null,
+        "status": "todo"
+      }
+    ]
+  },
+  {
+    "id": "G-036",
+    "employeeId": "RND-01",
+    "name": "Hỗ trợ kỹ thuật thi công Sơn chịu nhiệt 500 độ tại công trình Landmark",
+    "startDate": "2026-10-07",
+    "dueDate": "2026-10-22",
+    "totalDurationDays": 15,
+    "status": "in_progress",
+    "completedDate": null,
+    "tasks": [
+      {
+        "id": "T-0149",
+        "name": "Thu thập yêu cầu và tài liệu",
+        "weight": 20,
+        "dueDate": "2026-10-11",
+        "doneDate": "2026-10-10",
+        "status": "done"
+      },
+      {
+        "id": "T-0150",
+        "name": "Chuẩn bị mẫu thử",
+        "weight": 20,
+        "dueDate": "2026-10-15",
+        "doneDate": null,
+        "status": "in_progress"
+      },
+      {
+        "id": "T-0151",
+        "name": "Thực hiện thử nghiệm",
+        "weight": 30,
+        "dueDate": "2026-10-18",
+        "doneDate": null,
+        "status": "todo"
+      },
+      {
+        "id": "T-0152",
+        "name": "Phân tích kết quả",
+        "weight": 30,
+        "dueDate": "2026-10-22",
+        "doneDate": null,
+        "status": "todo"
+      }
+    ]
+  },
+  {
+    "id": "G-037",
+    "employeeId": "RND-02",
+    "name": "Phân tích và xử lý lỗi phai màu của Sơn Alkyd chống rỉ tại dự án KCN Sóng Thần",
+    "startDate": "2026-07-01",
+    "dueDate": "2026-07-31",
+    "totalDurationDays": 30,
+    "status": "completed",
+    "completedDate": "2026-07-28",
+    "tasks": [
+      {
+        "id": "T-0153",
+        "name": "Thu thập yêu cầu và tài liệu",
+        "weight": 10,
+        "dueDate": "2026-07-07",
+        "doneDate": "2026-07-04",
+        "status": "done"
+      },
+      {
+        "id": "T-0154",
+        "name": "Chuẩn bị mẫu thử",
+        "weight": 20,
+        "dueDate": "2026-07-13",
+        "doneDate": "2026-07-08",
+        "status": "done"
+      },
+      {
+        "id": "T-0155",
+        "name": "Thực hiện thử nghiệm",
+        "weight": 20,
+        "dueDate": "2026-07-19",
+        "doneDate": "2026-07-22",
+        "status": "done"
+      },
+      {
+        "id": "T-0156",
+        "name": "Phân tích kết quả",
+        "weight": 25,
+        "dueDate": "2026-07-25",
+        "doneDate": "2026-07-22",
+        "status": "done"
+      },
+      {
+        "id": "T-0157",
+        "name": "Lập báo cáo kỹ thuật",
+        "weight": 25,
+        "dueDate": "2026-07-31",
+        "doneDate": "2026-07-28",
+        "status": "done"
+      }
+    ]
+  },
+  {
+    "id": "G-038",
+    "employeeId": "RND-02",
+    "name": "Test độ bám dính màng sơn lô Sơn nội thất lau chùi xuất xưởng tháng 9",
+    "startDate": "2026-08-26",
+    "dueDate": "2026-09-25",
+    "totalDurationDays": 30,
+    "status": "completed",
+    "completedDate": "2026-09-22",
+    "tasks": [
+      {
+        "id": "T-0158",
+        "name": "Thu thập yêu cầu và tài liệu",
+        "weight": 10,
+        "dueDate": "2026-09-01",
+        "doneDate": "2026-08-28",
+        "status": "done"
+      },
+      {
+        "id": "T-0159",
+        "name": "Chuẩn bị mẫu thử",
+        "weight": 15,
+        "dueDate": "2026-09-07",
+        "doneDate": "2026-09-06",
+        "status": "done"
+      },
+      {
+        "id": "T-0160",
+        "name": "Thực hiện thử nghiệm",
+        "weight": 25,
+        "dueDate": "2026-09-13",
+        "doneDate": "2026-09-12",
+        "status": "done"
+      },
+      {
+        "id": "T-0161",
+        "name": "Phân tích kết quả",
+        "weight": 25,
+        "dueDate": "2026-09-19",
+        "doneDate": "2026-09-22",
+        "status": "done"
+      },
+      {
+        "id": "T-0162",
+        "name": "Lập báo cáo kỹ thuật",
+        "weight": 25,
+        "dueDate": "2026-09-25",
+        "doneDate": "2026-09-22",
+        "status": "done"
+      }
+    ]
+  },
+  {
+    "id": "G-039",
+    "employeeId": "RND-02",
+    "name": "Phân tích và xử lý lỗi phai màu của Sơn Alkyd chống rỉ tại dự án Cầu Mỹ Thuận",
+    "startDate": "2026-09-22",
+    "dueDate": "2026-10-22",
+    "totalDurationDays": 30,
+    "status": "in_progress",
+    "completedDate": null,
+    "tasks": [
+      {
+        "id": "T-0163",
+        "name": "Thu thập yêu cầu và tài liệu",
+        "weight": 10,
+        "dueDate": "2026-09-28",
+        "doneDate": "2026-09-24",
+        "status": "done"
+      },
+      {
+        "id": "T-0164",
+        "name": "Chuẩn bị mẫu thử",
+        "weight": 20,
+        "dueDate": "2026-10-04",
+        "doneDate": "2026-10-06",
+        "status": "done"
+      },
+      {
+        "id": "T-0165",
+        "name": "Thực hiện thử nghiệm",
+        "weight": 20,
+        "dueDate": "2026-10-10",
+        "doneDate": null,
+        "status": "in_progress"
+      },
+      {
+        "id": "T-0166",
+        "name": "Phân tích kết quả",
+        "weight": 25,
+        "dueDate": "2026-10-16",
+        "doneDate": null,
+        "status": "todo"
+      },
+      {
+        "id": "T-0167",
+        "name": "Lập báo cáo kỹ thuật",
+        "weight": 25,
+        "dueDate": "2026-10-22",
+        "doneDate": null,
+        "status": "todo"
+      }
+    ]
+  },
+  {
+    "id": "G-040",
+    "employeeId": "RND-02",
+    "name": "Hỗ trợ kỹ thuật thi công Sơn chống thấm K-11 tại công trình Vincom",
+    "startDate": "2026-10-09",
+    "dueDate": "2026-10-24",
+    "totalDurationDays": 15,
+    "status": "in_progress",
+    "completedDate": null,
+    "tasks": [
+      {
+        "id": "T-0168",
+        "name": "Thu thập yêu cầu và tài liệu",
+        "weight": 20,
+        "dueDate": "2026-10-13",
+        "doneDate": null,
+        "status": "in_progress"
+      },
+      {
+        "id": "T-0169",
+        "name": "Chuẩn bị mẫu thử",
+        "weight": 20,
+        "dueDate": "2026-10-17",
+        "doneDate": null,
+        "status": "todo"
+      },
+      {
+        "id": "T-0170",
+        "name": "Thực hiện thử nghiệm",
+        "weight": 30,
+        "dueDate": "2026-10-20",
+        "doneDate": null,
+        "status": "todo"
+      },
+      {
+        "id": "T-0171",
+        "name": "Phân tích kết quả",
+        "weight": 30,
+        "dueDate": "2026-10-24",
+        "doneDate": null,
+        "status": "todo"
+      }
+    ]
+  },
+  {
+    "id": "G-041",
+    "employeeId": "RND-03",
+    "name": "Hỗ trợ kỹ thuật thi công Sơn lót Epoxy E-204 tại công trình Sun Group",
+    "startDate": "2026-06-23",
+    "dueDate": "2026-08-22",
+    "totalDurationDays": 60,
+    "status": "completed",
+    "completedDate": "2026-08-24",
+    "tasks": [
+      {
+        "id": "T-0172",
+        "name": "Thu thập yêu cầu và tài liệu",
+        "weight": 15,
+        "dueDate": "2026-07-05",
+        "doneDate": "2026-07-03",
+        "status": "done"
+      },
+      {
+        "id": "T-0173",
+        "name": "Chuẩn bị mẫu thử",
+        "weight": 15,
+        "dueDate": "2026-07-17",
+        "doneDate": "2026-07-08",
+        "status": "done"
+      },
+      {
+        "id": "T-0174",
+        "name": "Thực hiện thử nghiệm",
+        "weight": 20,
+        "dueDate": "2026-07-29",
+        "doneDate": "2026-07-25",
+        "status": "done"
+      },
+      {
+        "id": "T-0175",
+        "name": "Phân tích kết quả",
+        "weight": 25,
+        "dueDate": "2026-08-10",
+        "doneDate": "2026-08-13",
+        "status": "done"
+      },
+      {
+        "id": "T-0176",
+        "name": "Lập báo cáo kỹ thuật",
+        "weight": 25,
+        "dueDate": "2026-08-22",
+        "doneDate": "2026-08-24",
+        "status": "done"
+      }
+    ]
+  },
+  {
+    "id": "G-042",
+    "employeeId": "RND-03",
+    "name": "Lập báo cáo thử nghiệm mẫu Sơn Alkyd chống rỉ gửi dự án KCN Sóng Thần",
+    "startDate": "2026-08-14",
+    "dueDate": "2026-09-13",
+    "totalDurationDays": 30,
+    "status": "completed",
+    "completedDate": "2026-09-11",
+    "tasks": [
+      {
+        "id": "T-0177",
+        "name": "Thu thập yêu cầu và tài liệu",
+        "weight": 10,
+        "dueDate": "2026-08-20",
+        "doneDate": "2026-08-16",
+        "status": "done"
+      },
+      {
+        "id": "T-0178",
+        "name": "Chuẩn bị mẫu thử",
+        "weight": 20,
+        "dueDate": "2026-08-26",
+        "doneDate": "2026-08-24",
+        "status": "done"
+      },
+      {
+        "id": "T-0179",
+        "name": "Thực hiện thử nghiệm",
+        "weight": 20,
+        "dueDate": "2026-09-01",
+        "doneDate": "2026-08-28",
+        "status": "done"
+      },
+      {
+        "id": "T-0180",
+        "name": "Phân tích kết quả",
+        "weight": 25,
+        "dueDate": "2026-09-07",
+        "doneDate": "2026-09-06",
+        "status": "done"
+      },
+      {
+        "id": "T-0181",
+        "name": "Lập báo cáo kỹ thuật",
+        "weight": 25,
+        "dueDate": "2026-09-13",
+        "doneDate": "2026-09-11",
+        "status": "done"
+      }
+    ]
+  },
+  {
+    "id": "G-043",
+    "employeeId": "RND-03",
+    "name": "Nghiên cứu cải tiến độ bóng và thời gian khô của Sơn giao thông",
+    "startDate": "2026-09-23",
+    "dueDate": "2026-10-23",
+    "totalDurationDays": 30,
+    "status": "in_progress",
+    "completedDate": null,
+    "tasks": [
+      {
+        "id": "T-0182",
+        "name": "Thu thập yêu cầu và tài liệu",
+        "weight": 10,
+        "dueDate": "2026-09-29",
+        "doneDate": "2026-09-24",
+        "status": "done"
+      },
+      {
+        "id": "T-0183",
+        "name": "Chuẩn bị mẫu thử",
+        "weight": 15,
+        "dueDate": "2026-10-05",
+        "doneDate": null,
+        "status": "in_progress"
+      },
+      {
+        "id": "T-0184",
+        "name": "Thực hiện thử nghiệm",
+        "weight": 25,
+        "dueDate": "2026-10-11",
+        "doneDate": "2026-10-09",
+        "status": "done"
+      },
+      {
+        "id": "T-0185",
+        "name": "Phân tích kết quả",
+        "weight": 25,
+        "dueDate": "2026-10-17",
+        "doneDate": null,
+        "status": "todo"
+      },
+      {
+        "id": "T-0186",
+        "name": "Lập báo cáo kỹ thuật",
+        "weight": 25,
+        "dueDate": "2026-10-23",
+        "doneDate": null,
+        "status": "todo"
+      }
+    ]
+  },
+  {
+    "id": "G-044",
+    "employeeId": "RND-03",
+    "name": "Phát triển công thức sơn mới đạt chuẩn an toàn môi trường Quý 4",
+    "startDate": "2026-10-09",
+    "dueDate": "2026-10-16",
+    "totalDurationDays": 7,
+    "status": "in_progress",
+    "completedDate": null,
+    "tasks": [
+      {
+        "id": "T-0187",
+        "name": "Thu thập yêu cầu và tài liệu",
+        "weight": 30,
+        "dueDate": "2026-10-11",
+        "doneDate": "2026-10-11",
+        "status": "done"
+      },
+      {
+        "id": "T-0188",
+        "name": "Chuẩn bị mẫu thử",
+        "weight": 30,
+        "dueDate": "2026-10-14",
+        "doneDate": null,
+        "status": "in_progress"
+      },
+      {
+        "id": "T-0189",
+        "name": "Thực hiện thử nghiệm",
+        "weight": 40,
+        "dueDate": "2026-10-16",
+        "doneDate": null,
+        "status": "todo"
+      }
+    ]
+  },
+  {
+    "id": "G-045",
+    "employeeId": "RND-04",
+    "name": "Hỗ trợ kỹ thuật thi công Sơn giao thông tại công trình Sun Group",
+    "startDate": "2026-06-18",
+    "dueDate": "2026-07-18",
+    "totalDurationDays": 30,
+    "status": "completed",
+    "completedDate": "2026-07-15",
+    "tasks": [
+      {
+        "id": "T-0190",
+        "name": "Thu thập yêu cầu và tài liệu",
+        "weight": 10,
+        "dueDate": "2026-06-24",
+        "doneDate": "2026-06-23",
+        "status": "done"
+      },
+      {
+        "id": "T-0191",
+        "name": "Chuẩn bị mẫu thử",
+        "weight": 20,
+        "dueDate": "2026-06-30",
+        "doneDate": "2026-06-28",
+        "status": "done"
+      },
+      {
+        "id": "T-0192",
+        "name": "Thực hiện thử nghiệm",
+        "weight": 20,
+        "dueDate": "2026-07-06",
+        "doneDate": "2026-07-02",
+        "status": "done"
+      },
+      {
+        "id": "T-0193",
+        "name": "Phân tích kết quả",
+        "weight": 25,
+        "dueDate": "2026-07-12",
+        "doneDate": "2026-07-09",
+        "status": "done"
+      },
+      {
+        "id": "T-0194",
+        "name": "Lập báo cáo kỹ thuật",
+        "weight": 25,
+        "dueDate": "2026-07-18",
+        "doneDate": "2026-07-15",
+        "status": "done"
+      }
+    ]
+  },
+  {
+    "id": "G-046",
+    "employeeId": "RND-04",
+    "name": "Nghiên cứu cải tiến độ bóng và thời gian khô của Sơn giao thông",
+    "startDate": "2026-09-02",
+    "dueDate": "2026-10-02",
+    "totalDurationDays": 30,
+    "status": "completed",
+    "completedDate": "2026-10-06",
+    "tasks": [
+      {
+        "id": "T-0195",
+        "name": "Thu thập yêu cầu và tài liệu",
+        "weight": 10,
+        "dueDate": "2026-09-08",
+        "doneDate": "2026-09-04",
+        "status": "done"
+      },
+      {
+        "id": "T-0196",
+        "name": "Chuẩn bị mẫu thử",
+        "weight": 20,
+        "dueDate": "2026-09-14",
+        "doneDate": "2026-09-21",
+        "status": "done"
+      },
+      {
+        "id": "T-0197",
+        "name": "Thực hiện thử nghiệm",
+        "weight": 20,
+        "dueDate": "2026-09-20",
+        "doneDate": "2026-09-25",
+        "status": "done"
+      },
+      {
+        "id": "T-0198",
+        "name": "Phân tích kết quả",
+        "weight": 25,
+        "dueDate": "2026-09-26",
+        "doneDate": "2026-09-27",
+        "status": "done"
+      },
+      {
+        "id": "T-0199",
+        "name": "Lập báo cáo kỹ thuật",
+        "weight": 25,
+        "dueDate": "2026-10-02",
+        "doneDate": "2026-10-06",
+        "status": "done"
+      }
+    ]
+  },
+  {
+    "id": "G-047",
+    "employeeId": "RND-04",
+    "name": "Nghiên cứu cải tiến độ bóng và thời gian khô của Sơn chống thấm K-11",
+    "startDate": "2026-09-25",
+    "dueDate": "2026-10-10",
+    "totalDurationDays": 15,
+    "status": "completed",
+    "completedDate": "2026-10-07",
+    "tasks": [
+      {
+        "id": "T-0200",
+        "name": "Thu thập yêu cầu và tài liệu",
+        "weight": 15,
+        "dueDate": "2026-09-29",
+        "doneDate": "2026-10-02",
+        "status": "done"
+      },
+      {
+        "id": "T-0201",
+        "name": "Chuẩn bị mẫu thử",
+        "weight": 25,
+        "dueDate": "2026-10-03",
+        "doneDate": "2026-10-02",
+        "status": "done"
+      },
+      {
+        "id": "T-0202",
+        "name": "Thực hiện thử nghiệm",
+        "weight": 30,
+        "dueDate": "2026-10-06",
+        "doneDate": "2026-10-04",
+        "status": "done"
+      },
+      {
+        "id": "T-0203",
+        "name": "Phân tích kết quả",
+        "weight": 30,
+        "dueDate": "2026-10-10",
+        "doneDate": "2026-10-07",
+        "status": "done"
+      }
+    ]
+  },
+  {
+    "id": "G-048",
+    "employeeId": "RND-04",
+    "name": "Lập báo cáo thử nghiệm mẫu Sơn chống thấm K-11 gửi dự án Cầu Mỹ Thuận",
+    "startDate": "2026-10-09",
+    "dueDate": "2026-10-24",
+    "totalDurationDays": 15,
+    "status": "in_progress",
+    "completedDate": null,
+    "tasks": [
+      {
+        "id": "T-0204",
+        "name": "Thu thập yêu cầu và tài liệu",
+        "weight": 20,
+        "dueDate": "2026-10-13",
+        "doneDate": "2026-10-11",
+        "status": "done"
+      },
+      {
+        "id": "T-0205",
+        "name": "Chuẩn bị mẫu thử",
+        "weight": 20,
+        "dueDate": "2026-10-17",
+        "doneDate": null,
+        "status": "in_progress"
+      },
+      {
+        "id": "T-0206",
+        "name": "Thực hiện thử nghiệm",
+        "weight": 30,
+        "dueDate": "2026-10-20",
+        "doneDate": null,
+        "status": "todo"
+      },
+      {
+        "id": "T-0207",
+        "name": "Phân tích kết quả",
+        "weight": 30,
+        "dueDate": "2026-10-24",
+        "doneDate": null,
+        "status": "todo"
+      }
+    ]
+  },
+  {
+    "id": "G-049",
+    "employeeId": "RND-05",
+    "name": "Kiểm tra chất lượng lô Phụ gia chống lắng nhập kho tháng 8",
+    "startDate": "2026-06-22",
+    "dueDate": "2026-08-21",
+    "totalDurationDays": 60,
+    "status": "completed",
+    "completedDate": "2026-08-16",
+    "tasks": [
+      {
+        "id": "T-0208",
+        "name": "Thu thập yêu cầu và tài liệu",
+        "weight": 15,
+        "dueDate": "2026-07-04",
+        "doneDate": "2026-06-24",
+        "status": "done"
+      },
+      {
+        "id": "T-0209",
+        "name": "Chuẩn bị mẫu thử",
+        "weight": 15,
+        "dueDate": "2026-07-16",
+        "doneDate": "2026-07-12",
+        "status": "done"
+      },
+      {
+        "id": "T-0210",
+        "name": "Thực hiện thử nghiệm",
+        "weight": 20,
+        "dueDate": "2026-07-28",
+        "doneDate": "2026-07-30",
+        "status": "done"
+      },
+      {
+        "id": "T-0211",
+        "name": "Phân tích kết quả",
+        "weight": 25,
+        "dueDate": "2026-08-09",
+        "doneDate": "2026-07-31",
+        "status": "done"
+      },
+      {
+        "id": "T-0212",
+        "name": "Lập báo cáo kỹ thuật",
+        "weight": 25,
+        "dueDate": "2026-08-21",
+        "doneDate": "2026-08-16",
+        "status": "done"
+      }
+    ]
+  },
+  {
+    "id": "G-050",
+    "employeeId": "RND-05",
+    "name": "Lập báo cáo thử nghiệm mẫu Sơn chịu nhiệt 500 độ gửi dự án Vincom",
+    "startDate": "2026-08-18",
+    "dueDate": "2026-09-02",
+    "totalDurationDays": 15,
+    "status": "completed",
+    "completedDate": "2026-09-01",
+    "tasks": [
+      {
+        "id": "T-0213",
+        "name": "Thu thập yêu cầu và tài liệu",
+        "weight": 15,
+        "dueDate": "2026-08-22",
+        "doneDate": "2026-08-21",
+        "status": "done"
+      },
+      {
+        "id": "T-0214",
+        "name": "Chuẩn bị mẫu thử",
+        "weight": 25,
+        "dueDate": "2026-08-26",
+        "doneDate": "2026-09-01",
+        "status": "done"
+      },
+      {
+        "id": "T-0215",
+        "name": "Thực hiện thử nghiệm",
+        "weight": 30,
+        "dueDate": "2026-08-29",
+        "doneDate": "2026-08-31",
+        "status": "done"
+      },
+      {
+        "id": "T-0216",
+        "name": "Phân tích kết quả",
+        "weight": 30,
+        "dueDate": "2026-09-02",
+        "doneDate": "2026-08-30",
+        "status": "done"
+      }
+    ]
+  },
+  {
+    "id": "G-051",
+    "employeeId": "RND-05",
+    "name": "Nghiên cứu cải tiến độ bóng và thời gian khô của Sơn giao thông",
+    "startDate": "2026-09-18",
+    "dueDate": "2026-11-17",
+    "totalDurationDays": 60,
+    "status": "in_progress",
+    "completedDate": null,
+    "tasks": [
+      {
+        "id": "T-0217",
+        "name": "Thu thập yêu cầu và tài liệu",
+        "weight": 10,
+        "dueDate": "2026-09-30",
+        "doneDate": "2026-09-25",
+        "status": "done"
+      },
+      {
+        "id": "T-0218",
+        "name": "Chuẩn bị mẫu thử",
+        "weight": 15,
+        "dueDate": "2026-10-12",
+        "doneDate": "2026-10-03",
+        "status": "done"
+      },
+      {
+        "id": "T-0219",
+        "name": "Thực hiện thử nghiệm",
+        "weight": 25,
+        "dueDate": "2026-10-24",
+        "doneDate": null,
+        "status": "in_progress"
+      },
+      {
+        "id": "T-0220",
+        "name": "Phân tích kết quả",
+        "weight": 25,
+        "dueDate": "2026-11-05",
+        "doneDate": null,
+        "status": "todo"
+      },
+      {
+        "id": "T-0221",
+        "name": "Lập báo cáo kỹ thuật",
+        "weight": 25,
+        "dueDate": "2026-11-17",
+        "doneDate": null,
+        "status": "todo"
+      }
+    ]
+  },
+  {
+    "id": "G-052",
+    "employeeId": "RND-05",
+    "name": "Lập báo cáo thử nghiệm mẫu Sơn nội thất lau chùi gửi dự án KCN Sóng Thần",
+    "startDate": "2026-10-09",
+    "dueDate": "2026-10-16",
+    "totalDurationDays": 7,
+    "status": "in_progress",
+    "completedDate": null,
+    "tasks": [
+      {
+        "id": "T-0222",
+        "name": "Thu thập yêu cầu và tài liệu",
+        "weight": 30,
+        "dueDate": "2026-10-11",
+        "doneDate": "2026-10-11",
+        "status": "done"
+      },
+      {
+        "id": "T-0223",
+        "name": "Chuẩn bị mẫu thử",
+        "weight": 30,
+        "dueDate": "2026-10-14",
+        "doneDate": null,
+        "status": "in_progress"
+      },
+      {
+        "id": "T-0224",
+        "name": "Thực hiện thử nghiệm",
+        "weight": 40,
+        "dueDate": "2026-10-16",
+        "doneDate": null,
+        "status": "todo"
+      }
+    ]
+  },
+  {
+    "id": "G-053",
+    "employeeId": "RND-06",
+    "name": "Tìm kiếm nguyên liệu thay thế cho Bột màu vô cơ để giảm giá thành",
+    "startDate": "2026-06-26",
+    "dueDate": "2026-07-26",
+    "totalDurationDays": 30,
+    "status": "completed",
+    "completedDate": "2026-07-21",
+    "tasks": [
+      {
+        "id": "T-0225",
+        "name": "Thu thập yêu cầu và tài liệu",
+        "weight": 15,
+        "dueDate": "2026-07-02",
+        "doneDate": "2026-06-29",
+        "status": "done"
+      },
+      {
+        "id": "T-0226",
+        "name": "Chuẩn bị mẫu thử",
+        "weight": 15,
+        "dueDate": "2026-07-08",
+        "doneDate": "2026-07-06",
+        "status": "done"
+      },
+      {
+        "id": "T-0227",
+        "name": "Thực hiện thử nghiệm",
+        "weight": 20,
+        "dueDate": "2026-07-14",
+        "doneDate": "2026-07-12",
+        "status": "done"
+      },
+      {
+        "id": "T-0228",
+        "name": "Phân tích kết quả",
+        "weight": 25,
+        "dueDate": "2026-07-20",
+        "doneDate": "2026-07-17",
+        "status": "done"
+      },
+      {
+        "id": "T-0229",
+        "name": "Lập báo cáo kỹ thuật",
+        "weight": 25,
+        "dueDate": "2026-07-26",
+        "doneDate": "2026-07-21",
+        "status": "done"
+      }
+    ]
+  },
+  {
+    "id": "G-054",
+    "employeeId": "RND-06",
+    "name": "Test độ bám dính màng sơn lô Sơn chống thấm K-11 xuất xưởng tháng 9",
+    "startDate": "2026-08-27",
+    "dueDate": "2026-09-11",
+    "totalDurationDays": 15,
+    "status": "completed",
+    "completedDate": "2026-09-08",
+    "tasks": [
+      {
+        "id": "T-0230",
+        "name": "Thu thập yêu cầu và tài liệu",
+        "weight": 20,
+        "dueDate": "2026-08-31",
+        "doneDate": "2026-08-30",
+        "status": "done"
+      },
+      {
+        "id": "T-0231",
+        "name": "Chuẩn bị mẫu thử",
+        "weight": 20,
+        "dueDate": "2026-09-04",
+        "doneDate": "2026-09-06",
+        "status": "done"
+      },
+      {
+        "id": "T-0232",
+        "name": "Thực hiện thử nghiệm",
+        "weight": 30,
+        "dueDate": "2026-09-07",
+        "doneDate": "2026-09-05",
+        "status": "done"
+      },
+      {
+        "id": "T-0233",
+        "name": "Phân tích kết quả",
+        "weight": 30,
+        "dueDate": "2026-09-11",
+        "doneDate": "2026-09-08",
+        "status": "done"
+      }
+    ]
+  },
+  {
+    "id": "G-055",
+    "employeeId": "RND-06",
+    "name": "Tìm kiếm nguyên liệu thay thế cho Nhựa Acrylic để giảm giá thành",
+    "startDate": "2026-09-16",
+    "dueDate": "2026-10-01",
+    "totalDurationDays": 15,
+    "status": "completed",
+    "completedDate": "2026-09-29",
+    "tasks": [
+      {
+        "id": "T-0234",
+        "name": "Thu thập yêu cầu và tài liệu",
+        "weight": 15,
+        "dueDate": "2026-09-20",
+        "doneDate": "2026-09-17",
+        "status": "done"
+      },
+      {
+        "id": "T-0235",
+        "name": "Chuẩn bị mẫu thử",
+        "weight": 25,
+        "dueDate": "2026-09-24",
+        "doneDate": "2026-09-23",
+        "status": "done"
+      },
+      {
+        "id": "T-0236",
+        "name": "Thực hiện thử nghiệm",
+        "weight": 30,
+        "dueDate": "2026-09-27",
+        "doneDate": "2026-09-25",
+        "status": "done"
+      },
+      {
+        "id": "T-0237",
+        "name": "Phân tích kết quả",
+        "weight": 30,
+        "dueDate": "2026-10-01",
+        "doneDate": "2026-09-29",
+        "status": "done"
+      }
+    ]
+  },
+  {
+    "id": "G-056",
+    "employeeId": "RND-06",
+    "name": "Tìm kiếm nguyên liệu thay thế cho Dung môi Xylene để giảm giá thành",
+    "startDate": "2026-10-07",
+    "dueDate": "2026-10-10",
+    "totalDurationDays": 3,
+    "status": "completed",
+    "completedDate": "2026-10-10",
+    "tasks": [
+      {
+        "id": "T-0238",
+        "name": "Thu thập yêu cầu và tài liệu",
+        "weight": 25,
+        "dueDate": "2026-10-08",
+        "doneDate": "2026-10-08",
+        "status": "done"
+      },
+      {
+        "id": "T-0239",
+        "name": "Chuẩn bị mẫu thử",
+        "weight": 35,
+        "dueDate": "2026-10-09",
+        "doneDate": "2026-10-09",
+        "status": "done"
+      },
+      {
+        "id": "T-0240",
+        "name": "Thực hiện thử nghiệm",
+        "weight": 40,
+        "dueDate": "2026-10-10",
+        "doneDate": "2026-10-10",
+        "status": "done"
+      }
+    ]
+  },
+  {
+    "id": "G-057",
+    "employeeId": "RND-07",
+    "name": "Phân tích và xử lý lỗi phai màu của Sơn PU sàn công nghiệp tại dự án KCN Sóng Thần",
+    "startDate": "2026-06-24",
+    "dueDate": "2026-07-24",
+    "totalDurationDays": 30,
+    "status": "completed",
+    "completedDate": "2026-07-29",
+    "tasks": [
+      {
+        "id": "T-0241",
+        "name": "Thu thập yêu cầu và tài liệu",
+        "weight": 10,
+        "dueDate": "2026-06-30",
+        "doneDate": "2026-06-28",
+        "status": "done"
+      },
+      {
+        "id": "T-0242",
+        "name": "Chuẩn bị mẫu thử",
+        "weight": 20,
+        "dueDate": "2026-07-06",
+        "doneDate": "2026-07-05",
+        "status": "done"
+      },
+      {
+        "id": "T-0243",
+        "name": "Thực hiện thử nghiệm",
+        "weight": 20,
+        "dueDate": "2026-07-12",
+        "doneDate": "2026-07-11",
+        "status": "done"
+      },
+      {
+        "id": "T-0244",
+        "name": "Phân tích kết quả",
+        "weight": 25,
+        "dueDate": "2026-07-18",
+        "doneDate": "2026-07-15",
+        "status": "done"
+      },
+      {
+        "id": "T-0245",
+        "name": "Lập báo cáo kỹ thuật",
+        "weight": 25,
+        "dueDate": "2026-07-24",
+        "doneDate": "2026-07-29",
+        "status": "done"
+      }
+    ]
+  },
+  {
+    "id": "G-058",
+    "employeeId": "RND-07",
+    "name": "Lập báo cáo thử nghiệm mẫu Sơn giao thông gửi dự án KCN Amata",
+    "startDate": "2026-08-14",
+    "dueDate": "2026-09-13",
+    "totalDurationDays": 30,
+    "status": "completed",
+    "completedDate": "2026-09-25",
+    "tasks": [
+      {
+        "id": "T-0246",
+        "name": "Thu thập yêu cầu và tài liệu",
+        "weight": 15,
+        "dueDate": "2026-08-20",
+        "doneDate": "2026-09-01",
+        "status": "done"
+      },
+      {
+        "id": "T-0247",
+        "name": "Chuẩn bị mẫu thử",
+        "weight": 15,
+        "dueDate": "2026-08-26",
+        "doneDate": "2026-09-02",
+        "status": "done"
+      },
+      {
+        "id": "T-0248",
+        "name": "Thực hiện thử nghiệm",
+        "weight": 20,
+        "dueDate": "2026-09-01",
+        "doneDate": "2026-09-09",
+        "status": "done"
+      },
+      {
+        "id": "T-0249",
+        "name": "Phân tích kết quả",
+        "weight": 25,
+        "dueDate": "2026-09-07",
+        "doneDate": "2026-09-15",
+        "status": "done"
+      },
+      {
+        "id": "T-0250",
+        "name": "Lập báo cáo kỹ thuật",
+        "weight": 25,
+        "dueDate": "2026-09-13",
+        "doneDate": "2026-09-25",
+        "status": "done"
+      }
+    ]
+  },
+  {
+    "id": "G-059",
+    "employeeId": "RND-07",
+    "name": "Test độ bám dính màng sơn lô Sơn chống thấm K-11 xuất xưởng tháng 10",
+    "startDate": "2026-09-17",
+    "dueDate": "2026-10-02",
+    "totalDurationDays": 15,
+    "status": "completed",
+    "completedDate": "2026-10-08",
+    "tasks": [
+      {
+        "id": "T-0251",
+        "name": "Thu thập yêu cầu và tài liệu",
+        "weight": 15,
+        "dueDate": "2026-09-21",
+        "doneDate": "2026-09-26",
+        "status": "done"
+      },
+      {
+        "id": "T-0252",
+        "name": "Chuẩn bị mẫu thử",
+        "weight": 25,
+        "dueDate": "2026-09-25",
+        "doneDate": "2026-10-02",
+        "status": "done"
+      },
+      {
+        "id": "T-0253",
+        "name": "Thực hiện thử nghiệm",
+        "weight": 30,
+        "dueDate": "2026-09-28",
+        "doneDate": "2026-10-08",
+        "status": "done"
+      },
+      {
+        "id": "T-0254",
+        "name": "Phân tích kết quả",
+        "weight": 30,
+        "dueDate": "2026-10-02",
+        "doneDate": "2026-09-30",
+        "status": "done"
+      }
+    ]
+  },
+  {
+    "id": "G-060",
+    "employeeId": "RND-07",
+    "name": "Cập nhật tài liệu kỹ thuật (TDS) cho Sơn giao thông",
+    "startDate": "2026-10-06",
+    "dueDate": "2026-10-21",
+    "totalDurationDays": 15,
+    "status": "in_progress",
+    "completedDate": null,
+    "tasks": [
+      {
+        "id": "T-0255",
+        "name": "Thu thập yêu cầu và tài liệu",
+        "weight": 20,
+        "dueDate": "2026-10-10",
+        "doneDate": null,
+        "status": "in_progress"
+      },
+      {
+        "id": "T-0256",
+        "name": "Chuẩn bị mẫu thử",
+        "weight": 25,
+        "dueDate": "2026-10-14",
+        "doneDate": "2026-10-11",
+        "status": "done"
+      },
+      {
+        "id": "T-0257",
+        "name": "Thực hiện thử nghiệm",
+        "weight": 25,
+        "dueDate": "2026-10-17",
+        "doneDate": null,
+        "status": "todo"
+      },
+      {
+        "id": "T-0258",
+        "name": "Phân tích kết quả",
+        "weight": 30,
+        "dueDate": "2026-10-21",
+        "doneDate": null,
+        "status": "todo"
+      }
+    ]
+  },
+  {
+    "id": "G-061",
+    "employeeId": "ACC-01",
+    "name": "Tính giá thành sản xuất tiêu chuẩn cho dòng Sơn nội thất lau chùi Quý 3",
+    "startDate": "2026-06-22",
+    "dueDate": "2026-07-22",
+    "totalDurationDays": 30,
+    "status": "completed",
+    "completedDate": "2026-07-18",
+    "tasks": [
+      {
+        "id": "T-0259",
+        "name": "Thu thập chứng từ",
+        "weight": 10,
+        "dueDate": "2026-06-28",
+        "doneDate": "2026-06-23",
+        "status": "done"
+      },
+      {
+        "id": "T-0260",
+        "name": "Nhập liệu và đối chiếu",
+        "weight": 15,
+        "dueDate": "2026-07-04",
+        "doneDate": "2026-07-09",
+        "status": "done"
+      },
+      {
+        "id": "T-0261",
+        "name": "Rà soát chênh lệch",
+        "weight": 25,
+        "dueDate": "2026-07-10",
+        "doneDate": "2026-07-11",
+        "status": "done"
+      },
+      {
+        "id": "T-0262",
+        "name": "Lập báo cáo",
+        "weight": 25,
+        "dueDate": "2026-07-16",
+        "doneDate": "2026-07-13",
+        "status": "done"
+      },
+      {
+        "id": "T-0263",
+        "name": "Trình duyệt và lưu trữ",
+        "weight": 25,
+        "dueDate": "2026-07-22",
+        "doneDate": "2026-07-18",
+        "status": "done"
+      }
+    ]
+  },
+  {
+    "id": "G-062",
+    "employeeId": "ACC-01",
+    "name": "Đối soát chi phí vận chuyển hàng hóa cho dự án Cầu Mỹ Thuận",
+    "startDate": "2026-08-14",
+    "dueDate": "2026-08-29",
+    "totalDurationDays": 15,
+    "status": "completed",
+    "completedDate": "2026-08-31",
+    "tasks": [
+      {
+        "id": "T-0264",
+        "name": "Thu thập chứng từ",
+        "weight": 15,
+        "dueDate": "2026-08-18",
+        "doneDate": "2026-08-21",
+        "status": "done"
+      },
+      {
+        "id": "T-0265",
+        "name": "Nhập liệu và đối chiếu",
+        "weight": 25,
+        "dueDate": "2026-08-22",
+        "doneDate": "2026-08-19",
+        "status": "done"
+      },
+      {
+        "id": "T-0266",
+        "name": "Rà soát chênh lệch",
+        "weight": 30,
+        "dueDate": "2026-08-25",
+        "doneDate": "2026-08-29",
+        "status": "done"
+      },
+      {
+        "id": "T-0267",
+        "name": "Lập báo cáo",
+        "weight": 30,
+        "dueDate": "2026-08-29",
+        "doneDate": "2026-08-31",
+        "status": "done"
+      }
+    ]
+  },
+  {
+    "id": "G-063",
+    "employeeId": "ACC-01",
+    "name": "Nhập liệu hóa đơn đầu vào Nhựa Acrylic tháng 10",
+    "startDate": "2026-10-02",
+    "dueDate": "2026-10-17",
+    "totalDurationDays": 15,
+    "status": "in_progress",
+    "completedDate": null,
+    "tasks": [
+      {
+        "id": "T-0268",
+        "name": "Thu thập chứng từ",
+        "weight": 20,
+        "dueDate": "2026-10-06",
+        "doneDate": "2026-10-11",
+        "status": "done"
+      },
+      {
+        "id": "T-0269",
+        "name": "Nhập liệu và đối chiếu",
+        "weight": 20,
+        "dueDate": "2026-10-10",
+        "doneDate": "2026-10-09",
+        "status": "done"
+      },
+      {
+        "id": "T-0270",
+        "name": "Rà soát chênh lệch",
+        "weight": 30,
+        "dueDate": "2026-10-13",
+        "doneDate": "2026-10-11",
+        "status": "done"
+      },
+      {
+        "id": "T-0271",
+        "name": "Lập báo cáo",
+        "weight": 30,
+        "dueDate": "2026-10-17",
+        "doneDate": null,
+        "status": "in_progress"
+      }
+    ]
+  },
+  {
+    "id": "G-064",
+    "employeeId": "ACC-01",
+    "name": "Cập nhật bảng thống kê sản lượng Sơn chịu nhiệt 500 độ tháng 10",
+    "startDate": "2026-10-09",
+    "dueDate": "2026-10-16",
+    "totalDurationDays": 7,
+    "status": "in_progress",
+    "completedDate": null,
+    "tasks": [
+      {
+        "id": "T-0272",
+        "name": "Thu thập chứng từ",
+        "weight": 30,
+        "dueDate": "2026-10-11",
+        "doneDate": "2026-10-11",
+        "status": "done"
+      },
+      {
+        "id": "T-0273",
+        "name": "Nhập liệu và đối chiếu",
+        "weight": 30,
+        "dueDate": "2026-10-14",
+        "doneDate": null,
+        "status": "in_progress"
+      },
+      {
+        "id": "T-0274",
+        "name": "Rà soát chênh lệch",
+        "weight": 40,
+        "dueDate": "2026-10-16",
+        "doneDate": null,
+        "status": "todo"
+      }
+    ]
+  },
+  {
+    "id": "G-065",
+    "employeeId": "ACC-02",
+    "name": "Quyết toán công nợ nhà cung cấp Bột màu vô cơ tháng 9",
+    "startDate": "2026-07-10",
+    "dueDate": "2026-09-08",
+    "totalDurationDays": 60,
+    "status": "completed",
+    "completedDate": "2026-08-28",
+    "tasks": [
+      {
+        "id": "T-0275",
+        "name": "Thu thập chứng từ",
+        "weight": 10,
+        "dueDate": "2026-07-22",
+        "doneDate": "2026-07-15",
+        "status": "done"
+      },
+      {
+        "id": "T-0276",
+        "name": "Nhập liệu và đối chiếu",
+        "weight": 20,
+        "dueDate": "2026-08-03",
+        "doneDate": "2026-07-24",
+        "status": "done"
+      },
+      {
+        "id": "T-0277",
+        "name": "Rà soát chênh lệch",
+        "weight": 20,
+        "dueDate": "2026-08-15",
+        "doneDate": "2026-08-05",
+        "status": "done"
+      },
+      {
+        "id": "T-0278",
+        "name": "Lập báo cáo",
+        "weight": 25,
+        "dueDate": "2026-08-27",
+        "doneDate": "2026-08-24",
+        "status": "done"
+      },
+      {
+        "id": "T-0279",
+        "name": "Trình duyệt và lưu trữ",
+        "weight": 25,
+        "dueDate": "2026-09-08",
+        "doneDate": "2026-08-28",
+        "status": "done"
+      }
+    ]
+  },
+  {
+    "id": "G-066",
+    "employeeId": "ACC-02",
+    "name": "Quyết toán công nợ nhà cung cấp Dung môi Xylene tháng 8",
+    "startDate": "2026-08-14",
+    "dueDate": "2026-08-29",
+    "totalDurationDays": 15,
+    "status": "completed",
+    "completedDate": "2026-08-27",
+    "tasks": [
+      {
+        "id": "T-0280",
+        "name": "Thu thập chứng từ",
+        "weight": 20,
+        "dueDate": "2026-08-18",
+        "doneDate": "2026-08-15",
+        "status": "done"
+      },
+      {
+        "id": "T-0281",
+        "name": "Nhập liệu và đối chiếu",
+        "weight": 25,
+        "dueDate": "2026-08-22",
+        "doneDate": "2026-08-23",
+        "status": "done"
+      },
+      {
+        "id": "T-0282",
+        "name": "Rà soát chênh lệch",
+        "weight": 25,
+        "dueDate": "2026-08-25",
+        "doneDate": "2026-08-24",
+        "status": "done"
+      },
+      {
+        "id": "T-0283",
+        "name": "Lập báo cáo",
+        "weight": 30,
+        "dueDate": "2026-08-29",
+        "doneDate": "2026-08-27",
+        "status": "done"
+      }
+    ]
+  },
+  {
+    "id": "G-067",
+    "employeeId": "ACC-02",
+    "name": "Kiểm kê kho thành phẩm chi nhánh Vĩnh Long kỳ Quý 4",
+    "startDate": "2026-09-18",
+    "dueDate": "2026-10-18",
+    "totalDurationDays": 30,
+    "status": "in_progress",
+    "completedDate": null,
+    "tasks": [
+      {
+        "id": "T-0284",
+        "name": "Thu thập chứng từ",
+        "weight": 10,
+        "dueDate": "2026-09-24",
+        "doneDate": "2026-09-30",
+        "status": "done"
+      },
+      {
+        "id": "T-0285",
+        "name": "Nhập liệu và đối chiếu",
+        "weight": 15,
+        "dueDate": "2026-09-30",
+        "doneDate": "2026-09-29",
+        "status": "done"
+      },
+      {
+        "id": "T-0286",
+        "name": "Rà soát chênh lệch",
+        "weight": 25,
+        "dueDate": "2026-10-06",
+        "doneDate": "2026-10-05",
+        "status": "done"
+      },
+      {
+        "id": "T-0287",
+        "name": "Lập báo cáo",
+        "weight": 25,
+        "dueDate": "2026-10-12",
+        "doneDate": "2026-10-08",
+        "status": "done"
+      },
+      {
+        "id": "T-0288",
+        "name": "Trình duyệt và lưu trữ",
+        "weight": 25,
+        "dueDate": "2026-10-18",
+        "doneDate": null,
+        "status": "in_progress"
+      }
+    ]
+  },
+  {
+    "id": "G-068",
+    "employeeId": "ACC-02",
+    "name": "Nhập liệu hóa đơn đầu vào Bột màu vô cơ tháng 10",
+    "startDate": "2026-10-09",
+    "dueDate": "2026-10-12",
+    "totalDurationDays": 3,
+    "status": "in_progress",
+    "completedDate": null,
+    "tasks": [
+      {
+        "id": "T-0289",
+        "name": "Thu thập chứng từ",
+        "weight": 25,
+        "dueDate": "2026-10-10",
+        "doneDate": "2026-10-10",
+        "status": "done"
+      },
+      {
+        "id": "T-0290",
+        "name": "Nhập liệu và đối chiếu",
+        "weight": 35,
+        "dueDate": "2026-10-11",
+        "doneDate": "2026-10-11",
+        "status": "done"
+      },
+      {
+        "id": "T-0291",
+        "name": "Rà soát chênh lệch",
+        "weight": 40,
+        "dueDate": "2026-10-12",
+        "doneDate": null,
+        "status": "in_progress"
+      }
+    ]
+  },
+  {
+    "id": "G-069",
+    "employeeId": "ACC-03",
+    "name": "Nhập liệu hóa đơn đầu vào Bột màu vô cơ tháng 7",
+    "startDate": "2026-06-16",
+    "dueDate": "2026-07-16",
+    "totalDurationDays": 30,
+    "status": "completed",
+    "completedDate": "2026-07-11",
+    "tasks": [
+      {
+        "id": "T-0292",
+        "name": "Thu thập chứng từ",
+        "weight": 10,
+        "dueDate": "2026-06-22",
+        "doneDate": "2026-07-02",
+        "status": "done"
+      },
+      {
+        "id": "T-0293",
+        "name": "Nhập liệu và đối chiếu",
+        "weight": 20,
+        "dueDate": "2026-06-28",
+        "doneDate": "2026-07-08",
+        "status": "done"
+      },
+      {
+        "id": "T-0294",
+        "name": "Rà soát chênh lệch",
+        "weight": 20,
+        "dueDate": "2026-07-04",
+        "doneDate": "2026-07-08",
+        "status": "done"
+      },
+      {
+        "id": "T-0295",
+        "name": "Lập báo cáo",
+        "weight": 25,
+        "dueDate": "2026-07-10",
+        "doneDate": "2026-07-11",
+        "status": "done"
+      },
+      {
+        "id": "T-0296",
+        "name": "Trình duyệt và lưu trữ",
+        "weight": 25,
+        "dueDate": "2026-07-16",
+        "doneDate": "2026-07-11",
+        "status": "done"
+      }
+    ]
+  },
+  {
+    "id": "G-070",
+    "employeeId": "ACC-03",
+    "name": "Đối chiếu số liệu tồn kho Sơn Alkyd chống rỉ cuối tháng 9",
+    "startDate": "2026-08-20",
+    "dueDate": "2026-09-04",
+    "totalDurationDays": 15,
+    "status": "completed",
+    "completedDate": "2026-09-08",
+    "tasks": [
+      {
+        "id": "T-0297",
+        "name": "Thu thập chứng từ",
+        "weight": 15,
+        "dueDate": "2026-08-24",
+        "doneDate": "2026-08-21",
+        "status": "done"
+      },
+      {
+        "id": "T-0298",
+        "name": "Nhập liệu và đối chiếu",
+        "weight": 25,
+        "dueDate": "2026-08-28",
+        "doneDate": "2026-09-08",
+        "status": "done"
+      },
+      {
+        "id": "T-0299",
+        "name": "Rà soát chênh lệch",
+        "weight": 30,
+        "dueDate": "2026-08-31",
+        "doneDate": "2026-09-08",
+        "status": "done"
+      },
+      {
+        "id": "T-0300",
+        "name": "Lập báo cáo",
+        "weight": 30,
+        "dueDate": "2026-09-04",
+        "doneDate": "2026-09-02",
+        "status": "done"
+      }
+    ]
+  },
+  {
+    "id": "G-071",
+    "employeeId": "ACC-03",
+    "name": "Tính giá thành sản xuất tiêu chuẩn cho dòng Sơn lót Epoxy E-204 Quý 4",
+    "startDate": "2026-09-25",
+    "dueDate": "2026-11-24",
+    "totalDurationDays": 60,
+    "status": "in_progress",
+    "completedDate": null,
+    "tasks": [
+      {
+        "id": "T-0301",
+        "name": "Thu thập chứng từ",
+        "weight": 15,
+        "dueDate": "2026-10-07",
+        "doneDate": "2026-10-08",
+        "status": "done"
+      },
+      {
+        "id": "T-0302",
+        "name": "Nhập liệu và đối chiếu",
+        "weight": 15,
+        "dueDate": "2026-10-19",
+        "doneDate": null,
+        "status": "in_progress"
+      },
+      {
+        "id": "T-0303",
+        "name": "Rà soát chênh lệch",
+        "weight": 20,
+        "dueDate": "2026-10-31",
+        "doneDate": null,
+        "status": "todo"
+      },
+      {
+        "id": "T-0304",
+        "name": "Lập báo cáo",
+        "weight": 25,
+        "dueDate": "2026-11-12",
+        "doneDate": null,
+        "status": "todo"
+      },
+      {
+        "id": "T-0305",
+        "name": "Trình duyệt và lưu trữ",
+        "weight": 25,
+        "dueDate": "2026-11-24",
+        "doneDate": null,
+        "status": "todo"
+      }
+    ]
+  },
+  {
+    "id": "G-072",
+    "employeeId": "ACC-03",
+    "name": "Quyết toán công nợ nhà cung cấp Titanium Dioxide tháng 10",
+    "startDate": "2026-10-09",
+    "dueDate": "2026-10-12",
+    "totalDurationDays": 3,
+    "status": "in_progress",
+    "completedDate": null,
+    "tasks": [
+      {
+        "id": "T-0306",
+        "name": "Thu thập chứng từ",
+        "weight": 30,
+        "dueDate": "2026-10-10",
+        "doneDate": null,
+        "status": "in_progress"
+      },
+      {
+        "id": "T-0307",
+        "name": "Nhập liệu và đối chiếu",
+        "weight": 30,
+        "dueDate": "2026-10-11",
+        "doneDate": null,
+        "status": "todo"
+      },
+      {
+        "id": "T-0308",
+        "name": "Rà soát chênh lệch",
+        "weight": 40,
+        "dueDate": "2026-10-12",
+        "doneDate": null,
+        "status": "todo"
+      }
+    ]
+  },
+  {
+    "id": "G-073",
+    "employeeId": "ACC-04",
+    "name": "Kiểm kê kho thành phẩm chi nhánh Cần Thơ kỳ Quý 3",
+    "startDate": "2026-07-07",
+    "dueDate": "2026-07-22",
+    "totalDurationDays": 15,
+    "status": "completed",
+    "completedDate": "2026-07-20",
+    "tasks": [
+      {
+        "id": "T-0309",
+        "name": "Thu thập chứng từ",
+        "weight": 15,
+        "dueDate": "2026-07-11",
+        "doneDate": "2026-07-13",
+        "status": "done"
+      },
+      {
+        "id": "T-0310",
+        "name": "Nhập liệu và đối chiếu",
+        "weight": 25,
+        "dueDate": "2026-07-15",
+        "doneDate": "2026-07-12",
+        "status": "done"
+      },
+      {
+        "id": "T-0311",
+        "name": "Rà soát chênh lệch",
+        "weight": 30,
+        "dueDate": "2026-07-18",
+        "doneDate": "2026-07-16",
+        "status": "done"
+      },
+      {
+        "id": "T-0312",
+        "name": "Lập báo cáo",
+        "weight": 30,
+        "dueDate": "2026-07-22",
+        "doneDate": "2026-07-20",
+        "status": "done"
+      }
+    ]
+  },
+  {
+    "id": "G-074",
+    "employeeId": "ACC-04",
+    "name": "Hoàn tất báo cáo thống kê hao hụt nguyên vật liệu phân xưởng tháng 9",
+    "startDate": "2026-08-20",
+    "dueDate": "2026-09-04",
+    "totalDurationDays": 15,
+    "status": "completed",
+    "completedDate": "2026-09-03",
+    "tasks": [
+      {
+        "id": "T-0313",
+        "name": "Thu thập chứng từ",
+        "weight": 20,
+        "dueDate": "2026-08-24",
+        "doneDate": "2026-08-21",
+        "status": "done"
+      },
+      {
+        "id": "T-0314",
+        "name": "Nhập liệu và đối chiếu",
+        "weight": 20,
+        "dueDate": "2026-08-28",
+        "doneDate": "2026-08-26",
+        "status": "done"
+      },
+      {
+        "id": "T-0315",
+        "name": "Rà soát chênh lệch",
+        "weight": 30,
+        "dueDate": "2026-08-31",
+        "doneDate": "2026-08-30",
+        "status": "done"
+      },
+      {
+        "id": "T-0316",
+        "name": "Lập báo cáo",
+        "weight": 30,
+        "dueDate": "2026-09-04",
+        "doneDate": "2026-09-03",
+        "status": "done"
+      }
+    ]
+  },
+  {
+    "id": "G-075",
+    "employeeId": "ACC-04",
+    "name": "Tính giá thành sản xuất tiêu chuẩn cho dòng Sơn giao thông Quý 4",
+    "startDate": "2026-09-23",
+    "dueDate": "2026-10-23",
+    "totalDurationDays": 30,
+    "status": "in_progress",
+    "completedDate": null,
+    "tasks": [
+      {
+        "id": "T-0317",
+        "name": "Thu thập chứng từ",
+        "weight": 10,
+        "dueDate": "2026-09-29",
+        "doneDate": "2026-09-26",
+        "status": "done"
+      },
+      {
+        "id": "T-0318",
+        "name": "Nhập liệu và đối chiếu",
+        "weight": 20,
+        "dueDate": "2026-10-05",
+        "doneDate": "2026-10-01",
+        "status": "done"
+      },
+      {
+        "id": "T-0319",
+        "name": "Rà soát chênh lệch",
+        "weight": 20,
+        "dueDate": "2026-10-11",
+        "doneDate": "2026-10-06",
+        "status": "done"
+      },
+      {
+        "id": "T-0320",
+        "name": "Lập báo cáo",
+        "weight": 25,
+        "dueDate": "2026-10-17",
+        "doneDate": null,
+        "status": "in_progress"
+      },
+      {
+        "id": "T-0321",
+        "name": "Trình duyệt và lưu trữ",
+        "weight": 25,
+        "dueDate": "2026-10-23",
+        "doneDate": null,
+        "status": "todo"
+      }
+    ]
+  },
+  {
+    "id": "G-076",
+    "employeeId": "ACC-04",
+    "name": "Đối chiếu số liệu tồn kho Sơn PU sàn công nghiệp cuối tháng 10",
+    "startDate": "2026-10-09",
+    "dueDate": "2026-10-24",
+    "totalDurationDays": 15,
+    "status": "in_progress",
+    "completedDate": null,
+    "tasks": [
+      {
+        "id": "T-0322",
+        "name": "Thu thập chứng từ",
+        "weight": 20,
+        "dueDate": "2026-10-13",
+        "doneDate": "2026-10-10",
+        "status": "done"
+      },
+      {
+        "id": "T-0323",
+        "name": "Nhập liệu và đối chiếu",
+        "weight": 25,
+        "dueDate": "2026-10-17",
+        "doneDate": null,
+        "status": "in_progress"
+      },
+      {
+        "id": "T-0324",
+        "name": "Rà soát chênh lệch",
+        "weight": 25,
+        "dueDate": "2026-10-20",
+        "doneDate": null,
+        "status": "todo"
+      },
+      {
+        "id": "T-0325",
+        "name": "Lập báo cáo",
+        "weight": 30,
+        "dueDate": "2026-10-24",
+        "doneDate": null,
+        "status": "todo"
+      }
+    ]
+  },
+  {
+    "id": "G-077",
+    "employeeId": "ACC-05",
+    "name": "Kiểm kê kho thành phẩm chi nhánh Cần Thơ kỳ Quý 3",
+    "startDate": "2026-06-26",
+    "dueDate": "2026-07-11",
+    "totalDurationDays": 15,
+    "status": "completed",
+    "completedDate": "2026-07-17",
+    "tasks": [
+      {
+        "id": "T-0326",
+        "name": "Thu thập chứng từ",
+        "weight": 20,
+        "dueDate": "2026-06-30",
+        "doneDate": "2026-07-05",
+        "status": "done"
+      },
+      {
+        "id": "T-0327",
+        "name": "Nhập liệu và đối chiếu",
+        "weight": 25,
+        "dueDate": "2026-07-04",
+        "doneDate": "2026-07-12",
+        "status": "done"
+      },
+      {
+        "id": "T-0328",
+        "name": "Rà soát chênh lệch",
+        "weight": 25,
+        "dueDate": "2026-07-07",
+        "doneDate": "2026-07-14",
+        "status": "done"
+      },
+      {
+        "id": "T-0329",
+        "name": "Lập báo cáo",
+        "weight": 30,
+        "dueDate": "2026-07-11",
+        "doneDate": "2026-07-17",
+        "status": "done"
+      }
+    ]
+  },
+  {
+    "id": "G-078",
+    "employeeId": "ACC-05",
+    "name": "Kiểm kê kho thành phẩm chi nhánh Cần Thơ kỳ Quý 3",
+    "startDate": "2026-08-11",
+    "dueDate": "2026-08-26",
+    "totalDurationDays": 15,
+    "status": "completed",
+    "completedDate": "2026-09-01",
+    "tasks": [
+      {
+        "id": "T-0330",
+        "name": "Thu thập chứng từ",
+        "weight": 20,
+        "dueDate": "2026-08-15",
+        "doneDate": "2026-08-14",
+        "status": "done"
+      },
+      {
+        "id": "T-0331",
+        "name": "Nhập liệu và đối chiếu",
+        "weight": 20,
+        "dueDate": "2026-08-19",
+        "doneDate": "2026-08-16",
+        "status": "done"
+      },
+      {
+        "id": "T-0332",
+        "name": "Rà soát chênh lệch",
+        "weight": 30,
+        "dueDate": "2026-08-22",
+        "doneDate": "2026-08-28",
+        "status": "done"
+      },
+      {
+        "id": "T-0333",
+        "name": "Lập báo cáo",
+        "weight": 30,
+        "dueDate": "2026-08-26",
+        "doneDate": "2026-09-01",
+        "status": "done"
+      }
+    ]
+  },
+  {
+    "id": "G-079",
+    "employeeId": "ACC-05",
+    "name": "Cập nhật bảng thống kê sản lượng Sơn lót Epoxy E-204 tháng 10",
+    "startDate": "2026-09-21",
+    "dueDate": "2026-10-21",
+    "totalDurationDays": 30,
+    "status": "in_progress",
+    "completedDate": null,
+    "tasks": [
+      {
+        "id": "T-0334",
+        "name": "Thu thập chứng từ",
+        "weight": 15,
+        "dueDate": "2026-09-27",
+        "doneDate": "2026-10-02",
+        "status": "done"
+      },
+      {
+        "id": "T-0335",
+        "name": "Nhập liệu và đối chiếu",
+        "weight": 15,
+        "dueDate": "2026-10-03",
+        "doneDate": "2026-10-08",
+        "status": "done"
+      },
+      {
+        "id": "T-0336",
+        "name": "Rà soát chênh lệch",
+        "weight": 20,
+        "dueDate": "2026-10-09",
+        "doneDate": "2026-10-07",
+        "status": "done"
+      },
+      {
+        "id": "T-0337",
+        "name": "Lập báo cáo",
+        "weight": 25,
+        "dueDate": "2026-10-15",
+        "doneDate": "2026-10-11",
+        "status": "done"
+      },
+      {
+        "id": "T-0338",
+        "name": "Trình duyệt và lưu trữ",
+        "weight": 25,
+        "dueDate": "2026-10-21",
+        "doneDate": null,
+        "status": "in_progress"
+      }
+    ]
+  },
+  {
+    "id": "G-080",
+    "employeeId": "ACC-05",
+    "name": "Quyết toán công nợ nhà cung cấp Dung môi Xylene tháng 10",
+    "startDate": "2026-10-06",
+    "dueDate": "2026-10-21",
+    "totalDurationDays": 15,
+    "status": "in_progress",
+    "completedDate": null,
+    "tasks": [
+      {
+        "id": "T-0339",
+        "name": "Thu thập chứng từ",
+        "weight": 20,
+        "dueDate": "2026-10-10",
+        "doneDate": "2026-10-07",
+        "status": "done"
+      },
+      {
+        "id": "T-0340",
+        "name": "Nhập liệu và đối chiếu",
+        "weight": 20,
+        "dueDate": "2026-10-14",
+        "doneDate": null,
+        "status": "in_progress"
+      },
+      {
+        "id": "T-0341",
+        "name": "Rà soát chênh lệch",
+        "weight": 30,
+        "dueDate": "2026-10-17",
+        "doneDate": null,
+        "status": "todo"
+      },
+      {
+        "id": "T-0342",
+        "name": "Lập báo cáo",
+        "weight": 30,
+        "dueDate": "2026-10-21",
+        "doneDate": null,
+        "status": "todo"
+      }
+    ]
+  }
+]

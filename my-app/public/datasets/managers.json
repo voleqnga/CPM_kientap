@@ -1,0 +1,29 @@
+[
+  {
+    "id": "MGR-01",
+    "username": "mgr01",
+    "password": "123456",
+    "fullName": "Nguyễn Hoàng Long",
+    "role": "manager",
+    "department": "Business Dept.",
+    "managerId": null
+  },
+  {
+    "id": "MGR-02",
+    "username": "mgr02",
+    "password": "123456",
+    "fullName": "Phạm Thu Hằng",
+    "role": "manager",
+    "department": "R&D Technical Dept.",
+    "managerId": null
+  },
+  {
+    "id": "MGR-03",
+    "username": "mgr03",
+    "password": "123456",
+    "fullName": "Lê Minh Châu",
+    "role": "manager",
+    "department": "Accounting and Statistics Dept.",
+    "managerId": null
+  }
+]

@@ -1,0 +1,710 @@
+<div class="app">
+ 
+  <!-- ===================== BACKDROP ===================== -->
+  <div class="backdrop" [class.is-visible]="sidebarOpen" (click)="closeSidebar()"></div>
+ 
+  <!-- ===================== SIDEBAR (đóng/mở) ===================== -->
+  <aside class="sidebar" [class.is-open]="sidebarOpen" [attr.aria-hidden]="!sidebarOpen">
+    <div class="sidebar__main">
+      <div class="sidebar__brand">
+        <img class="sidebar__logo" [src]="assets.logo" alt="Logo DONASA Sơn Công Nghiệp">
+        <div class="sidebar__brand-text">
+          <span class="sidebar__name">DONASA</span>
+          <span class="sidebar__sub">Sơn Công Nghiệp</span>
+        </div>
+        <button type="button" class="icon-btn icon-btn--light" (click)="closeSidebar()" aria-label="Đóng menu">
+          <span class="material-symbols-outlined icon-xl">close</span>
+        </button>
+      </div>
+ 
+      <nav class="nav">
+        <a *ngFor="let item of navItems"
+           class="nav__link"
+           [routerLink]="item.path"
+           routerLinkActive="is-active"
+           (click)="closeSidebar()">
+          <span class="material-symbols-outlined icon-lg">{{ item.icon }}</span>
+          <span>{{ item.label }}</span>
+        </a>
+      </nav>
+    </div>
+ 
+    <div class="sidebar__footer">
+      <span>Phiên bản CPM-AI v1.0</span>
+      <span class="material-symbols-outlined icon-sm">smart_toy</span>
+    </div>
+  </aside>
+ 
+  <!-- ===================== TOP HEADER ===================== -->
+  <header class="topbar">
+    <div class="topbar__left">
+      <button type="button" class="icon-btn" (click)="toggleSidebar()"
+              [attr.aria-expanded]="sidebarOpen" aria-label="Đóng/mở menu">
+        <span class="material-symbols-outlined icon-2xl">{{ sidebarOpen ? 'menu_open' : 'menu' }}</span>
+      </button>
+ 
+      <div class="topbar__title">
+        <span class="material-symbols-outlined icon-xl text-primary">business_center</span>
+        <span>Hệ thống Quản lý Hiệu suất Liên tục (CPM)</span>
+      </div>
+ 
+      <div class="topbar__divider"></div>
+ 
+      <div class="topbar__period">
+        <span class="material-symbols-outlined icon-sm">calendar_today</span>
+        <span>Kỳ đánh giá:</span>
+        <strong>Tháng 10/2024</strong>
+      </div>
+    </div>
+ 
+    <div class="topbar__right">
+      <button type="button" class="icon-btn bell" aria-label="Thông báo">
+        <span class="material-symbols-outlined icon-xl">notifications</span>
+        <span class="bell__badge"></span>
+      </button>
+ 
+      <div class="topbar__divider topbar__divider--tall"></div>
+ 
+      <div class="user">
+        <div class="user__text">
+          <span class="user__name">{{ manager.name }}</span>
+          <span class="user__role">{{ manager.position }}</span>
+        </div>
+        <img class="user__avatar" [src]="assets.avatar" alt="Ảnh đại diện">
+      </div>
+      <button type="button" class="logout-btn" (click)="logout()">
+        Đăng xuất
+      </button>
+    </div>
+  </header>
+ 
+  <!-- ===================== MAIN ===================== -->
+  <main class="page">
+ 
+    <!-- 1. Header trang & bộ lọc -->
+    <section class="card page-head">
+      <div class="page-head__text">
+        <div class="page-head__tags">
+          <span class="role-tag">Vai trò: {{ selectedRole }}</span>
+          <span class="page-head__place">
+            <span class="material-symbols-outlined icon-sm">domain</span>
+            {{ pageInfo.location }}
+          </span>
+        </div>
+        <h1 class="page-head__title">{{ pageInfo.title }}</h1>
+        <p class="page-head__desc">{{ pageInfo.description }}</p>
+      </div>
+ 
+      <div class="filters">
+        <div class="select-wrap">
+          <select class="select" [(ngModel)]="filters.team" aria-label="Lọc theo nhóm">
+            <option *ngFor="let t of teamOptions" [value]="t.value">{{ t.label }}</option>
+          </select>
+          <span class="material-symbols-outlined icon-sm select-wrap__icon">expand_more</span>
+        </div>
+ 
+        <div class="select-wrap">
+          <select class="select" [(ngModel)]="filters.period" aria-label="Chọn kỳ đánh giá">
+            <option *ngFor="let p of periodOptions" [value]="p.value">{{ p.label }}</option>
+          </select>
+          <span class="material-symbols-outlined icon-sm select-wrap__icon">calendar_month</span>
+        </div>
+ 
+        <button type="button" class="btn btn--soft" (click)="exportPdf()">
+          <span class="material-symbols-outlined icon-sm">picture_as_pdf</span>
+          <span>Xuất báo cáo PDF</span>
+        </button>
+      </div>
+    </section>
+ 
+    <!-- 2. Bốn thẻ chỉ số -->
+    <section class="grid-4">
+      <!-- Thẻ 1: Tổng biên chế -->
+      <div class="card stat">
+        <div class="stat__top">
+          <div class="stat__text">
+            <span class="caption">Tổng biên chế</span>
+            <span class="stat__value">{{ summary.totalStaff }}</span>
+          </div>
+          <div class="stat__icon"><span class="material-symbols-outlined icon-xl">groups</span></div>
+        </div>
+        <div class="stat__foot">
+          <span class="muted">Trực thuộc {{ summary.teamCount }} nhóm kinh doanh</span>
+          <span class="stat__foot-strong">{{ summary.attendance }}</span>
+        </div>
+      </div>
+ 
+      <!-- Thẻ 2: KPI trung bình -->
+      <div class="card stat">
+        <div class="stat__top">
+          <div class="stat__text">
+            <span class="caption">KPI Trung bình</span>
+            <div class="stat__value-row">
+              <span class="stat__value">{{ summary.avgKpi }}%</span>
+              <span class="stat__unit">/ 100%</span>
+            </div>
+          </div>
+          <div class="stat__icon stat__icon--container"><span class="material-symbols-outlined icon-xl">speed</span></div>
+        </div>
+        <div class="stat__foot">
+          <div class="stat__trend">
+            <span class="material-symbols-outlined icon-sm">trending_up</span>
+            <span>{{ summary.avgKpiDelta }}</span>
+          </div>
+          <span class="muted">Chỉ tiêu: {{ summary.kpiTarget }}%</span>
+        </div>
+      </div>
+ 
+      <!-- Thẻ 3: Đạt KPI chuẩn -->
+      <div class="card stat">
+        <div class="stat__top">
+          <div class="stat__text">
+            <span class="caption">Đạt KPI chuẩn</span>
+            <div class="stat__value-row">
+              <span class="stat__value">{{ summary.achievedCount }}</span>
+              <span class="stat__unit">nhân viên</span>
+            </div>
+          </div>
+          <div class="stat__icon"><span class="material-symbols-outlined icon-xl">verified</span></div>
+        </div>
+        <div class="stat__foot">
+          <span class="muted">Chiếm {{ summary.achievedPercent }} quân số</span>
+          <span class="stat__status">
+            <span class="dot dot--primary"></span> Trạng thái tốt
+          </span>
+        </div>
+      </div>
+ 
+      <!-- Thẻ 4: Cần chú ý -->
+      <div class="card stat">
+        <div class="stat__top">
+          <div class="stat__text">
+            <span class="caption">Cần chú ý / Nguy cơ</span>
+            <div class="stat__value-row">
+              <span class="stat__value stat__value--error">{{ summary.atRiskCount }}</span>
+              <span class="stat__unit">nhân viên</span>
+            </div>
+          </div>
+          <div class="stat__icon stat__icon--error"><span class="material-symbols-outlined icon-xl">warning</span></div>
+        </div>
+        <div class="stat__foot stat__foot--error">
+          <span>Nguy cơ chậm tiến độ tháng này</span>
+          <span class="stat__foot-strong">{{ summary.atRiskPercent }}</span>
+        </div>
+      </div>
+    </section>
+ 
+    <!-- 3. AI cảnh báo nguy cơ -->
+    <section class="ai-panel">
+      <div class="ai-panel__head">
+        <div class="ai-panel__head-left">
+          <div class="ai-panel__icon">
+            <span class="material-symbols-outlined icon-xl text-primary">smart_toy</span>
+          </div>
+          <div class="stack">
+            <div class="ai-panel__title-row">
+              <span class="ai-panel__title">AI CẢNH BÁO NGUY CƠ TIẾN ĐỘ</span>
+              <span class="alert-count">{{ summary.atRiskCount }} cảnh báo hoạt động</span>
+            </div>
+            <span class="ai-panel__sub">{{ aiAlert.engineLabel }}</span>
+          </div>
+        </div>
+        <div class="confidence">
+          <span class="material-symbols-outlined icon-sm text-primary">auto_graph</span>
+          <span>Độ tin cậy mô hình: <strong>{{ aiAlert.modelConfidence }}</strong></span>
+        </div>
+      </div>
+ 
+      <div class="alert-box">
+        <div class="alert-box__title">
+          <span class="material-symbols-outlined icon-lg text-primary">priority_high</span>
+          <h2>AI phát hiện {{ summary.atRiskCount }} nhân viên có nguy cơ không đạt KPI tháng này.</h2>
+        </div>
+ 
+        <!-- Cảnh báo chi tiết: nhân viên rủi ro cao -->
+          <div class="triage__list">
+            <button *ngFor="let e of riskQueue" type="button" class="triage__chip"
+                    [class.is-active]="aiAlert.employee?.code === e.code" (click)="selectAlert(e)">
+              <span class="triage__dot" [class.is-high]="e.risk_label === 'High Risk'"></span>
+              {{ e.name }}
+              <small>{{ e.metrics.overdue_tasks }} việc trễ</small>
+            </button>
+          </div>
+
+          <div class="patterns" *ngIf="teamPatterns.length">
+            <span class="material-symbols-outlined icon-lg">hub</span>
+            <div>
+              <strong>Vấn đề chung của nhóm:</strong>
+              <span *ngFor="let p of teamPatterns">
+                việc “{{ p.task }}” đang trễ ở {{ p.count }}/{{ riskQueue.length }} người.
+              </span>
+              <span class="muted small">Nên xem lại quy trình hoặc nguồn lực cho bước này.</span>
+            </div>
+          </div>
+
+          <div class="alert-item" *ngIf="aiAlert.employee as emp">
+            <div class="alert-item__person">
+              <div class="avatar-lg">{{ emp.initials }}</div>
+              <div class="stack">
+                <div class="alert-item__name-row">
+                  <span class="alert-item__name">{{ emp.name }}</span>
+                  <span class="code-chip">{{ emp.code }}</span>
+                  <span class="risk-flag"
+                        [ngClass]="{'risk-flag--low': emp.risk_label === 'Low Risk', 'risk-flag--high': emp.risk_label === 'High Risk'}">
+                    {{ emp.risk_label }}
+                  </span>
+                </div>
+                <span class="muted small">{{ emp.teamName }} • {{ emp.jobTitle }}</span>
+                <div class="forecast">
+                  <span class="muted small">Dự báo hoàn thành khi hết hạn:</span>
+                  <strong>{{ emp.forecast }}%</strong>
+                  <div class="mini-bar"><div class="mini-bar__fill" [style.width.%]="emp.forecast"></div></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="analysis">
+              <div class="analysis__col">
+                <div class="analysis__label analysis__label--error">
+                  <span class="material-symbols-outlined icon-sm">event_busy</span>
+                  <span>Việc đang quá hạn ({{ emp.overdueItems.length }}):</span>
+                </div>
+                <ul class="analysis__list">
+                  <li *ngFor="let i of emp.overdueItems">
+                    <strong>{{ i.task }}</strong>
+                    <span class="muted small"> · {{ i.goal }} · trễ {{ i.daysLate }} ngày (hạn {{ i.dueDate }})</span>
+                  </li>
+                  <li *ngIf="!emp.overdueItems.length" class="muted small">
+                    Chưa có việc quá hạn, rủi ro do tiến độ chậm hơn kế hoạch.
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="alert-item__actions">
+              <button type="button" class="btn btn--primary" (click)="coachWithAi(emp)">
+                <span class="material-symbols-outlined icon-sm">psychology</span>
+                <span>Coaching</span>
+              </button>
+              <button type="button" class="btn-act" title="Xem hồ sơ chi tiết" (click)="viewProfile(emp)">
+                <span class="material-symbols-outlined icon-sm">visibility</span>
+                <span>Xem chi tiết</span>
+              </button>
+            </div>
+          </div>
+ 
+          <div class="analysis">
+            <div class="analysis__col">
+              <div class="analysis__label analysis__label--error">
+                <span class="material-symbols-outlined icon-sm">troubleshoot</span>
+                <span>Nguyên nhân AI phân tích (SHAP):</span>
+              </div>
+              <ul class="analysis__list">
+                <li *ngFor="let r of aiAlert.reasons">{{ r.prefix }}<strong>{{ r.highlight }}</strong>{{ r.suffix }}</li>
+              </ul>
+            </div>
+            <div class="analysis__col">
+              <div class="analysis__label analysis__label--primary">
+                <span class="material-symbols-outlined icon-sm">lightbulb</span>
+                <span>Đề xuất từ AI Coaching:</span>
+              </div>
+              <p class="analysis__text">{{ aiAlert.coaching }}</p>
+            </div>
+          </div>
+        </div>
+    </section>
+
+    <!-- 5. Công cụ quản trị & điều hành KPI -->
+    <section class="card tools">
+      <div class="tools__info">
+        <div class="stat__icon"><span class="material-symbols-outlined icon-xl">admin_panel_settings</span></div>
+        <div class="stack">
+          <span class="tools__title">Công cụ Quản trị &amp; Điều hành KPI</span>
+          <span class="muted small">Tùy chỉnh phân quyền chỉ tiêu, hiệu chỉnh trọng số KPI và kích hoạt chương trình coaching cho nhân sự có nguy cơ</span>
+        </div>
+      </div>
+ 
+      <div class="tools__actions">
+        <button type="button" class="btn btn--primary btn--lg" (click)="onToolClick('assign')">
+          <span class="material-symbols-outlined icon-lg">add_task</span>
+          <span>+ Giao chỉ tiêu KPI mới</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- 4. Danh sách nhân viên & tiến độ KPI -->
+    <section class="card table-card">
+      <div class="table-head">
+        <div class="stack">
+          <h2 class="table-head__title">Danh sách Nhân viên và Tiến độ KPI</h2>
+          <span class="muted small">Bảng tổng hợp điểm tự đánh giá và phê duyệt trực tiếp của Trưởng nhóm / Trưởng phòng</span>
+        </div>
+        <div class="table-head__tools">
+          <div class="search">
+            <input class="search__input" type="text" placeholder="Tìm theo tên hoặc mã NV..."
+                   [(ngModel)]="filters.search" aria-label="Tìm nhân viên">
+            <span class="material-symbols-outlined icon-sm search__icon">search</span>
+          </div>
+          <div class="sort-wrap">
+            <button type="button" class="icon-btn icon-btn--box" title="Sắp xếp"
+                    (click)="sortOpen = !sortOpen" [attr.aria-expanded]="sortOpen">
+              <span class="material-symbols-outlined icon-base">filter_list</span>
+            </button>
+            <div class="sort-menu" *ngIf="sortOpen">
+              <button *ngFor="let o of sortOptions" type="button" class="sort-menu__item"
+                      [class.is-active]="sortBy === o.value" (click)="setSort(o.value)">
+                {{ o.label }}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+ 
+      <div class="bulk-bar" *ngIf="selected.size > 0">
+        <span>Đã chọn <strong>{{ selected.size }}</strong> nhân viên</span>
+        <button type="button" class="btn btn--soft" (click)="selected.clear()">Bỏ chọn</button>
+        <button type="button" class="btn btn--primary" (click)="openReview(selectedList)">
+            <span class="material-symbols-outlined icon-sm">send</span>
+            <span>Đánh giá {{ selected.size }} người đã chọn</span>
+        </button>
+      </div>
+
+      <div class="table-wrap">
+        <table class="table">
+          <thead>
+            <tr>
+              <th><input type="checkbox" [checked]="allSelected" (change)="toggleAll()" aria-label="Chọn tất cả"></th>
+              <th>Mã NV</th>
+              <th>Nhân viên</th>
+              <th>Bộ phận / Nhóm</th>
+              <th>KPI Hiện tại</th>
+              <th>Tổng quan mục tiêu</th>
+              <th>Hồ sơ</th>
+              <th>Trạng thái</th>
+              <th class="ta-right">Đánh giá của Quản lý</th> 
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let emp of filteredEmployees; let odd = odd"
+                [class.is-striped]="odd"
+                [ngClass]="{
+                  'risk-normal': emp.risk_label === 'Normal',
+                  'risk-low': emp.risk_label === 'Low Risk',
+                  'risk-high': emp.risk_label === 'High Risk'
+                }">
+              <td>
+                <input type="checkbox"
+                      [checked]="selected.has(emp.code)"
+                      (change)="toggle(emp.code)"
+                      [attr.aria-label]="'Chọn ' + emp.name">
+              </td>
+              <td class="cell-code">{{ emp.code }}</td>
+              <td>
+                <div class="emp">
+                  <div class="emp__avatar">{{ emp.initials }}</div>
+                  <div class="stack">
+                    <span class="emp__name">{{ emp.name }}</span>
+                    <span class="emp__job">{{ emp.jobTitle }}</span>
+                  </div>
+                </div>
+              </td>
+              <td class="muted small">{{ emp.teamName }}</td>
+              <td>
+                <div class="kpi-cell">
+                  <span class="kpi-cell__value">{{ emp.kpi }}%</span>
+                  <div class="mini-bar"><div class="mini-bar__fill" [style.width.%]="emp.kpi"></div></div>
+                </div>
+              </td>
+              <td class="cell-self">{{ emp.selfAssessment }}</td>
+              <td>
+                <button type="button" class="btn-act" title="Xem hồ sơ chi tiết" (click)="viewProfile(emp)">
+                  Chi tiết
+                </button>
+              </td>
+              <td>
+                <span class="status">
+                  <span class="dot dot--tone"></span> {{ emp.statusLabel }}
+                </span>
+              </td>
+              <td class="ta-right">
+                <p class="fb-text" *ngIf="emp.feedback" [title]="emp.feedback">{{ emp.feedback }}</p>
+                <button type="button" class="btn-act" (click)="openReview([emp])">
+                    {{ emp.feedback ? 'Đã đánh giá' : 'Đánh giá' }}
+                </button>
+              </td> 
+            </tr>
+            <tr *ngIf="filteredEmployees.length === 0">
+              <td colspan="9" class="empty">Không tìm thấy nhân viên phù hợp.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+ 
+      <div class="table-foot">
+        <span class="muted small">Hiển thị {{ filteredEmployees.length }} trên tổng số {{ summary.totalStaff }} nhân viên thuộc quyền quản lý</span>
+        <div class="pager">
+          <button type="button" class="pager__btn" [disabled]="currentPage === 1" (click)="prevPage()">Trước</button>
+          <button *ngFor="let p of pages" type="button" class="pager__btn"
+                  [class.is-current]="p === currentPage" (click)="goToPage(p)">{{ p }}</button>
+          <button type="button" class="pager__btn" [disabled]="currentPage === pages.length" (click)="nextPage()">Tiếp</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Giao task -->
+  <div class="assign-task-overlay" *ngIf="showAssignTaskModal" (click)="closeAssignTaskModal()">
+    <section class="assign-task-dialog" role="dialog" aria-modal="true" aria-labelledby="assign-task-title"
+             (click)="$event.stopPropagation()">
+      <header class="assign-task-dialog__header">
+        <div>
+          <span class="caption">Giao việc cho nhân viên</span>
+          <h2 id="assign-task-title">Tạo task mới</h2>
+        </div>
+        <button type="button" class="icon-btn" (click)="closeAssignTaskModal()" aria-label="Đóng">
+          <span class="material-symbols-outlined">close</span>
+        </button>
+      </header>
+
+      <form class="assign-task-form" (ngSubmit)="assignTask()">
+        <label class="assign-task-field">
+          <span>Nhân viên nhận task</span>
+          <select name="employeeId" [(ngModel)]="taskDraft.employeeId" required>
+            <option *ngFor="let employee of assignableEmployees" [value]="employee.id">
+              {{ employee.fullName }} · {{ employee.id }}
+            </option>
+          </select>
+        </label>
+
+        <label class="assign-task-field">
+          <span>Tên task</span>
+          <input name="taskName" [(ngModel)]="taskDraft.name" required maxlength="120"
+                 placeholder="Ví dụ: Tổng kết công nợ đại lý cấp 1 - Quý 3">
+        </label>
+
+        <div class="assign-task-form__row">
+          <label class="assign-task-field">
+            <span>Deadline</span>
+            <input type="date" name="taskDeadline" [(ngModel)]="taskDraft.deadline" required>
+          </label>
+        </div>
+
+        <label class="assign-task-field">
+          <span>Mô tả / hướng dẫn</span>
+          <textarea name="taskDescription" [(ngModel)]="taskDraft.description" required rows="3"
+                    maxlength="300" placeholder="Mô tả kết quả cần hoàn thành"></textarea>
+        </label>
+
+        <p class="form-error" *ngIf="assignError">{{ assignError }}</p>
+        <footer class="assign-task-dialog__actions">
+          <button type="button" class="btn btn--soft" (click)="closeAssignTaskModal()">Hủy</button>
+          <button type="submit" class="btn btn--primary">
+            <span class="material-symbols-outlined icon-sm">send</span>
+            Giao task
+          </button>
+        </footer>
+      </form>
+    </section>
+  </div>
+
+  <!-- Pop up Manager/AI feedback -->
+  <div class="assign-task-overlay" *ngIf="review.open" (click)="review.open = false">
+    <section class="assign-task-dialog review-dialog" role="dialog" aria-modal="true"
+             (click)="$event.stopPropagation()">
+      <header class="assign-task-dialog__header">
+        <div>
+          <span class="caption">Đánh giá & Coaching</span>
+          <h2>
+            {{ review.targets.length === 1 ? review.targets[0].name : review.targets.length + ' nhân viên được chọn' }}
+          </h2>
+        </div>
+        <button type="button" class="icon-btn" (click)="review.open = false" aria-label="Đóng">
+          <span class="material-symbols-outlined">close</span>
+        </button>
+      </header>
+
+      <!-- checkbox chọn người để gửi -->
+      <div class="recipients" *ngIf="review.targets.length > 1">
+          <span class="muted small">Người nhận:</span>
+          <span class="chip" *ngFor="let t of review.targets">
+              {{ t.name }}
+              <button type="button" class="chip__x" (click)="removeTarget(t)" [attr.aria-label]="'Bỏ ' + t.name">×</button>
+          </span>
+      </div>
+
+      <div class="review-grid">
+        <!-- Ô 1: AI gợi ý -->
+        <div class="review-box review-box--ai">
+          <div class="review-box__head">
+            <span><span class="material-symbols-outlined icon-sm">smart_toy</span> AI gợi ý (dựa trên evidence)</span>
+            <button type="button" class="btn btn--soft" (click)="generateAi()">
+              {{ review.ai ? 'Tạo lại' : 'Tạo gợi ý' }}
+            </button>
+          </div>
+          <p class="review-box__ai-text" *ngIf="review.ai">{{ review.ai }}</p>
+          <p class="muted small" *ngIf="!review.ai">Bấm "Tạo gợi ý" nếu muốn AI soạn nháp. Không bắt buộc.</p>
+          <button type="button" class="btn btn--primary" *ngIf="review.ai" (click)="applyAi()">
+            Áp dụng sang ô của tôi →
+          </button>
+        </div>
+
+        <!-- Ô 2: Quản lý nhập -->
+        <div class="review-box">
+          <div class="review-box__head"><span>Nhận xét của quản lý</span></div>
+          <textarea class="review-box__input" rows="8" [(ngModel)]="review.text"
+                    placeholder="Nhập nhận xét / coaching..."></textarea>
+        </div>
+      </div>
+
+      <footer class="assign-task-dialog__actions">
+        <button type="button" class="btn btn--soft" (click)="review.open = false">Hủy</button>
+        <button type="button" class="btn btn--primary" [disabled]="!review.text.trim()" (click)="sendReview()">
+          <span class="material-symbols-outlined icon-sm">send</span>
+          Gửi{{ review.targets.length > 1 ? ' cho ' + review.targets.length + ' người' : '' }}
+        </button>
+      </footer>
+    </section>
+  </div><!-- /overlay review (ĐÃ SỬA: thêm thẻ đóng) -->
+
+  <!-- ===================== MODAL: CHI TIẾT NHÂN VIÊN ===================== -->
+  <div class="modal" *ngIf="selectedEmployeeForDetail as emp" (click)="closeDetailModal()">
+    <div class="modal__dialog modal__dialog--detail"
+         role="dialog" aria-modal="true" aria-labelledby="detail-title"
+         [ngClass]="{
+           'st-good': emp.status === 'Tốt',
+           'st-ok': emp.status === 'Đạt',
+           'st-warn': emp.status === 'Cảnh báo',
+           'st-risk': emp.status === 'Rủi ro'
+         }"
+         (click)="$event.stopPropagation()">
+
+      <!-- Đầu modal -->
+      <div class="detail-head">
+        <div class="detail-head__left">
+          <div class="detail-avatar" aria-hidden="true">{{ emp.initials }}</div>
+          <div class="stack">
+            <h3 id="detail-title" class="detail-name">{{ emp.name }}</h3>
+            <div class="detail-tags">
+              <span class="cell-code">{{ emp.code }}</span>
+              <span class="status">
+                <span class="dot dot--tone"></span> {{ emp.status }}
+              </span>
+              <span class="risk-chip"
+                    [ngClass]="{
+                      'risk-chip--normal': emp.risk_label === 'Normal',
+                      'risk-chip--low': emp.risk_label === 'Low Risk',
+                      'risk-chip--high': emp.risk_label === 'High Risk'
+                    }">{{ emp.risk_label }}</span>
+            </div>
+          </div>
+        </div>
+        <button type="button" class="icon-btn" (click)="closeDetailModal()" aria-label="Đóng">
+          <span class="material-symbols-outlined icon-lg">close</span>
+        </button>
+      </div>
+
+      <div class="modal__body">
+
+        <!-- 1. Thông tin hồ sơ -->
+        <section class="detail-section">
+          <h4 class="detail-section__title">Thông tin hồ sơ</h4>
+          <div class="detail-info">
+            <div class="detail-info__item">
+              <span class="detail-info__label">Mã nhân viên</span>
+              <span class="detail-info__value">{{ emp.code }}</span>
+            </div>
+            <div class="detail-info__item">
+              <span class="detail-info__label">Tên đăng nhập</span>
+              <span class="detail-info__value">{{ emp.username }}</span>
+            </div>
+            <div class="detail-info__item">
+              <span class="detail-info__label">Phòng ban</span>
+              <span class="detail-info__value">{{ emp.departmentLabel }}</span>
+            </div>
+            <div class="detail-info__item">
+              <span class="detail-info__label">Chức vụ</span>
+              <span class="detail-info__value">{{ emp.jobTitle }}</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- 2. Tiến độ KPI -->
+        <section class="detail-section">
+          <h4 class="detail-section__title">Tiến độ KPI</h4>
+
+          <ng-container *ngIf="selectedSummary as s; else noSummary">
+            <div class="detail-stats">
+              <div class="stat-tile">
+                <span class="stat-tile__label">Thực tế</span>
+                <span class="stat-tile__value">{{ s.avgActual | number:'1.1-1' }}%</span>
+              </div>
+              <div class="stat-tile">
+                <span class="stat-tile__label">Kỳ vọng</span>
+                <span class="stat-tile__value">{{ s.avgExpected | number:'1.1-1' }}%</span>
+              </div>
+              <div class="stat-tile" [class.stat-tile--warn]="detailGap >= 5">
+                <span class="stat-tile__label">Chênh lệch</span>
+                <span class="stat-tile__value">{{ detailGap | number:'1.1-1' }}%</span>
+              </div>
+              <div class="stat-tile" [class.stat-tile--error]="s.overdueTotal > 0">
+                <span class="stat-tile__label">Task quá hạn</span>
+                <span class="stat-tile__value">{{ s.overdueTotal }}</span>
+              </div>
+            </div>
+
+            <!-- Thanh tiến độ: phần tô = thực tế, vạch đứng = kỳ vọng -->
+            <div class="detail-progress" role="img"
+                 [attr.aria-label]="'Thực tế ' + s.avgActual + ' phần trăm, kỳ vọng ' + s.avgExpected + ' phần trăm'">
+              <div class="detail-progress__track">
+                <div class="detail-progress__fill" [style.width.%]="s.avgActual"></div>
+                <div class="detail-progress__marker" [style.left.%]="s.avgExpected"></div>
+              </div>
+              <div class="detail-progress__legend">
+                <span><span class="legend-box legend-box--fill"></span> Thực tế</span>
+                <span><span class="legend-box legend-box--marker"></span> Kỳ vọng</span>
+              </div>
+            </div>
+
+            <p class="detail-note">
+              Đã hoàn thành <strong class="strong-dark">{{ s.completedGoals }}/{{ s.totalGoals }}</strong> mục tiêu,
+              còn <strong class="strong-dark">{{ s.activeGoals.length }}</strong> mục tiêu đang chạy.
+            </p>
+          </ng-container>
+
+          <ng-template #noSummary>
+            <p class="detail-note">Chưa có dữ liệu tổng hợp KPI cho nhân viên này.</p>
+          </ng-template>
+        </section>
+
+        <!-- 3. Mục tiêu đang theo dõi (hạn còn lại) -->
+        <section class="detail-section">
+          <h4 class="detail-section__title">Hạn các mục tiêu</h4>
+
+          <p class="detail-note" *ngIf="goalsLoading">Đang tải mục tiêu...</p>
+          <p class="detail-note" *ngIf="!goalsLoading && goalDeadlines.length === 0">Nhân viên chưa có mục tiêu nào.</p>
+
+          <ul class="goal-list" *ngIf="!goalsLoading && goalDeadlines.length > 0">
+            <li class="goal-item" *ngFor="let days of goalDeadlines; let i = index">
+              <span>Mục tiêu {{ i + 1 }}</span>
+              <span class="goal-item__days"
+                    [class.goal-item__days--urgent]="days >= 0 && days < 10"
+                    [class.goal-item__days--overdue]="days < 0">
+                <ng-container *ngIf="days >= 0">Còn {{ days }} ngày</ng-container>
+                <ng-container *ngIf="days < 0">Quá hạn {{ -days }} ngày</ng-container>
+              </span>
+            </li>
+          </ul>
+        </section>
+
+        <div class="modal__actions">
+          <button type="button" class="btn btn--cancel btn--xl" (click)="closeDetailModal()">Đóng</button>
+          <!-- ĐÃ SỬA: bọc 2 thẻ span vào button -->
+          <button type="button" class="btn btn--primary btn--xl" (click)="reviewFromDetail()">
+            <span class="material-symbols-outlined icon-lg">rate_review</span>
+            <span>Đánh giá KPI chi tiết</span>
+          </button>
+        </div>
+      </div><!-- /modal__body -->
+    </div><!-- /modal__dialog--detail -->
+  </div><!-- /modal chi tiết -->
+</div><!-- /app -->

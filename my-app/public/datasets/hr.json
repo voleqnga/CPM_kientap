@@ -1,0 +1,11 @@
+[
+  {
+    "id": "HR-01",
+    "username": "hr01",
+    "password": "123456",
+    "fullName": "Trần Thanh Mai",
+    "role": "hr",
+    "department": "Human Resources Dept.",
+    "managerId": null
+  }
+]

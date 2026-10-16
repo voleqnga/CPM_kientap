@@ -1,0 +1,69 @@
+<div class="login-page">
+  <div class="login-card">
+    <div class="login-brand">
+      <div class="login-logo">D</div>
+      <div>
+        <h1 class="login-title">Donasa CPM</h1>
+        <p class="login-subtitle">Quản lý hiệu suất liên tục</p>
+      </div>
+    </div>
+ 
+    <form #loginForm="ngForm" (ngSubmit)="onSubmit()" novalidate>
+      <div class="field">
+        <label for="username">Tên đăng nhập</label>
+        <input
+          id="username"
+          name="username"
+          type="text"
+          autocomplete="username"
+          placeholder="bus01"
+          [(ngModel)]="username"
+          required
+          [class.invalid]="submitted && !username.trim()"
+        />
+        <p class="field-error" *ngIf="submitted && !username.trim()">Nhập tên đăng nhập</p>
+      </div>
+ 
+      <div class="field">
+        <label for="password">Mật khẩu</label>
+        <div class="password-row">
+          <input
+            id="password"
+            name="password"
+            [type]="showPassword ? 'text' : 'password'"
+            autocomplete="current-password"
+            placeholder="Nhập mật khẩu"
+            [(ngModel)]="password"
+            required
+            [class.invalid]="submitted && !password"
+          />
+          <button type="button" class="toggle-btn" (click)="togglePassword()">
+            {{ showPassword ? 'Ẩn' : 'Hiện' }}
+          </button>
+        </div>
+        <p class="field-error" *ngIf="submitted && !password">Nhập mật khẩu</p>
+      </div>
+ 
+      <p class="form-error" *ngIf="errorMessage">{{ errorMessage }}</p>
+ 
+      <button type="submit" class="submit-btn" [class.loading]="loading">
+        {{ loading ? 'Đang đăng nhập…' : 'Đăng nhập' }}
+      </button>
+    </form>
+ 
+    <div class="demo">
+      <p class="demo-title">Tài khoản demo</p>
+      <div class="demo-list">
+        <button
+          type="button"
+          class="demo-btn"
+          *ngFor="let acc of demoAccounts"
+          (click)="fillDemo(acc.username)"
+        >
+          {{ acc.label }}
+        </button>
+      </div>
+      <p class="demo-hint">Bấm để điền sẵn, mật khẩu chung là 123456</p>
+    </div>
+  </div>
+</div>
