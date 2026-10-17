@@ -20,6 +20,7 @@ const CUSTOM_TASKS_KEY = 'cpm_custom_tasks';              // localStorage: đầ
 const CUSTOM_TASK_PREFIX = 'custom-'; // id của đầu việc nhân viên tự thêm
 const ASSIGNED_GOALS_KEY = 'cpm_assigned_goals';
 const FEEDBACK_KEY = 'cpm_manager_feedback';
+const SELF_TASK_ID = 'self'; // task cho goal chưa có task con: hoàn thành task này = hoàn thành goal
 
 
 // "Hôm nay" của dữ liệu mock. Khi có backend thật thì đổi thành new Date()
@@ -95,12 +96,32 @@ export class DataService {
     completions[`${employeeId}:${goalId}:${taskId}`] = TODAY;
     localStorage.setItem(TASK_COMPLETIONS_KEY, JSON.stringify(completions));
   }
+  // Goal chưa có task con: nhân viên hoàn thành thẳng cả goal
+  completeGoal(employeeId: string, goalId: string): void {
+    this.completeTask(employeeId, goalId, SELF_TASK_ID);
+  }
+
+  // Các task con thật của goal (không tính task ảo)
+  realTasksOf(goal: Goal): Task[] {
+    return goal.tasks.filter((t) => t.id !== SELF_TASK_ID);
+  }
+
+  hasSubTasks(goal: Goal): boolean {
+    return this.realTasksOf(goal).length > 0;
+  }
 
   // Nhân viên tự thêm một đầu việc con vào goal (trọng số do hệ thống tự chia đều, xem splitWeights)
   addTask(employeeId: string, goalId: string, name: string, dueDate: string): void {
     const all = this.readCustomTasks();
     const key = `${employeeId}:${goalId}`;
     const list = all[key] ?? [];
+
+    // Task con đầu tiên: nếu trước đó đã bấm hoàn thành cả goal thì bỏ trạng thái đó
+    if (list.length === 0) {
+      const done = this.readTaskCompletions();
+      delete done[`${employeeId}:${goalId}:${SELF_TASK_ID}`];
+      localStorage.setItem(TASK_COMPLETIONS_KEY, JSON.stringify(done));
+    }
     list.push({ id: `${CUSTOM_TASK_PREFIX}${Date.now()}`, name, dueDate });
     all[key] = list;
     localStorage.setItem(CUSTOM_TASKS_KEY, JSON.stringify(all));
@@ -266,6 +287,7 @@ export class DataService {
   }
 
   // Rủi ro = goal đang chạy xấu nhất
+  
   riskOf(goals: Goal[]): RiskLevel {
   let worst: RiskLevel = 'Normal';
   for (const g of goals.filter((x) => x.status === 'in_progress')) {
@@ -302,7 +324,7 @@ export class DataService {
     const employeeGoals = goals.filter((goal) => goal.employeeId === employee.id);
     const active = employeeGoals.filter((goal) => goal.status === 'in_progress');
     const mine = checkins.filter((c) => c.employeeId === employee.id);
-    const p = this.employeeProgress(employeeGoals);          // chỉ để hiển thị
+    const p = this.employeeProgress(active.length ? active : employeeGoals);          // chỉ để hiển thị
     const overdue = active.reduce((s, g) => s + this.overdueTasksOf(g).length, 0);
     const latestRisk = this.riskOf(employeeGoals);
     return {
@@ -329,10 +351,15 @@ export class DataService {
     const completions = this.readTaskCompletions();
     const extra = this.readCustomTasks()[`${employeeId}:${goal.id}`] ?? [];
 
-    const merged: Task[] = [
-      ...goal.tasks,
-      ...extra.map((t) => ({ ...t, weight: 0, doneDate: null, status: 'pending' }) as unknown as Task)
-    ];
+    // Chưa có task nào (kể cả task nhân viên tự thêm): coi cả goal là một task nặng 100%
+    const noRealTasks = goal.tasks.length === 0 && extra.length === 0;
+    const merged: Task[] = noRealTasks
+      ? [{ id: SELF_TASK_ID, name: 'Hoàn thành mục tiêu', weight: 100,
+           dueDate: goal.dueDate, doneDate: null, status: 'todo' }]
+      : [
+          ...goal.tasks,
+          ...extra.map((t) => ({ ...t, weight: 0, doneDate: null, status: 'pending' }) as unknown as Task)
+        ];
     const base = this.splitWeights(merged);
 
     const tasks = base.map((task) => {

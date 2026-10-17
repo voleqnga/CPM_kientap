@@ -3,8 +3,16 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
 import { AuthService, User } from '../../classes/authService';
 import { DataService, ManagerFeedback } from '../../classes/data';
-import { Goal } from '../../classes/cpn';
+import { Goal, Task } from '../../classes/cpn';
 import { TaskAssignment, TaskAssignmentService } from '../../services/task-assignment.service';
+
+
+
+function endOfMonth(): string {
+  const last = new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0);
+  const month = String(last.getMonth() + 1).padStart(2, '0');
+  return `${last.getFullYear()}-${month}-${String(last.getDate()).padStart(2, '0')}`;
+}
 
 /* ==========================================================================
    PHẦN A. MODELS (kiểu dữ liệu)
@@ -59,6 +67,8 @@ export interface ProgressBlock {
   daysRemaining: number;
   timeLeftRatio: number;
   overdueTasks: number;
+  hasSubTasks: boolean;   // goal có task con thật hay không
+  completed: boolean;     // goal đã hoàn thành
   tasks: { id: string; name: string; weight: number; done: boolean; dueDate: string }[];
 }
 
@@ -75,6 +85,7 @@ export interface KpiRow {
   statusLabel: string;
   currentValue: number;
   actionType: 'update' | 'view';
+  hasSubTasks: boolean;
   done: boolean; // true = goal đã hoàn thành, nằm trong "lịch sử"
 }
 
@@ -187,7 +198,7 @@ export class EmployeeDashboard implements OnInit {
   private updateMetrics(goals: Goal[]): void {
     const activeGoals = goals.filter(goal => goal.status === 'in_progress');
     const metricGoals = activeGoals.length ? activeGoals : goals;
-    const p = this.dataService.employeeProgress(goals);
+    const p = this.dataService.employeeProgress(metricGoals);
 
     this.metrics.actual_progress = p.actual;
     this.metrics.expected_progress = p.expected;
@@ -226,7 +237,7 @@ export class EmployeeDashboard implements OnInit {
         percent,                                                   // thanh "Thực tế"
         expectedPercent: this.dataService.expectedProgress(goal),  // thanh "Kỳ vọng"
         gap: this.dataService.progressGap(goal),                   // kỳ vọng - thực tế
-        tone: this.toneOfGap(gap),
+        tone: this.toneOfGoal(goal),
         leftLabel: 'Task hoàn thành',
         leftValue: `${doneTasks}/${goal.tasks.length}`,
         rightLabel: 'Hạn hoàn thành',
@@ -234,6 +245,8 @@ export class EmployeeDashboard implements OnInit {
         daysRemaining: this.dataService.daysRemaining(goal),
         timeLeftRatio: this.dataService.timeLeftRatio(goal),
         overdueTasks: this.dataService.overdueTasksOf(goal).length,
+        hasSubTasks: this.dataService.hasSubTasks(goal),
+        completed: goal.status === 'completed',
         tasks: goal.tasks.map(task => ({
           id: task.id,
           name: task.name,
@@ -252,31 +265,37 @@ export class EmployeeDashboard implements OnInit {
   private buildKpiRows(goals: Goal[]): void {
     this.kpiRows = goals.map(goal => {
       const percent = this.dataService.currentProgress(goal);
-      const doneTasks = goal.tasks.filter(task => task.doneDate !== null).length;
-      const progressText = goal.tasks.length
-      ? `${doneTasks}/${goal.tasks.length} đầu việc hoàn thành`: '';
+      const subTasks = this.dataService.realTasksOf(goal);
+      const hasSubTasks = subTasks.length > 0;
+      const doneSub = subTasks.filter(task => task.doneDate !== null).length;
+      const completed = goal.status === 'completed';
+      const progressText = hasSubTasks ? `${doneSub}/${subTasks.length} đầu việc hoàn thành` : '';
       return {
         id: goal.id,
         icon: goal.assignedBy ? 'assignment_add' : 'task_alt',
         name: goal.name,
         description: [goal.description, progressText].filter(Boolean).join(' · '),
-        target: goal.assignedBy
-          ? `Hạn ${goal.dueDate}`
-          : `Hạn ${goal.dueDate}`,
-        actual: `${doneTasks}/${goal.tasks.length} đầu việc`,
+        target: `Hạn ${goal.dueDate}`,
+        actual: hasSubTasks ? `${doneSub}/${subTasks.length} đầu việc` : completed ? 'Đã hoàn thành' : 'Chưa hoàn thành',
         percent,
-        tone: this.toneOfGap(this.dataService.progressGap(goal)),
-        statusLabel: goal.status === 'completed' ? 'Hoàn thành' : 'Đang thực hiện',
+        tone: this.toneOfGoal(goal),
+        statusLabel: completed ? 'Hoàn thành' : 'Đang thực hiện',
         currentValue: percent,
         actionType: 'update' as const,
-        done: goal.status === 'completed'
+        hasSubTasks,
+        done: completed
       };
     });
   }
-
-  /** Màu theo phần trăm: từ 80 là xanh (good), từ 50 là vàng (warn), dưới 50 là đỏ (bad) */
-  private toneOfGap(gap: number): Tone {
-  return gap <= 0 ? 'good' : gap <= 15 ? 'warn' : 'bad';
+  /** Màu của goal theo mức rủi ro: Normal xanh, Low Risk vàng, High Risk đỏ (cùng luật với nhãn ở khối AI) */
+  private toneOfGoal(goal: Goal): Tone {
+    if (goal.status === 'completed') return 'good';
+    const risk = this.dataService.riskLevelFor(
+      this.dataService.progressGap(goal),
+      this.dataService.overdueTasksOf(goal).length,
+      this.dataService.daysRemaining(goal)
+    );
+    return risk === 'High Risk' ? 'bad' : risk === 'Low Risk' ? 'warn' : 'good';
   }
 
   /** Trung bình cộng, làm tròn 1 chữ số thập phân. Danh sách rỗng trả về 0. Ví dụ: [100, 60] -> 80 */
@@ -361,8 +380,8 @@ export class EmployeeDashboard implements OnInit {
 
   /** Kỳ đánh giá (header + 3.1). Nhãn đang cố định, hạn tự đánh giá được cập nhật trong applyGoals() */
   period = {
-    label: 'Tháng 10/2024',
-    selfEvalDeadline: '31/10/2024'
+    label: `Tháng ${new Date().getMonth() + 1}/${new Date().getFullYear()}`,
+    selfEvalDeadline: endOfMonth()
   };
 
   /** Nút "Đăng xuất": xóa phiên đăng nhập rồi về trang login */
@@ -525,8 +544,15 @@ export class EmployeeDashboard implements OnInit {
   }
 
   openUpdateModal(goalId: string): void {
-    if (!this.tasksOf(goalId).length) return;
+    const goal = this.goals.find(g => g.id === goalId);
+    if (!goal || !this.dataService.hasSubTasks(goal)) return;
     this.updatingGoalId = goalId;
+  }
+
+  /** Nút "Hoàn thành" / "Hoàn thành mục tiêu": goal chưa có task con thì hoàn thành thẳng cả goal */
+  completeGoal(goalId: string): void {
+    this.dataService.completeGoal(this.employee.code, goalId);
+    this.reloadGoals('Vừa hoàn thành một mục tiêu');
   }
 
   closeUpdateModal(): void {
@@ -575,6 +601,11 @@ export class EmployeeDashboard implements OnInit {
 
   get selectedGoal(): Goal | undefined {
     return this.goals.find(g => g.id === this.selectedGoalId);
+  }
+  /** Task con thật của goal đang chọn (không gồm task ảo) */
+  get selectedGoalTasks(): Task[] {
+    const goal = this.selectedGoal;
+    return goal ? this.dataService.realTasksOf(goal) : [];
   }
   get manageableGoals(): Goal[] {
   return this.goals.filter(g => g.status !== 'completed');

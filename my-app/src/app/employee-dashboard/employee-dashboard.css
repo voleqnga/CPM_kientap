@@ -357,12 +357,18 @@ button {
 .bell { position: relative; }
 .bell__badge {
   position: absolute;
-  top: 6px;
-  right: 6px;
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
+  top: 2px;
+  right: 2px;
+  min-width: 16px;
+  height: 16px;
+  padding: 0 4px;
+  border-radius: 8px;
   background: var(--error);
+  color: #ffffff;
+  font-size: 10px;
+  line-height: 16px;
+  font-weight: 700;
+  text-align: center;
 }
  
 .user { display: flex; align-items: center; gap: var(--space-md); }
@@ -683,16 +689,37 @@ button {
 .progress__foot { display: flex; justify-content: space-between; gap: 8px; font-size: 11px; color: var(--secondary); }
 .progress__foot strong { color: var(--on-surface); }
 .progress__tasks { display: flex; flex-direction: column; gap: 6px; margin: 4px 0 0; padding: 10px 0 0; border-top: 1px solid var(--outline-variant); list-style: none; }
-.progress__task-status--pending {color: red; }
 .progress__tasks li { display: grid; grid-template-columns: 18px minmax(0, 1fr) auto auto; align-items: center; gap: 6px; color: var(--secondary); font-size: 11px; line-height: 16px; }
 .progress__tasks li .material-symbols-outlined { color: var(--warn-text); }
 .progress__tasks li.progress__task--done { color: var(--good-text); }
 .progress__tasks li.progress__task--done .material-symbols-outlined { color: var(--good); }
-.progress__tasks--manage li { grid-template-columns: 18px minmax(0, 1fr) auto auto auto; }
+.progress__tasks--manage li { grid-template-columns: 18px minmax(0, 1fr) auto auto 44px; }
 .progress__tasks time { color: var(--secondary); font-size: 10px; white-space: nowrap; }
 .progress__complete { padding: 2px 6px; border: 1px solid var(--primary); border-radius: 4px; background: transparent; color: var(--primary); font-size: 10px; line-height: 14px; white-space: nowrap; }
 .progress__complete:hover { background: var(--surface-lowest); }
 .progress__task-status { color: var(--good-text); font-size: 10px; font-weight: 600; white-space: nowrap; }
+.progress__task-status--pending { color: var(--warn-text); }
+/* Nút hoàn thành cả mục tiêu (goal chưa có task con) */
+.progress__goal-action {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin-top: 4px;
+  padding-top: 10px;
+  border-top: 1px solid var(--outline-variant);
+}
+.progress__goal-action .progress__complete { padding: 6px 12px; font-size: 11px; font-weight: 600; }
+
+/* Ghi chú nhỏ trong modal */
+.hint {
+  margin: 0;
+  padding: 10px 12px;
+  border-radius: 4px;
+  background: var(--surface-low);
+  color: var(--secondary);
+  font-size: 12px;
+  line-height: 16px;
+}
  
 .bar { width: 100%; height: 12px; overflow: hidden; border-radius: 6px; background: var(--surface-container); }
 .bar__fill { height: 100%; border-radius: 6px; background: var(--tone); transition: width 0.7s ease; }
@@ -969,7 +996,6 @@ button {
   from { opacity: 0; transform: translateY(8px); }
   to   { opacity: 1; transform: translateY(0); }
 }
-
 @media (prefers-reduced-motion: reduce) {
   .sidebar,
   .backdrop,

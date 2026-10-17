@@ -98,7 +98,7 @@
 
       <button type="button" class="icon-btn bell" aria-label="Thông báo">
         <span class="material-symbols-outlined icon-xl">notifications</span>
-        <span class="bell__badge"></span>
+        <span class="bell__badge" *ngIf="pendingTasks.length">{{ pendingTasks.length }}</span>
       </button>
 
       <div class="topbar__divider topbar__divider--tall"></div>
@@ -462,16 +462,15 @@
           </div>
 
           <!-- Danh sách task con. Task chưa xong có nút "Hoàn thành", task đã xong hiện chữ "Đã xong" -->
-          <ul class="progress__tasks">
+          <ul class="progress__tasks" *ngIf="p.tasks.length">
             <li *ngFor="let task of p.tasks" [class.progress__task--done]="task.done">
-                <span class="material-symbols-outlined icon-sm">{{ task.done ? 'check_circle' : 'radio_button_unchecked' }}</span>
-                <span>{{ task.name }}</span>
-                <time [attr.datetime]="task.dueDate">{{ task.dueDate }}</time>
-                <span class="progress__task-status"
-                    [class.progress__task-status--pending]="!task.done">
+              <span class="material-symbols-outlined icon-sm">{{ task.done ? 'check_circle' : 'radio_button_unchecked' }}</span>
+              <span>{{ task.name }}</span>
+              <time [attr.datetime]="task.dueDate">{{ task.dueDate }}</time>
+              <span class="progress__task-status" [class.progress__task-status--pending]="!task.done">
                 {{ task.done ? 'Đã xong' : 'Chưa xong' }}
-                </span>     
-           </li>
+              </span>
+            </li>
           </ul>
         </div>
       </div>
@@ -507,7 +506,6 @@
                 <th>Thực tế</th>
                 <th class="ta-right">Đạt (%)</th>
                 <th class="ta-center">Trạng thái</th>
-                <th class="ta-center">Thao tác</th>
             </tr>
             </thead>
             <tbody>
@@ -529,16 +527,10 @@
                 <td class="cell-strong tone-text">{{ row.actual }}</td>
                 <td class="ta-right cell-strong tone-text">{{ row.percent }}%</td>
                 <td class="ta-center">
-                    <span class="badge">
-                    <span class="dot dot--tone" [class.dot--ping]="row.tone !== 'good'"></span>
-                    {{ row.statusLabel }}
-                    </span>
-                </td>
-                <td class="ta-center">
-                    <button *ngIf="tasksOf(row.id).length" type="button" class="btn-row"
-                        (click)="openUpdateModal(row.id)">Cập nhật task</button>
-                    <button *ngIf="!tasksOf(row.id).length" type="button" class="btn-row btn-row--ghost"
-                        (click)="viewKpiDetail(row)">Xem </button>
+                  <button *ngIf="row.hasSubTasks" type="button" class="btn-row"
+                          (click)="openUpdateModal(row.id)">Cập nhật task</button>
+                  <button *ngIf="!row.hasSubTasks && !row.done" type="button" class="btn-row"
+                          (click)="completeGoal(row.id)">Hoàn thành</button>
                 </td>
             </tr>
             </tbody>
@@ -706,16 +698,21 @@
                 </select>
             </div>
 
-            <ul class="progress__tasks">
-                <li *ngFor="let task of goal.tasks" [class.progress__task--done]="task.doneDate">
+            <p class="hint" *ngIf="!selectedGoalTasks.length">
+                Mục tiêu này chưa có đầu việc con. 
+            </p>
+
+            <ul class="progress__tasks progress__tasks--manage" *ngIf="selectedGoalTasks.length">
+                <li *ngFor="let task of selectedGoalTasks" [class.progress__task--done]="task.doneDate">
                     <span class="material-symbols-outlined icon-sm">
                         {{ task.doneDate ? 'check_circle' : 'radio_button_unchecked' }}
                     </span>
                     <span>{{ task.name }}</span>
                     <span class="caption">{{ task.weight }}%</span>
-                        <time [attr.datetime]="task.dueDate">{{ task.dueDate }}</time>
+                    <time [attr.datetime]="task.dueDate">{{ task.dueDate }}</time>
                     <button *ngIf="isCustomTask(task.id)" type="button" class="progress__complete"
                         (click)="removeSubTask(task.id)">Xóa</button>
+                    <span *ngIf="!isCustomTask(task.id)"></span>
                 </li>
             </ul>
 
@@ -735,7 +732,7 @@
                     <input id="new-task-due" class="input" type="date" name="newTaskDue"
                         [(ngModel)]="newTask.dueDate" [max]="goal.dueDate">
                 </div>
-                    <p *ngIf="addError" style="color:#b3261e;margin:0">{{ addError }}</p>
+                  <p *ngIf="addError" class="form-error">{{ addError }}</p>
                 <div class="form__actions">
                     <button type="button" class="btn btn--soft-muted btn--lg" (click)="closeManageModal()">Đóng</button>
                     <button type="submit" class="btn btn--primary btn--lg">
