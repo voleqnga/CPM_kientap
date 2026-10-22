@@ -136,11 +136,16 @@ export class ManagerDashboard implements OnDestroy {
   private toEmployee(summary: EmployeeSummary): Employee {
     const employee = summary.employee;
     const risk = summary.latestRisk;
-    const statusLabel = risk === 'High Risk'
-      ? 'Rủi ro'
-      : risk === 'Low Risk' || summary.avgActual < 80
-        ? 'Cảnh báo'
-        : summary.avgActual >= 90 ? 'Tốt' : 'Đạt';
+    const hasGoals = summary.totalGoals > 0;
+    const score = !hasGoals ? 0
+      : summary.avgExpected > 0
+        ? Math.min(100, Math.round(summary.avgActual / summary.avgExpected * 1000) / 10)
+        : 100;
+
+    const statusLabel = !hasGoals ? 'Chưa có mục tiêu'
+      : risk === 'High Risk' ? 'Rủi ro'
+      : risk === 'Low Risk' ? 'Cảnh báo'
+      : score >= 90 ? 'Tốt' : 'Đạt';
 
     const overdueItems: OverdueItem[] = summary.activeGoals.flatMap(goal =>
       this.dataService.overdueTasksOf(goal).map(task => ({
@@ -161,7 +166,7 @@ export class ManagerDashboard implements OnDestroy {
       jobTitle: 'Nhân viên',
       team: employee.department,
       teamName: employee.department,
-      kpi: summary.avgActual,
+      kpi: score,
       kpiTarget: 85,
       selfAssessment: `${summary.activeGoals.length} mục tiêu đang chạy · ${summary.completedGoals}/${summary.totalGoals} mục tiêu hoàn thành`,
       statusLabel,

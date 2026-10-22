@@ -222,6 +222,9 @@ export class EmployeeDashboard implements OnInit {
     this.score.value = p.score;
 
     this.score.grade = p.score >= 90 ? 'Tốt (A)' : p.score >= 75 ? 'Khá (B)' : 'Cần cải thiện';
+
+    this.achieved.done = goals.filter(goal => goal.status === 'completed').length;
+    this.achieved.total = goals.length;
   }
 
   /** Dựng dữ liệu cho mục 3.5: mỗi goal một khối, kèm danh sách task con */
