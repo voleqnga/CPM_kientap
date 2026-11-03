@@ -870,6 +870,17 @@ button:disabled { cursor: not-allowed; }
 }
 .detail-note { margin: 0; font-size: 12px; line-height: 16px; color: var(--secondary); }
 
+/* Thanh SHAP trong modal: độ dài theo tỷ trọng, đỏ tăng và xanh giảm rủi ro */
+.shap-list { display: flex; flex-direction: column; gap: 10px; margin: 0; padding: 0; list-style: none; }
+.shap-item { display: flex; flex-direction: column; gap: 4px; cursor: help; min-width: 0; }
+.shap-item__head { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
+.shap-item__label { min-width: 0; font-size: 12px; line-height: 16px; font-weight: 600; color: var(--on-surface, #0b1c30); }
+.shap-item__share { flex: 0 0 auto; font-size: 12px; line-height: 16px; font-weight: 700; color: var(--on-surface, #0b1c30); }
+.shap-item__track { height: 8px; overflow: hidden; border-radius: 4px; background: var(--surface-container, #e5eeff); }
+.shap-item__bar { height: 100%; border-radius: 4px; transition: width 0.5s ease; }
+.shap-item__bar--up { background: var(--error, #ba1a1a); }
+.shap-item__bar--down { background: var(--good, #059669); }
+
 /* Thông tin hồ sơ */
 .detail-info { display: grid; grid-template-columns: 1fr; gap: var(--space-md); }
 .detail-info__item {

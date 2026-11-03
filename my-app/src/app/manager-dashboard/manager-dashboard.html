@@ -648,6 +648,7 @@
           <p class="ai-state ai-state--loading" *ngIf="detailAi.loading">Đang phân tích...</p>
           <p class="ai-state ai-state--unavailable" *ngIf="!detailAi.loading && detailAi.unavailable">Chưa lấy được phân tích AI</p>
 
+          <!-- Dùng đúng cấu trúc class shap-list và shap-item để hiện thanh bar -->
           <ul class="shap-list" *ngIf="!detailAi.loading && detailAi.shapBars.length">
             <li class="shap-item" *ngFor="let b of detailAi.shapBars"
                 [title]="'Tác động SHAP (log-odds): ' + (b.impact | number:'1.2-2')">
@@ -657,9 +658,9 @@
               </div>
               <div class="shap-item__track">
                 <div class="shap-item__bar"
-                     [class.shap-item__bar--up]="b.positive"
-                     [class.shap-item__bar--down]="!b.positive"
-                     [style.width.%]="b.width"></div>
+                    [class.shap-item__bar--up]="b.positive"
+                    [class.shap-item__bar--down]="!b.positive"
+                    [style.width.%]="b.width"></div>
               </div>
             </li>
           </ul>

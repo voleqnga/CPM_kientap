@@ -699,7 +699,7 @@ private coachSingle(e: Employee): string {
      MODAL CHI TIẾT NHÂN VIÊN (View Profile) — giống bên HR
      ========================================================== */
 
-  viewProfile(emp: Employee, withAi = false): void {
+  viewProfile(emp: Employee, withAi = true): void {
     const summary = this.employeeSummaries.find(s => s.employee.id === emp.code) ?? null;
 
     // Map Employee (manager) -> DetailEmployee để khớp với template dùng chung với HR
