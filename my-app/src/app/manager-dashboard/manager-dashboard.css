@@ -881,6 +881,25 @@ button:disabled { cursor: not-allowed; }
 .shap-item__bar--up { background: var(--error, #ba1a1a); }
 .shap-item__bar--down { background: var(--good, #059669); }
 
+.ai-state {
+  margin: 0;
+  font-size: 12px;
+  line-height: 16px;
+  color: var(--secondary);
+  font-style: italic;
+  padding: 8px 0;
+}
+
+.ai-state--loading {
+  color: var(--primary);
+  font-weight: 500;
+}
+
+.ai-state--unavailable {
+  color: var(--error);
+  font-weight: 600;
+}
+
 /* Thông tin hồ sơ */
 .detail-info { display: grid; grid-template-columns: 1fr; gap: var(--space-md); }
 .detail-info__item {
