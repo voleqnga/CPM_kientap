@@ -782,7 +782,7 @@ button:disabled { cursor: not-allowed; }
   box-shadow: 0 24px 48px rgba(0, 0, 0, 0.3);
   animation: pop-in 0.2s ease;
 }
-.modal__dialog--detail { max-width: 640px; }
+.modal__dialog--detail { max-width: 1000px; }
 .modal__body { display: flex; flex-direction: column; gap: var(--space-lg); padding: var(--space-lg); overflow-y: auto; }
 .modal__actions { display: flex; align-items: center; justify-content: flex-end; gap: var(--space-sm); padding-top: var(--space-md); }
 
