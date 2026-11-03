@@ -1,4 +1,4 @@
 export const environment = {
   production: false,
-  aiApiUrl: 'http://localhost:8000/predict'
+  aiApiUrl: 'https://cpm-kientap.onrender.com'
 };
