@@ -53,7 +53,7 @@
       <div class="topbar__period">
         <span class="material-symbols-outlined icon-sm">calendar_today</span>
         <span>Kỳ đánh giá:</span>
-        <strong>Tháng 10/2024</strong>
+        <strong>Tháng 10/2026</strong>
       </div>
     </div>
  
@@ -209,10 +209,6 @@
             <span class="ai-panel__sub">{{ aiAlert.engineLabel }}</span>
           </div>
         </div>
-        <div class="confidence">
-          <span class="material-symbols-outlined icon-sm text-primary">auto_graph</span>
-          <span>Độ tin cậy mô hình: <strong>{{ aiAlert.modelConfidence }}</strong></span>
-        </div>
       </div>
  
       <div class="alert-box">
@@ -231,17 +227,6 @@
             </button>
           </div>
 
-          <div class="patterns" *ngIf="teamPatterns.length">
-            <span class="material-symbols-outlined icon-lg">hub</span>
-            <div>
-              <strong>Vấn đề chung của nhóm:</strong>
-              <span *ngFor="let p of teamPatterns">
-                việc “{{ p.task }}” đang trễ ở {{ p.count }}/{{ riskQueue.length }} người.
-              </span>
-              <span class="muted small">Nên xem lại quy trình hoặc nguồn lực cho bước này.</span>
-            </div>
-          </div>
-
           <div class="alert-item" *ngIf="aiAlert.employee as emp">
             <div class="alert-item__person">
               <div class="avatar-lg">{{ emp.initials }}</div>
@@ -256,7 +241,7 @@
                 </div>
                 <span class="muted small">{{ emp.teamName }} • {{ emp.jobTitle }}</span>
                 <div class="forecast">
-                  <span class="muted small">Dự báo hoàn thành khi hết hạn:</span>
+                  <span class="muted small">Mức đạt so với kế hoạch:</span>
                   <strong>{{ emp.forecast }}%</strong>
                   <div class="mini-bar"><div class="mini-bar__fill" [style.width.%]="emp.forecast"></div></div>
                 </div>
@@ -271,11 +256,11 @@
                 </div>
                 <ul class="analysis__list">
                   <li *ngFor="let i of emp.overdueItems">
-                    <strong>{{ i.task }}</strong>
-                    <span class="muted small"> · {{ i.goal }} · trễ {{ i.daysLate }} ngày (hạn {{ i.dueDate }})</span>
+                    <strong>{{ i.goal }}</strong>
+                    <span class="muted small"> · trễ {{ i.daysLate }} ngày (từ {{ i.dueDate }})</span>
                   </li>
                   <li *ngIf="!emp.overdueItems.length" class="muted small">
-                    Chưa có việc quá hạn, rủi ro do tiến độ chậm hơn kế hoạch.
+                    Chưa có mục tiêu quá hạn, rủi ro do tiến độ chậm hơn kế hoạch.
                   </li>
                 </ul>
               </div>
@@ -286,29 +271,10 @@
                 <span class="material-symbols-outlined icon-sm">psychology</span>
                 <span>Coaching</span>
               </button>
-              <button type="button" class="btn-act" title="Xem hồ sơ chi tiết" (click)="viewProfile(emp)">
+              <button type="button" class="btn-act" title="Xem hồ sơ chi tiết" (click)="viewProfile(emp, true)">
                 <span class="material-symbols-outlined icon-sm">visibility</span>
                 <span>Xem chi tiết</span>
               </button>
-            </div>
-          </div>
- 
-          <div class="analysis">
-            <div class="analysis__col">
-              <div class="analysis__label analysis__label--error">
-                <span class="material-symbols-outlined icon-sm">troubleshoot</span>
-                <span>Nguyên nhân AI phân tích (SHAP):</span>
-              </div>
-              <ul class="analysis__list">
-                <li *ngFor="let r of aiAlert.reasons">{{ r.prefix }}<strong>{{ r.highlight }}</strong>{{ r.suffix }}</li>
-              </ul>
-            </div>
-            <div class="analysis__col">
-              <div class="analysis__label analysis__label--primary">
-                <span class="material-symbols-outlined icon-sm">lightbulb</span>
-                <span>Đề xuất từ AI Coaching:</span>
-              </div>
-              <p class="analysis__text">{{ aiAlert.coaching }}</p>
             </div>
           </div>
         </div>
@@ -536,7 +502,7 @@
         <!-- Ô 1: AI gợi ý -->
         <div class="review-box review-box--ai">
           <div class="review-box__head">
-            <span><span class="material-symbols-outlined icon-sm">smart_toy</span> AI gợi ý (dựa trên evidence)</span>
+            <span><span class="material-symbols-outlined icon-sm">smart_toy</span> AI gợi ý</span>
             <button type="button" class="btn btn--soft" (click)="generateAi()">
               {{ review.ai ? 'Tạo lại' : 'Tạo gợi ý' }}
             </button>
@@ -632,32 +598,31 @@
         <section class="detail-section">
           <h4 class="detail-section__title">Tiến độ KPI</h4>
 
-          <ng-container *ngIf="selectedSummary as s; else noSummary">
+          <ng-container *ngIf="detailStats as s; else noSummary">
             <div class="detail-stats">
               <div class="stat-tile">
                 <span class="stat-tile__label">Thực tế</span>
-                <span class="stat-tile__value">{{ s.avgActual | number:'1.1-1' }}%</span>
+                <span class="stat-tile__value">{{ s.actual | number:'1.1-1' }}%</span>
               </div>
               <div class="stat-tile">
                 <span class="stat-tile__label">Kỳ vọng</span>
-                <span class="stat-tile__value">{{ s.avgExpected | number:'1.1-1' }}%</span>
+                <span class="stat-tile__value">{{ s.expected | number:'1.1-1' }}%</span>
               </div>
-              <div class="stat-tile" [class.stat-tile--warn]="detailGap >= 5">
+              <div class="stat-tile" [class.stat-tile--warn]="s.gap >= 5">
                 <span class="stat-tile__label">Chênh lệch</span>
-                <span class="stat-tile__value">{{ detailGap | number:'1.1-1' }}%</span>
+                <span class="stat-tile__value">{{ s.gap | number:'1.1-1' }}%</span>
               </div>
-              <div class="stat-tile" [class.stat-tile--error]="s.overdueTotal > 0">
+              <div class="stat-tile" [class.stat-tile--error]="s.overdue > 0">
                 <span class="stat-tile__label">Task quá hạn</span>
-                <span class="stat-tile__value">{{ s.overdueTotal }}</span>
+                <span class="stat-tile__value">{{ s.overdue }}</span>
               </div>
             </div>
 
-            <!-- Thanh tiến độ: phần tô = thực tế, vạch đứng = kỳ vọng -->
             <div class="detail-progress" role="img"
-                 [attr.aria-label]="'Thực tế ' + s.avgActual + ' phần trăm, kỳ vọng ' + s.avgExpected + ' phần trăm'">
+                [attr.aria-label]="'Thực tế ' + s.actual + ' phần trăm, kỳ vọng ' + s.expected + ' phần trăm'">
               <div class="detail-progress__track">
-                <div class="detail-progress__fill" [style.width.%]="s.avgActual"></div>
-                <div class="detail-progress__marker" [style.left.%]="s.avgExpected"></div>
+                <div class="detail-progress__fill" [style.width.%]="s.actual"></div>
+                <div class="detail-progress__marker" [style.left.%]="s.expected"></div>
               </div>
               <div class="detail-progress__legend">
                 <span><span class="legend-box legend-box--fill"></span> Thực tế</span>
@@ -667,13 +632,73 @@
 
             <p class="detail-note">
               Đã hoàn thành <strong class="strong-dark">{{ s.completedGoals }}/{{ s.totalGoals }}</strong> mục tiêu,
-              còn <strong class="strong-dark">{{ s.activeGoals.length }}</strong> mục tiêu đang chạy.
+              còn <strong class="strong-dark">{{ s.activeGoals }}</strong> mục tiêu đang chạy.
             </p>
           </ng-container>
 
           <ng-template #noSummary>
             <p class="detail-note">Chưa có dữ liệu tổng hợp KPI cho nhân viên này.</p>
           </ng-template>
+        </section>
+
+        <!-- Phần AI phân tích (chỉ có trong chi tiết AI) -->
+                <!-- Phần AI phân tích (chỉ có trong chi tiết AI) -->
+        <section class="detail-section" *ngIf="detailWithAi">
+          <div class="analysis__label analysis__label--error">
+            <span class="material-symbols-outlined icon-sm">troubleshoot</span>
+            <span>Nguyên nhân AI phân tích (SHAP):</span>
+          </div>
+
+          <p class="ai-state ai-state--loading" *ngIf="detailAi.loading">Đang phân tích...</p>
+          <p class="ai-state ai-state--unavailable" *ngIf="!detailAi.loading && detailAi.unavailable">Chưa lấy được phân tích AI</p>
+
+          <ul class="shap-list" *ngIf="!detailAi.loading && detailAi.shapBars.length">
+            <li class="shap-item" *ngFor="let b of detailAi.shapBars"
+                [title]="'Tác động SHAP (log-odds): ' + (b.impact | number:'1.2-2')">
+              <div class="shap-item__head">
+                <span class="shap-item__label">{{ b.label }}</span>
+                <span class="shap-item__share">{{ b.share }}%</span>
+              </div>
+              <div class="shap-item__track">
+                <div class="shap-item__bar"
+                     [class.shap-item__bar--up]="b.positive"
+                     [class.shap-item__bar--down]="!b.positive"
+                     [style.width.%]="b.width"></div>
+              </div>
+            </li>
+          </ul>
+
+          <p class="ai-state" *ngIf="!detailAi.loading && !detailAi.unavailable && !detailAi.shapBars.length">
+            Chưa có yếu tố nổi bật.
+          </p>
+        </section>
+
+        <section class="detail-section" *ngIf="detailWithAi">
+          <div class="analysis__label analysis__label--primary">
+            <span class="material-symbols-outlined icon-sm">lightbulb</span>
+            <span>Nhận xét từ AI:</span>
+          </div>
+
+          <p class="ai-state ai-state--loading" *ngIf="detailAi.loading">Đang phân tích...</p>
+          <p class="ai-state ai-state--unavailable" *ngIf="!detailAi.loading && detailAi.unavailable">Chưa lấy được phân tích AI</p>
+
+          <ng-container *ngIf="!detailAi.loading && detailAi.result as r">
+            <p class="analysis__text" *ngIf="r.feedback">{{ r.feedback }}</p>
+
+            <div class="ai-actions" *ngIf="r.actions.length">
+              <div class="ai-action" *ngFor="let a of r.actions" [ngClass]="'ai-action--' + a.tone">
+                <span class="material-symbols-outlined icon-lg ai-action__icon">{{ a.icon }}</span>
+                <div>
+                  <strong class="ai-action__title">{{ a.title }}</strong>
+                  <p class="ai-action__detail">{{ a.detail }}</p>
+                </div>
+              </div>
+            </div>
+
+            <p class="ai-state" *ngIf="!r.feedback && !r.actions.length && !detailAi.unavailable">
+              Chưa có đề xuất nào.
+            </p>
+          </ng-container>
         </section>
 
         <!-- 3. Mục tiêu đang theo dõi (hạn còn lại) -->
@@ -684,13 +709,13 @@
           <p class="detail-note" *ngIf="!goalsLoading && goalDeadlines.length === 0">Nhân viên chưa có mục tiêu nào.</p>
 
           <ul class="goal-list" *ngIf="!goalsLoading && goalDeadlines.length > 0">
-            <li class="goal-item" *ngFor="let days of goalDeadlines; let i = index">
-              <span>Mục tiêu {{ i + 1 }}</span>
+            <li class="goal-item" *ngFor="let goal of goalDeadlines">
+              <span>{{ goal.name }}</span>
               <span class="goal-item__days"
-                    [class.goal-item__days--urgent]="days >= 0 && days < 10"
-                    [class.goal-item__days--overdue]="days < 0">
-                <ng-container *ngIf="days >= 0">Còn {{ days }} ngày</ng-container>
-                <ng-container *ngIf="days < 0">Quá hạn {{ -days }} ngày</ng-container>
+                    [class.goal-item__days--urgent]="goal.days >= 0 && goal.days < 10"
+                    [class.goal-item__days--overdue]="goal.days < 0">
+                <ng-container *ngIf="goal.days >= 0">Còn {{ goal.days }} ngày</ng-container>
+                <ng-container *ngIf="goal.days < 0">Quá hạn {{ -goal.days }} ngày</ng-container>
               </span>
             </li>
           </ul>

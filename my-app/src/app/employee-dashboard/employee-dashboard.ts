@@ -5,6 +5,10 @@ import { AuthService, User } from '../../classes/authService';
 import { DataService, ManagerFeedback } from '../../classes/data';
 import { Goal, Task } from '../../classes/cpn';
 import { TaskAssignment, TaskAssignmentService } from '../../services/task-assignment.service';
+import { Subscription } from 'rxjs';
+import { AiRiskService } from '../../services/ai-risk';
+import { AiRiskResult, RiskLabel, Tone } from '../../model/ai-risk.model';
+import { kpiScoreOf, pickMetricGoals, round1 } from '../../classes/kpi-math';
 
 
 
@@ -30,25 +34,10 @@ export interface UnifiedMetrics {
   time_left_ratio: number;   // Tỷ lệ thời gian còn lại / tổng thời lượng
 }
 
-export type RiskLabel = 'High Risk' | 'Low Risk' | 'Normal'; // Nhãn rủi ro (mock AI)
-export type Tone = 'good' | 'warn' | 'bad';                 
 export interface NavItem {
   path: string;
   label: string;
   icon: string;
-}
-
-export interface ShapFactor {
-  feature: keyof UnifiedMetrics;
-  label: string;
-  impact: number; // giá trị SHAP: dương = làm tăng rủi ro
-}
-
-export interface CoachingAction {
-  icon: string;
-  tone: Tone;
-  title: string;
-  detail: string;
 }
 
 /** Một khối trong mục 3.5 (mỗi goal một khối) */
@@ -109,12 +98,14 @@ export class EmployeeDashboard implements OnInit {
      ========================================================================== */
 
   private readonly destroyRef = inject(DestroyRef);
+  private aiSub?: Subscription;
 
   constructor(
     private readonly router: Router,
     private readonly taskAssignmentService: TaskAssignmentService,
     private readonly authService: AuthService,
     private readonly dataService: DataService,
+    private readonly aiRiskService: AiRiskService,
     private readonly changeDetector: ChangeDetectorRef
   ) {
     // Mỗi khi danh sách task được giao thay đổi (quản lý giao mới, nhân viên nhận),
@@ -172,6 +163,8 @@ export class EmployeeDashboard implements OnInit {
     this.updateMetrics(goals);       // -> thẻ chỉ số (3.2) + nhãn rủi ro AI (3.4)
     this.buildProgressBlocks(goals); // -> mục 3.5
     this.buildKpiRows(goals);        // -> bảng 3.6
+    this.runAi(goals);               // -> khối AI (3.4) và modal 3, lấy từ API
+
 
     // Hạn tự đánh giá (3.1) = hạn sớm nhất trong các goal đang chạy
     const activeGoals = goals.filter(goal => goal.status === 'in_progress');
@@ -179,7 +172,6 @@ export class EmployeeDashboard implements OnInit {
       this.period.selfEvalDeadline = activeGoals.map(goal => goal.dueDate).sort()[0];
     }
   }
-
   /**
    * Tính 6 chỉ số của mục 3.2.
    *
@@ -197,7 +189,7 @@ export class EmployeeDashboard implements OnInit {
    */
   private updateMetrics(goals: Goal[]): void {
     const activeGoals = goals.filter(goal => goal.status === 'in_progress');
-    const metricGoals = activeGoals.length ? activeGoals : goals;
+    const metricGoals = pickMetricGoals(goals);
     const p = this.dataService.employeeProgress(metricGoals);
 
     this.metrics.actual_progress = p.actual;
@@ -210,18 +202,15 @@ export class EmployeeDashboard implements OnInit {
       ? Math.min(...activeGoals.map(goal => this.dataService.daysRemaining(goal)))
       : 0;
     this.metrics.time_left_ratio = activeGoals.length
-      ? this.average(activeGoals.map(goal => this.dataService.timeLeftRatio(goal)))
+      ? round1(activeGoals.reduce((sum, goal) => sum + this.dataService.timeLeftRatio(goal), 0) / activeGoals.length)
       : 0;
 
-    // Nhãn rủi ro của khối AI (mục 3.4): dùng luật trong DataService.riskLevelFor, chưa phải mô hình AI thật
-    //   High Risk: gap > 20, hoặc từ 3 việc quá hạn trở lên, hoặc (gap > 10 và còn dưới 5 ngày)
-    //   Low Risk : gap từ 5 đến 20, hoặc có 1-2 việc quá hạn, hoặc (gap > 2 và còn dưới 10 ngày)
-    //   Normal   : các trường hợp còn lại
-    this.ai.risk_label = this.dataService.riskOf(goals);
+    // Nhãn theo luật (DataService.riskOf): chỉ dùng khi AI chưa trả kết quả hoặc API lỗi.
+    this.ruleRisk = this.dataService.riskOf(goals);
 
-    this.score.value = p.score;
-
-    this.score.grade = p.score >= 90 ? 'Tốt (A)' : p.score >= 75 ? 'Khá (B)' : 'Cần cải thiện';
+    const score = kpiScoreOf(this.dataService, goals);
+    this.score.value = score;
+    this.score.grade = score >= 90 ? 'Tốt (A)' : score >= 75 ? 'Khá (B)' : 'Cần cải thiện';
 
     this.achieved.done = goals.filter(goal => goal.status === 'completed').length;
     this.achieved.total = goals.length;
@@ -301,13 +290,6 @@ export class EmployeeDashboard implements OnInit {
     return risk === 'High Risk' ? 'bad' : risk === 'Low Risk' ? 'warn' : 'good';
   }
 
-  /** Trung bình cộng, làm tròn 1 chữ số thập phân. Danh sách rỗng trả về 0. Ví dụ: [100, 60] -> 80 */
-  private average(values: number[]): number {
-    return values.length
-      ? Math.round(values.reduce((sum, value) => sum + value, 0) / values.length * 10) / 10
-      : 0;
-  }
-
   /**
    * Đọc lại goals từ DataService (đã áp dụng task hoàn thành và task tự thêm) rồi tính lại giao diện.
    * Dùng sau khi hoàn thành hoặc thêm đầu việc. note hiện ở chân bảng KPI.
@@ -367,7 +349,7 @@ export class EmployeeDashboard implements OnInit {
 
   /** Logo và ảnh đại diện (dùng ở sidebar, header, phần chào hỏi) */
   assets = {
-    logo: 'https://lh3.googleusercontent.com/aida/AEtjO1V1jaUxaQzWm3n-04M5cPoNGnD2ucdXITFrC_P9iK_mQ-ZadikGW4kQ9oAhMAI59rd2myGd0mIAKqZiD8QzeJlSTEFrXRr9lvo3DSjE-UxELisb8Jhlvgpmcz3oiMmph2GPCDT44OPDzh_jA2OkvS2bcDxgztEzzvK2NR0i6-MQpSF8zYRXymkp1IEMUfFmk6xTEhh9lRvzVAtgA9SfgJxu-IpJvo0oP7S4L0tJJ7SkHkGh1bYw9LYe1w',
+    logo: 'https://saca.com.vn/vnt_upload/partner/son_dong_nai.jpg',
     avatar: 'https://lh3.googleusercontent.com/aida-public/AB6AXuB8HHSnBhHBSsMSqqLXeCi87hbXGCVLiq82Ns7dWyDz4Cv83l3hQFctz0hezwWt32WPPnYtyGUqllIll8lepvSTeQa8doKX5BwMY1vsh0lXMEfFikzELUFzCoKsHmdK5bmzXbovq7DDAaQArnXmYhTCZe9ohNxB31-_25_ZHzWhJTXzS3tynXGyY0uBF6myLyQ2ahf1J15pM2sJ4V8c9k2ZyAxC_6sCz6fsUHoP5tZeFkZExtHy-kMr'
   };
 
@@ -448,38 +430,33 @@ export class EmployeeDashboard implements OnInit {
 
   /* ---------- 3.4 AI NHẬN XÉT VÀ ĐỀ XUẤT (dữ liệu mock, giữ nguyên) ---------- */
 
-  ai = {
-    updatedAt: 'Cập nhật 08:30 hôm nay',
-    //engineLabel: 'XGBoost + SHAP · Gemini Coaching',
-    risk_label: 'Low Risk' as RiskLabel, // ghi đè trong updateMetrics()
-    shapFactors: [
-      { feature: 'overdue_tasks',     label: 'Việc quá hạn',      impact: 0.31 },
-      { feature: 'actual_progress',   label: 'Tiến độ thực tế',   impact: 0.18 },
-      { feature: 'days_remaining',    label: 'Ngày còn lại',      impact: 0.09 },
-      { feature: 'expected_progress', label: 'Tiến độ kỳ vọng',   impact: -0.04 }
-    ] as ShapFactor[],
-    feedback:
-      'Kết quả KPI của bạn đang ở mức khá (82/100) và đã đạt 7/10 chỉ tiêu - đây là một tháng làm việc đáng ghi nhận. ' +
-      'Hiện tiến độ thực tế (78%) còn chậm 7% so với kỳ vọng (85%), chủ yếu do 2 đầu việc quá hạn ở mảng thu hồi công nợ ' +
-      'và khách hàng mới. Với 6 ngày còn lại, nếu ưu tiên xử lý hai việc này trước, bạn hoàn toàn có thể bắt kịp kế hoạch.',
-    actions: [
-      {
-        icon: 'priority_high', tone: 'bad',
-        title: '1. Xử lý 2 đầu việc quá hạn trước (đóng góp rủi ro lớn nhất)',
-        detail: 'Liên hệ trực tiếp 2 đại lý còn nợ quá hạn và chốt lịch thanh toán trong tuần để kéo tiến độ thu hồi công nợ lên trên 90%.'
-      },
-      {
-        icon: 'timer', tone: 'warn',
-        title: '2. Đẩy nhanh khách hàng mới (hiện 12/15)',
-        detail: 'Dành 2 buổi chiều để follow-up 3 khách hàng đã gửi báo giá, ưu tiên các dự án có kế hoạch thi công trong tháng.'
-      },
-      {
-        icon: 'star', tone: 'good',
-        title: '3. Điểm cộng tuân thủ quy trình CRM',
-        detail: 'Bạn cập nhật CRM đầy đủ và đúng hạn 100%. Hãy chia sẻ cách làm này với đồng nghiệp trong buổi họp phòng!'
-      }
-    ] as CoachingAction[]
+  ai : { 
+    loading: boolean; 
+    unavailable: boolean; 
+    result: AiRiskResult | null } = {
+      loading: false,
+      unavailable: false,
+      result: null
   };
+  /** Nhãn theo luật, dùng khi AI chưa có kết quả. Gán trong updateMetrics(). */
+  ruleRisk: RiskLabel = 'Normal';
+
+  /** Nhãn hiển thị ở khối AI: nhãn của API nếu đã có, chưa có thì nhãn theo luật */
+  get aiRisk(): RiskLabel {
+    return this.ai.result?.risk_label ?? this.ruleRisk;
+  }
+
+  /** Gọi API phân tích cho toàn bộ goal. Service tự cache theo dữ liệu gửi đi nên dữ liệu không đổi thì không gọi lại. */
+  private runAi(goals: Goal[]): void {
+    this.aiSub?.unsubscribe();
+    this.ai = { ...this.ai, loading: true };
+    this.aiSub = this.aiRiskService.analyze(this.employee.code, goals)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(result => {
+        this.ai = { loading: false, unavailable: !!result.unavailable, result };
+        this.changeDetector.markForCheck();
+      });
+  }
 
   showAiModal = false; // modal 3: chi tiết đề xuất AI
 

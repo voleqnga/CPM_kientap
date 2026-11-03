@@ -1,0 +1,16 @@
+{
+  "features": [
+    "expected_progress",
+    "actual_progress",
+    "overdue_tasks",
+    "days_remaining",
+    "total_duration_days",
+    "gap",
+    "time_left_ratio"
+  ],
+  "labels": [
+    "Normal",
+    "Low Risk",
+    "High Risk"
+  ]
+}

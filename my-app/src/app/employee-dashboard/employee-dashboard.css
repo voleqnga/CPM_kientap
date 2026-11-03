@@ -974,6 +974,11 @@ button {
   font-size: 16px;
 }
 
+/* AI-RISK NEW */
+.ai-state { margin: 0; font-size: 12px; line-height: 16px; color: var(--secondary, #565e74); }
+.ai-state--loading { font-style: italic; }
+.ai-state--unavailable { color: var(--warn-text, #b45309); font-weight: 600; }
+
 /* ==========================================================
    ANIMATION
    ========================================================== */

@@ -319,11 +319,12 @@
       </article>
     </section>
 
-    <!-- ---------- 3.4 AI NHẬN XÉT & ĐỀ XUẤT (DỮ LIỆU MOCK) ----------
-         Toàn bộ nội dung lấy từ đối tượng ai trong .ts (đang là dữ liệu giả, sẽ nối API sau).
-         Dữ liệu: ai.updatedAt, ai.risk_label, ai.engineLabel, ai.feedback, ai.shapFactors, ai.actions
-         Lưu ý: ai.engineLabel phải tồn tại trong .ts (bỏ dấu // ở dòng engineLabel), nếu không sẽ lỗi biên dịch.
-         Màu nhãn rủi ro: Normal là xanh, Low Risk là vàng, High Risk là đỏ (qua ngClass) -->
+   <!-- ---------- 3.4 AI NHẬN XÉT & ĐỀ XUẤT (DỮ LIỆU TỪ API) ----------
+         Toàn bộ nội dung lấy từ ai.result (AiRiskResult do AiRiskService trả về).
+         Dữ liệu: ai.loading, ai.unavailable, ai.result (risk_label, feedback, shap_factors, actions)
+         Nhãn rủi ro: aiRisk (nhãn của API nếu có, chưa có thì nhãn theo luật)
+         Màu nhãn rủi ro: Normal là xanh, Low Risk là vàng, High Risk là đỏ (qua ngClass)
+         Chỉ dùng {{ }}, không dùng [innerHTML] vì feedback/title/detail có chứa tên goal do người dùng nhập. -->
     <section class="card ai">
       <div class="ai__head">
         <div class="ai__head-left">
@@ -331,15 +332,16 @@
             <span class="material-symbols-outlined icon-xl">psychology</span>
           </div>
           <span class="ai__title">AI Nhận xét &amp; Đề xuất tự động</span>
-          <span class="pill pill--high">{{ ai.updatedAt }}</span>
+          <span class="pill pill--soft" *ngIf="ai.loading">Đang phân tích...</span>
+          <span class="pill pill--high" *ngIf="!ai.loading && ai.unavailable">Chưa lấy được phân tích AI</span>
           <span class="risk"
                 [ngClass]="{
-                  'risk--normal': ai.risk_label === 'Normal',
-                  'risk--low': ai.risk_label === 'Low Risk',
-                  'risk--high': ai.risk_label === 'High Risk'
+                  'risk--normal': aiRisk === 'Normal',
+                  'risk--low': aiRisk === 'Low Risk',
+                  'risk--high': aiRisk === 'High Risk'
                 }">
             <span class="material-symbols-outlined icon-sm">flag</span>
-            {{ ai.risk_label }}
+            {{ aiRisk }}
           </span>
         </div>
         <!-- <div class="ai__engine"> -->
@@ -353,13 +355,16 @@
           <span class="material-symbols-outlined icon-2xl">insights</span>
         </div>
         <div class="ai__content">
-          <!-- Đoạn nhận xét do Gemini sinh (hiện là chữ mẫu) -->
-          <p class="ai__text">“{{ ai.feedback }}”</p>
+          <!-- Đoạn nhận xét: có kết quả thì hiện, chưa có thì hiện trạng thái -->
+          <p class="ai__text" *ngIf="ai.result?.feedback as fb">“{{ fb }}”</p>
+          <p class="ai-state ai-state--loading" *ngIf="!ai.result?.feedback && ai.loading">Đang phân tích...</p>
+          <p class="ai-state ai-state--unavailable" *ngIf="!ai.result?.feedback && !ai.loading && ai.unavailable">Chưa lấy được phân tích AI</p>
+          <p class="ai-state" *ngIf="!ai.result?.feedback && !ai.loading && !ai.unavailable">Chưa có dữ liệu để phân tích.</p>
 
-          <!-- Các yếu tố ảnh hưởng theo SHAP: dương (đỏ) làm tăng rủi ro, âm (xanh) làm giảm rủi ro -->
-          <div class="shap">
-            <span class="caption">Yếu tố ảnh hưởng (SHAP):</span>
-            <span *ngFor="let f of ai.shapFactors" class="chip"
+          <!-- Giá trị SHAP gốc theo log-odds; đỏ tăng và xanh giảm rủi ro -->
+          <div class="shap" *ngIf="ai.result?.shap_factors?.length">
+            <span class="caption">Yếu tố ảnh hưởng đến điểm KPI:</span>
+            <span *ngFor="let f of ai.result?.shap_factors ?? []" class="chip"
                   [class.chip--up]="f.impact > 0"
                   [class.chip--down]="f.impact <= 0">
               {{ f.label }} · {{ f.impact > 0 ? '+' : '' }}{{ f.impact | number:'1.2-2' }}
@@ -510,7 +515,7 @@
             </thead>
             <tbody>
             <tr *ngIf="visibleKpiRows.length === 0">
-                <td colspan="6" class="cell-muted ta-center">Chưa có chỉ tiêu nào.</td>
+                <td colspan="5" class="cell-muted ta-center">Chưa có chỉ tiêu nào.</td>
             </tr>
 
             <tr *ngFor="let row of visibleKpiRows" [ngClass]="'tone-' + row.tone">
@@ -662,13 +667,16 @@
       </div>
 
       <div class="actions">
-        <div *ngFor="let a of ai.actions" class="action" [ngClass]="'tone-' + a.tone">
+        <div *ngFor="let a of ai.result?.actions ?? []" class="action" [ngClass]="'tone-' + a.tone">
           <span class="material-symbols-outlined icon-xl tone-text">{{ a.icon }}</span>
           <div>
             <strong class="action__title tone-text">{{ a.title }}</strong>
             <p class="action__detail">{{ a.detail }}</p>
           </div>
         </div>
+        <p class="ai-state ai-state--loading" *ngIf="!ai.result?.actions?.length && ai.loading">Đang phân tích...</p>
+        <p class="ai-state ai-state--unavailable" *ngIf="!ai.result?.actions?.length && !ai.loading && ai.unavailable">Chưa lấy được phân tích AI</p>
+        <p class="ai-state" *ngIf="!ai.result?.actions?.length && !ai.loading && !ai.unavailable">Chưa có đề xuất nào.</p>
       </div>
 
       <div class="form__actions">

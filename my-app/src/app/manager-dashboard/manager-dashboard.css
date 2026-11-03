@@ -1027,6 +1027,38 @@ button:disabled { cursor: not-allowed; }
 .goal-item__days--urgent  { background: var(--warn-bg); color: var(--warn-text); }
 .goal-item__days--overdue { background: var(--error-container); color: var(--error); }
 
+/* AI-RISK NEW */
+.ai-state { margin: 0; font-size: 12px; line-height: 16px; color: var(--secondary, #565e74); }
+.ai-state--loading { font-style: italic; }
+.ai-state--unavailable { color: var(--warn-text, #b45309); font-weight: 600; }
+.shap-item__head { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
+.shap-item__share { font-size: 12px; font-weight: 700; color: var(--on-surface, #0b1c30); }
+
+/* Thanh SHAP: dài theo |impact|, đỏ = tăng rủi ro, xanh = giảm rủi ro */
+.shap-list { display: flex; flex-direction: column; gap: 10px; margin: 0; padding: 0; list-style: none; }
+.shap-item { display: flex; flex-direction: column; gap: 4px; cursor: help; }
+.shap-item__bar { height: 100%; border-radius: 4px; transition: width 0.5s ease; }
+.shap-item__bar--up { background: var(--error, #ba1a1a); }
+.shap-item__bar--down { background: var(--good, #059669); }
+.shap-item__label { font-size: 12px; font-weight: 600; color: var(--on-surface, #0b1c30); }
+
+.shap-item__track { height: 8px; overflow: hidden; border-radius: 4px; background: var(--surface-container, #e5eeff); }
+/* Danh sách đề xuất của AI (tone good / warn / bad) */
+.ai-actions { display: flex; flex-direction: column; gap: 8px; margin-top: 8px; }
+.ai-action { display: flex; gap: 8px; padding: 10px 12px; border-radius: 4px; background: var(--surface-low, #eff4ff); border-left: 3px solid var(--primary, #00288e); }
+.ai-action__icon { flex-shrink: 0; margin-top: 2px; color: var(--primary, #00288e); }
+.ai-action__title { font-size: 12px; font-weight: 700; color: var(--on-surface, #0b1c30); }
+.ai-action__detail { margin: 2px 0 0; font-size: 12px; line-height: 16px; color: var(--secondary, #565e74); }
+.ai-action--bad  { border-left-color: var(--error, #ba1a1a); background: var(--error-container, #ffdad6); }
+.ai-action--bad .ai-action__icon { color: var(--error, #ba1a1a); }
+.ai-action--warn { border-left-color: var(--warn, #f59e0b); background: var(--warn-bg, #fef3c7); }
+.ai-action--warn .ai-action__icon { color: var(--warn-text, #b45309); }
+.ai-action--good { border-left-color: var(--good, #059669); background: var(--good-bg, #d1fae5); }
+.ai-action--good .ai-action__icon { color: var(--good-text, #047857); }
+
+@media (prefers-reduced-motion: reduce) {
+  .shap-item__bar { transition: none; }
+}
 /* ==========================================================
    ANIMATION
    ========================================================== */

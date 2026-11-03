@@ -3,9 +3,14 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
 import { AuthService, User } from '../../classes/authService';
 import { DataService, TODAY } from '../../classes/data';
-import { EmployeeSummary } from '../../classes/cpn';
+import { EmployeeSummary, Goal } from '../../classes/cpn';
+import { AiRiskResult, RiskLabel } from '../../model/ai-risk.model';
+import { AiRiskService, pHighPercent } from '../../services/ai-risk';
+import { kpiScoreOf, pickMetricGoals, round1 } from '../../classes/kpi-math';
 import { TaskAssignmentService } from '../../services/task-assignment.service';
-import { Subscription } from 'rxjs';
+import { Subscription, forkJoin, from, of } from 'rxjs';
+import { map, mergeMap, switchMap } from 'rxjs/operators';
+
 
 
 /* ==========================================================
@@ -13,6 +18,7 @@ import { Subscription } from 'rxjs';
    với dashboard.component.ts)
    Tên field snake_case khớp JSON mà API sẽ trả về.
    ========================================================== */
+const AI_CONCURRENCY = 4;
 
 export interface UnifiedMetrics {
   actual_progress: number;   // Tiến độ thực tế (%)
@@ -20,8 +26,6 @@ export interface UnifiedMetrics {
   overdue_tasks: number;     // Số việc quá hạn
   days_remaining: number;    // Số ngày còn lại
 }
-
-export type RiskLabel = 'High Risk' | 'Low Risk' | 'Normal'; // Nhãn của XGBoost
 
 export interface NavItem {
   path: string;
@@ -40,22 +44,26 @@ export interface Employee {
   kpiTarget: number;           // Mục tiêu (%)
   selfAssessment: string;      // Tự đánh giá
   statusLabel: string;         // Nhãn hiển thị
-  risk_label: RiskLabel;       // Kết quả XGBoost
+  risk_label: RiskLabel;       // Nhãn của AI nếu đã có, chưa có thì nhãn theo luật
+  rule_risk: RiskLabel;        // Nhãn theo luật (DataService.riskOf): chỉ dùng khi AI chưa trả kết quả hoặc API lỗi.
   feedback: string;            // nhận xét của quản lý ('' = chưa đánh giá)
   metrics: UnifiedMetrics;
   overdueItems: OverdueItem[];
   forecast: number;
+  goals: Goal[];               // toàn bộ goal của nhân viên (đầu vào gọi API AI)
 }
 
-export interface ShapReason {
-  prefix: string;
-  highlight: string;
-  suffix: string;
+export interface ShapBar {
+  feature: string;
+  label: string;
+  impact: number;     // log-odds, chỉ để trong tooltip
+  width: number;      // % chiều dài thanh, 0-100
+  positive: boolean;  // true = làm tăng rủi ro (đỏ)
+  share: number;
 }
 
 export interface OverdueItem {
   goal: string;
-  task: string;
   dueDate: string;
   daysLate: number;
 }
@@ -69,6 +77,16 @@ export interface DetailEmployee {
   username: string;
   departmentLabel: string;
   risk_label: RiskLabel;
+}
+
+export interface DetailStats {
+  actual: number;
+  expected: number;
+  gap: number;
+  overdue: number;
+  completedGoals: number;
+  totalGoals: number;
+  activeGoals: number;
 }
 
 
@@ -92,6 +110,8 @@ export class ManagerDashboard implements OnDestroy {
   selectedRole = 'Quản lý';
   assignableEmployees: User[] = [];
   private readonly destroyRef = inject(DestroyRef);
+  private alertSub?: Subscription;
+  private aiBgSub?: Subscription;
   today = TODAY;
 
   constructor(
@@ -99,17 +119,26 @@ export class ManagerDashboard implements OnDestroy {
     private readonly taskAssignmentService: TaskAssignmentService,
     private readonly authService: AuthService,
     private readonly dataService: DataService,
+    private readonly aiRiskService: AiRiskService,
     private readonly changeDetector: ChangeDetectorRef
   ) {
     const currentUser = this.authService.currentUser;
     if (currentUser?.role === 'manager') {
       this.manager = { name: currentUser.fullName, position: 'Trưởng phòng' };
       this.dataService.getEmployeeSummaries(currentUser)
-        .pipe(takeUntilDestroyed(this.destroyRef))
-        .subscribe(summaries => {
+        .pipe(
+          switchMap(summaries =>
+            (summaries.length
+              ? forkJoin(summaries.map(s => this.dataService.getGoalsOf(s.employee.id)))
+              : of([] as Goal[][])
+            ).pipe(map(goalLists => ({ summaries, goalLists })))
+          ),
+          takeUntilDestroyed(this.destroyRef)
+        )
+        .subscribe(({ summaries, goalLists }) => {
           this.employeeSummaries = summaries;
           this.assignableEmployees = summaries.map(summary => summary.employee);
-          this.employees = summaries.map(summary => this.toEmployee(summary));
+          this.employees = summaries.map((summary, i) => this.toEmployee(summary, goalLists[i] ?? []));
           this.updateSummary();
           this.teamOptions = [
             { value: 'all', label: 'Tất cả phòng ban' },
@@ -125,6 +154,7 @@ export class ManagerDashboard implements OnDestroy {
           } else {
             this.aiAlert.employee = null;
           }
+          this.loadAiInBackground();
           this.changeDetector.markForCheck();
         });
     } else {
@@ -133,32 +163,26 @@ export class ManagerDashboard implements OnDestroy {
     }
   }
 
-  private toEmployee(summary: EmployeeSummary): Employee {
+  private toEmployee(summary: EmployeeSummary, goals: Goal[]): Employee {
     const employee = summary.employee;
-    const risk = summary.latestRisk;
-    const hasGoals = summary.totalGoals > 0;
-    const score = !hasGoals ? 0
-      : summary.avgExpected > 0
-        ? Math.min(100, Math.round(summary.avgActual / summary.avgExpected * 1000) / 10)
-        : 100;
+    const ruleRisk = summary.latestRisk;
+    const hasGoals = goals.length > 0;
+    const metricGoals = pickMetricGoals(goals);
+    const p = this.dataService.employeeProgress(metricGoals);
+    const score = kpiScoreOf(this.dataService, goals);
 
-    const statusLabel = !hasGoals ? 'Chưa có mục tiêu'
-      : risk === 'High Risk' ? 'Rủi ro'
-      : risk === 'Low Risk' ? 'Cảnh báo'
-      : score >= 90 ? 'Tốt' : 'Đạt';
 
-    const overdueItems: OverdueItem[] = summary.activeGoals.flatMap(goal =>
-      this.dataService.overdueTasksOf(goal).map(task => ({
-        goal: goal.name,
-        task: task.name,
-        dueDate: task.dueDate,
-        daysLate: Math.round((Date.parse(TODAY) - Date.parse(task.dueDate)) / 86400000)
-      }))
-    );
-    const forecast = summary.avgExpected > 0
-      ? Math.min(100, Math.round(summary.avgActual / summary.avgExpected * 100))
-      : 100;
-
+    const overdueItems: OverdueItem[] = metricGoals.flatMap(goal => {
+    const late = this.dataService.overdueTasksOf(goal);
+    if (!late.length) return [];
+    const earliest = late.map(t => t.dueDate).sort()[0];
+    return [{
+      goal: goal.name,
+      dueDate: earliest,
+      daysLate: Math.round((Date.parse(TODAY) - Date.parse(earliest)) / 86400000)
+      }];
+    });
+    const activeGoals = goals.filter(goal => goal.status === 'in_progress');
     return {
       code: employee.id,
       name: employee.fullName,
@@ -169,21 +193,31 @@ export class ManagerDashboard implements OnDestroy {
       kpi: score,
       kpiTarget: 85,
       selfAssessment: `${summary.activeGoals.length} mục tiêu đang chạy · ${summary.completedGoals}/${summary.totalGoals} mục tiêu hoàn thành`,
-      statusLabel,
-      risk_label: risk,
+      statusLabel: this.statusLabelOf(hasGoals, ruleRisk, score),
+      risk_label: ruleRisk,
+      rule_risk: ruleRisk,
       feedback: this.dataService.getFeedbacksOf(employee.id)[0]?.text ?? '',
       overdueItems,
-      forecast,
+      forecast: score, // dự báo hoàn thành = thực tế / kỳ vọng, chính là điểm KPI
+      goals,
       metrics: {
-        actual_progress: summary.avgActual,
-        expected_progress: summary.avgExpected,
-        overdue_tasks: summary.overdueTotal,
-        days_remaining: summary.activeGoals.length
-          ? Math.min(...summary.activeGoals.map(goal => this.dataService.daysRemaining(goal)))
+        actual_progress: p.actual,
+        expected_progress: p.expected,
+        overdue_tasks: overdueItems.length,
+        days_remaining: activeGoals.length
+          ? Math.min(...activeGoals.map(goal => this.dataService.daysRemaining(goal)))
           : 0
       }
     };
   }
+
+  private statusLabelOf(hasGoals: boolean, risk: RiskLabel, score: number): string {
+    return !hasGoals ? 'Chưa có mục tiêu'
+      : risk === 'High Risk' ? 'Rủi ro'
+      : risk === 'Low Risk' ? 'Cảnh báo'
+      : score >= 90 ? 'Tốt' : 'Đạt';
+  }
+
 
   private updateSummary(): void {
     const count = this.employees.length;
@@ -193,7 +227,7 @@ export class ManagerDashboard implements OnDestroy {
       totalStaff: count,
       teamCount: new Set(this.employees.map(employee => employee.team)).size,
       attendance: `${count} nhân viên theo dữ liệu`,
-      avgKpi: count ? Math.round(this.employees.reduce((sum, employee) => sum + employee.kpi, 0) / count) : 0,
+      avgKpi: count ? round1(this.employees.reduce((sum, employee) => sum + employee.kpi, 0) / count) : 0,
       avgKpiDelta: 'Tính từ goal đang chạy',
       kpiTarget: 85,
       achievedCount,
@@ -227,7 +261,7 @@ export class ManagerDashboard implements OnDestroy {
   }
 
   assets = {
-    logo: 'https://lh3.googleusercontent.com/aida/AEtjO1V1jaUxaQzWm3n-04M5cPoNGnD2ucdXITFrC_P9iK_mQ-ZadikGW4kQ9oAhMAI59rd2myGd0mIAKqZiD8QzeJlSTEFrXRr9lvo3DSjE-UxELisb8Jhlvgpmcz3oiMmph2GPCDT44OPDzh_jA2OkvS2bcDxgztEzzvK2NR0i6-MQpSF8zYRXymkp1IEMUfFmk6xTEhh9lRvzVAtgA9SfgJxu-IpJvo0oP7S4L0tJJ7SkHkGh1bYw9LYe1w',
+    logo: 'https://saca.com.vn/vnt_upload/partner/son_dong_nai.jpg',
     avatar: 'https://lh3.googleusercontent.com/aida-public/AB6AXuB8HHSnBhHBSsMSqqLXeCi87hbXGCVLiq82Ns7dWyDz4Cv83l3hQFctz0hezwWt32WPPnYtyGUqllIll8lepvSTeQa8doKX5BwMY1vsh0lXMEfFikzELUFzCoKsHmdK5bmzXbovq7DDAaQArnXmYhTCZe9ohNxB31-_25_ZHzWhJTXzS3tynXGyY0uBF6myLyQ2ahf1J15pM2sJ4V8c9k2ZyAxC_6sCz6fsUHoP5tZeFkZExtHy-kMr'
   };
 
@@ -246,13 +280,13 @@ export class ManagerDashboard implements OnDestroy {
     { value: 'all', label: 'Tất cả phòng ban' }
   ];
   periodOptions = [
-    { value: '2024-10', label: 'Tháng 10/2024' },
-    { value: '2024-09', label: 'Tháng 09/2024' },
-    { value: '2024-08', label: 'Tháng 08/2024' }
+    { value: '2026-10', label: 'Tháng 10/2026' },
+    { value: '2026-09', label: 'Tháng 09/2026' },
+    { value: '2026-08', label: 'Tháng 08/2026' }
   ];
   filters = {
     team: 'all',
-    period: '2024-10',
+    period: '2026-10',
     search: ''
   };
 
@@ -279,13 +313,16 @@ export class ManagerDashboard implements OnDestroy {
     atRiskPercent: '0%'
   };
 
-  /* ---------- MOCK: kết quả AI (XGBoost + SHAP + Gemini) ---------- */
+  /* ---------- kết quả AI (XGBoost + SHAP ) (lấy từ AiRiskService) ---------- */
   aiAlert = {
     engineLabel: 'Hệ thống phân tích dữ liệu tự động từ CRM và phần mềm công nợ kế toán',
-    modelConfidence: '94.8%',
     employee: null as Employee | null,
-    reasons: [] as ShapReason[],   // ĐÃ SỬA: không còn gõ cứng, được sinh trong selectAlert()
-    coaching: ''                   // ĐÃ SỬA: không còn gõ cứng, được sinh trong selectAlert()
+    loading: false,
+    unavailable: false,
+    result: null as AiRiskResult | null,
+    pHigh: null as number | null,     // p_high của worst_goal, tối đa 99; null = chưa có
+    worstGoal: '',
+    shapBars: [] as ShapBar[]
   };
 
   /* ---------- Dữ liệu bảng ---------- */
@@ -293,9 +330,8 @@ export class ManagerDashboard implements OnDestroy {
 
   /* ---------- Modal chi tiết nhân viên (giống HR) ---------- */
   selectedEmployeeForDetail: DetailEmployee | null = null;
-  selectedSummary: EmployeeSummary | null = null;
-  employeeSummaries: EmployeeSummary[] = [];
-  goalDeadlines: number[] = [];      // số ngày còn lại của từng goal
+  detailStats: DetailStats | null = null;  employeeSummaries: EmployeeSummary[] = [];
+  goalDeadlines: { name: string; days: number }[] = [];
   goalsLoading = false;
   isDetailModalOpen = false;
   private goalsSub?: Subscription;
@@ -388,41 +424,108 @@ export class ManagerDashboard implements OnDestroy {
     this.review = { open: true, targets, ai: '', text: targets.length === 1 ? targets[0].feedback : '' };
   }
 
-  // AI tạo feedback từ evidence (tiến độ, kỳ vọng, việc quá hạn). TODO: thay bằng gọi API Gemini
-  generateAi(): void {
-    const t = this.review.targets;
-    if (!t.length) return;
-    const avg = (f: (e: Employee) => number) => Math.round(t.reduce((s, e) => s + f(e), 0) / t.length);
-    const actual = avg(e => e.metrics.actual_progress);
-    const expected = avg(e => e.metrics.expected_progress);
-    const overdue = t.reduce((s, e) => s + e.metrics.overdue_tasks, 0);
-    const gap = expected - actual;
-    const who = t.length === 1 ? t[0].name : `cả nhóm (${t.length} nhân viên)`;
+    /**
+   * Soạn nháp nhận xét cục bộ từ số liệu tiến độ và việc quá hạn (không gọi API).
+   *  - 1 người nhận: lời nhận xét riêng, có tên.
+   *  - Nhiều người nhận: bản chung dùng {tên}, khi gửi sẽ thay bằng tên từng người.
+   */
+  
+generateAi(): void {
+  const t = this.review.targets;
+  if (!t.length) return;
+  this.review.ai = t.length === 1 ? this.coachSingle(t[0]) : this.coachGroup(t);
+}
 
-    this.review.ai =
-      `Trong kỳ này ${who} đạt ${actual}% tiến độ, so với kỳ vọng ${expected}%` +
-      (gap > 0 ? ` (chậm ${gap}%)` : ' (đạt/vượt kỳ vọng)') +
-      `, có ${overdue} việc quá hạn. ` +
-      (gap > 5 || overdue > 0
-        ? 'Đề xuất rà soát lại các việc quá hạn, ưu tiên việc có trọng số lớn và trao đổi 1-1 để gỡ vướng mắc.'
-        : 'Tiếp tục duy trì nhịp độ hiện tại và có thể nhận thêm mục tiêu thử thách hơn.');
+/** Lời nhận xét cho 1 nhân viên */
+private coachSingle(e: Employee): string {
+  const name = this.firstName(e);
+  const actual = Math.round(e.metrics.actual_progress);
+  const expected = Math.round(e.metrics.expected_progress);
+  const gap = expected - actual;
+
+  const late = [...e.overdueItems].sort((a, b) => b.daysLate - a.daysLate);
+  const worst = late[0];
+  const lateGoals = late.slice(0, 2).map(i => `“${i.goal}”`).join(' và ');
+
+  // Chậm nhiều: trao đổi về tình hình và hướng xử lý
+  if (gap >= 30 || (late.length > 0 && gap >= 15)) {
+    return `Chào ${name}, tiến độ hiện tại của em là ${actual}%, thấp hơn mức dự kiến ${expected}%. ` +
+      (worst
+        ? `Mục tiêu “${worst.goal}” có việc đã quá hạn ${worst.daysLate} ngày. `
+        : '') +
+      `Em cập nhật giúp anh tình hình các đầu việc hiện tại nhé, nhất là những phần đang ảnh hưởng đến tiến độ. ` +
+      `Mình sẽ cùng xem lại để thống nhất hướng xử lý phù hợp.`;
   }
+
+  // Chậm vừa: nhắc ưu tiên và cập nhật tiến độ
+  if (gap >= 5 || late.length > 0) {
+    return `Chào ${name}, tiến độ hiện tại là ${actual}%, chưa đạt mức dự kiến ${expected}%. ` +
+      (late.length
+        ? `Em ưu tiên xử lý các việc quá hạn thuộc ${lateGoals} trước nhé. `
+        : `Em theo sát các đầu việc còn lại để kịp tiến độ kế hoạch nhé. `) +
+      `Nếu có thay đổi nào ảnh hưởng đến tiến độ, em cập nhật sớm để mình nắm tình hình.`;
+  }
+
+  // Đạt hoặc vượt: ghi nhận kết quả
+  return `Chào ${name}, tiến độ hiện tại của em là ${actual}%, đạt/vượt mức dự kiến ${expected}%. ` +
+    `Em tiếp tục duy trì tiến độ này nhé.`;
+  }
+
+  /** Ký hiệu tên trong bản nháp nhiều người; khi gửi sẽ được thay bằng tên từng người. */
+  private readonly NAME_TOKEN = '{tên}';
+
+  /** Lời nhận xét soạn một lần cho nhiều người */
+  private coachGroup(t: Employee[]): string {
+    const behind = t.filter(e =>
+      e.metrics.expected_progress - e.metrics.actual_progress >= 5 || e.overdueItems.length > 0
+    ).length;
+    const ratio = behind / t.length;
+    const hi = this.NAME_TOKEN;
+
+    // Từ 2/3 số người được chọn đang chậm hoặc có mục tiêu quá hạn
+    if (ratio >= 2 / 3) {
+      return `Chào ${hi}, em rà soát lại tiến độ các mục tiêu trong kỳ và ưu tiên những đầu việc đang chậm hoặc quá hạn nhé. ` +
+        `Nếu có vấn đề ảnh hưởng đến kế hoạch, em cập nhật để mình cùng xem xét hướng xử lý.`;
+    }
+
+    // Từ 1/3 trở xuống đang chậm hoặc có mục tiêu quá hạn
+    if (ratio <= 1 / 3) {
+      return `Chào ${hi}, em tiếp tục duy trì tiến độ công việc trong kỳ nhé. ` +
+        `Đồng thời, em theo dõi các mục tiêu còn lại và cập nhật kết quả khi có thay đổi.`;
+    }
+
+    // Tình hình chung chưa đồng đều
+    return `Chào ${hi}, em tiếp tục theo dõi tiến độ các mục tiêu trong kỳ nhé. ` +
+      `Nếu có đầu việc chưa theo kịp kế hoạch, em chủ động rà soát và cập nhật tình hình để mình nắm được.`;
+  }
+
+  /** Tên gọi = từ cuối của họ tên */
+  private firstName(e: Employee): string {
+    return e.name.trim().split(/\s+/).pop() ?? e.name;
+  }
+
+  /** Thay ký hiệu tên bằng tên của từng người nhận */
+  private personalize(text: string, e: Employee): string {
+    return text.split(this.NAME_TOKEN).join(this.firstName(e));
+  }
+
 
   applyAi(): void {
     this.review.text = this.review.ai;
   }
 
   sendReview(): void {
-    const text = this.review.text.trim();
-    if (!text) return;
-    this.review.targets.forEach(e => {
-      e.feedback = text;
-      this.dataService.saveFeedback(e.code, text, this.manager.name);
-    });
-    alert(`Đã gửi đánh giá cho ${this.review.targets.length} nhân viên.`);
-    this.selected.clear();
-    this.review.open = false;
-  }
+  const text = this.review.text.trim();
+  if (!text) return;
+  this.review.targets.forEach(e => {
+    const personal = this.personalize(text, e);   // mỗi người nhận một bản đã điền tên riêng
+    e.feedback = personal;
+    this.dataService.saveFeedback(e.code, personal, this.manager.name);
+  });
+  alert(`Đã gửi đánh giá cho ${this.review.targets.length} nhân viên.`);
+  this.selected.clear();
+  this.review.open = false;
+}
 
   removeTarget(e: Employee): void {
     this.review.targets = this.review.targets.filter(t => t.code !== e.code);
@@ -511,35 +614,71 @@ export class ManagerDashboard implements OnDestroy {
         a.kpi - b.kpi);
   }
 
-  // Việc cùng bị trễ ở từ 2 người trở lên = vấn đề chung của nhóm
-  get teamPatterns(): { task: string; count: number }[] {
-    const map = new Map<string, number>();
-    this.riskQueue.forEach(e =>
-      new Set(e.overdueItems.map(i => i.task)).forEach(t => map.set(t, (map.get(t) ?? 0) + 1)));
-    return [...map]
-      .filter(([, n]) => n >= 2)
-      .map(([task, count]) => ({ task, count }))
-      .sort((a, b) => b.count - a.count);
-  }
-
-  // ĐÃ SỬA: sinh lại SHAP + Coaching theo nhân viên đang chọn
-  // TODO: thay bằng kết quả SHAP thật từ API khi có
+  /**
+   * Chọn nhân viên trong hàng đợi: gọi API AI (service cache, chọn lại người đã xem thì không gọi lại).
+   * KHÔNG gọi API trong getter hoặc template.
+   */
   selectAlert(e: Employee): void {
     this.aiAlert.employee = e;
+    this.aiAlert.loading = true;
+    this.aiAlert.unavailable = false;
+    this.aiAlert.result = null;
+    this.aiAlert.pHigh = null;
+    this.aiAlert.worstGoal = '';
+    this.aiAlert.shapBars = [];
 
-    const gap = Math.max(0, Math.round(e.metrics.expected_progress - e.metrics.actual_progress));
-    this.aiAlert.reasons = [
-      { prefix: 'Số việc quá hạn là ', highlight: `${e.metrics.overdue_tasks} việc`, suffix: '.' },
-      { prefix: 'Tiến độ thực tế thấp hơn kỳ vọng ', highlight: `${gap}%`, suffix: '.' }
-    ];
-
-    this.aiAlert.coaching = e.metrics.overdue_tasks > 0
-      ? `Đề xuất tổ chức buổi kèm cặp 1-1 với ${e.name} để rà soát ${e.metrics.overdue_tasks} việc quá hạn, ` +
-        'ưu tiên các việc có trọng số lớn nhất và hỗ trợ gỡ vướng mắc trước cuối tuần.'
-      : `Đề xuất trao đổi 1-1 với ${e.name} để tìm nguyên nhân tiến độ chậm hơn kế hoạch ${gap}% ` +
-        'và điều chỉnh kế hoạch thực hiện cho phần còn lại của kỳ.';
+    this.alertSub?.unsubscribe(); // bỏ request cũ để kết quả muộn không ghi đè người đang chọn
+    this.alertSub = this.aiRiskService.analyze(e.code, e.goals, 'manager')
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(result => {
+        this.showAlertResult(result);
+        this.applyAiResult(e, result);
+        this.changeDetector.markForCheck();
+      });
   }
 
+  /** Đổ kết quả API vào khối "AI cảnh báo": SHAP (thanh), feedback, actions, p_high của goal tệ nhất */
+  private showAlertResult(result: AiRiskResult): void {
+    this.aiAlert.loading = false;
+    this.aiAlert.unavailable = !!result.unavailable;
+    this.aiAlert.result = result;
+
+    this.aiAlert.shapBars = this.toShapBars(result);
+
+    const worst = result.goals.find(g => g.name === result.worst_goal)
+      ?? [...result.goals].sort((a, b) => b.p_high - a.p_high)[0];
+    this.aiAlert.pHigh = worst ? pHighPercent(worst.p_high) : null;
+    this.aiAlert.worstGoal = worst?.name ?? result.worst_goal;
+  }
+
+    /** Dựng các thanh nguyên nhân: độ dài thanh = tỷ trọng (%) của yếu tố đó trong tổng các yếu tố đang hiện */
+  private toShapBars(result: AiRiskResult): ShapBar[] {
+    const total = result.shap_factors.reduce((sum, f) => sum + Math.abs(f.impact), 0);
+    return result.shap_factors.map(f => {
+      const share = total > 0 ? Math.round(Math.abs(f.impact) / total * 100) : 0;
+      return { feature: f.feature, label: f.label, impact: f.impact, width: share, share, positive: f.impact > 0 };
+    });
+  }
+
+  /** Cập nhật nhãn rủi ro của nhân viên theo kết quả AI (API lỗi thì giữ nhãn theo luật) */
+  private applyAiResult(e: Employee, result: AiRiskResult): void {
+    e.risk_label = result.unavailable ? e.rule_risk : result.risk_label;
+    e.statusLabel = this.statusLabelOf(e.goals.length > 0, e.risk_label, e.kpi);
+    this.updateSummary();
+    this.changeDetector.markForCheck();
+  }
+
+  /** Tải nền kết quả AI cho cả danh sách, tối đa AI_CONCURRENCY request song song */
+  private loadAiInBackground(): void {
+    this.aiBgSub?.unsubscribe();
+    this.aiBgSub = from(this.employees).pipe(
+      mergeMap(
+        e => this.aiRiskService.analyze(e.code, e.goals, 'manager').pipe(map(result => ({ e, result }))),
+        AI_CONCURRENCY
+      ),
+      takeUntilDestroyed(this.destroyRef)
+    ).subscribe(({ e, result }) => this.applyAiResult(e, result));
+  }
   // Mở popup đánh giá với nội dung AI đã soạn sẵn trong ô của quản lý
   coachWithAi(e: Employee): void {
     this.openReview([e]);
@@ -562,14 +701,7 @@ export class ManagerDashboard implements OnDestroy {
      MODAL CHI TIẾT NHÂN VIÊN (View Profile) — giống bên HR
      ========================================================== */
 
-  /** Chênh lệch giữa kỳ vọng và thực tế (điểm %) */
-  get detailGap(): number {
-    return this.selectedSummary
-      ? this.selectedSummary.avgExpected - this.selectedSummary.avgActual
-      : 0;
-  }
-
-  viewProfile(emp: Employee): void {
+  viewProfile(emp: Employee, withAi = false): void {
     const summary = this.employeeSummaries.find(s => s.employee.id === emp.code) ?? null;
 
     // Map Employee (manager) -> DetailEmployee để khớp với template dùng chung với HR
@@ -583,7 +715,16 @@ export class ManagerDashboard implements OnDestroy {
       departmentLabel: emp.teamName,
       risk_label: emp.risk_label
     };
-    this.selectedSummary = summary;
+    const m = emp.metrics;
+    this.detailStats = {
+      actual: round1(m.actual_progress),
+      expected: round1(m.expected_progress),
+      gap: round1(m.expected_progress - m.actual_progress),
+      overdue: m.overdue_tasks,
+      completedGoals: summary?.completedGoals ?? 0,
+      totalGoals: summary?.totalGoals ?? emp.goals.length,
+      activeGoals: emp.goals.filter(g => g.status === 'in_progress').length
+    };
     this.goalDeadlines = [];
     this.goalsLoading = true;
     this.isDetailModalOpen = true;
@@ -593,7 +734,10 @@ export class ManagerDashboard implements OnDestroy {
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: goals => {
-          this.goalDeadlines = goals.map(goal => this.dataService.daysRemaining(goal));
+          this.goalDeadlines = goals.map(goal => ({
+            name: goal.name,
+            days: this.dataService.daysRemaining(goal)
+          }));
           this.goalsLoading = false;
           this.changeDetector.markForCheck();
         },
@@ -602,14 +746,27 @@ export class ManagerDashboard implements OnDestroy {
           this.changeDetector.markForCheck();
         }
       });
+    this.detailWithAi = withAi;
+    this.detailAiSub?.unsubscribe();
+    if (withAi) {
+      this.detailAi = { loading: true, unavailable: false, result: null, shapBars: [] };
+      this.detailAiSub = this.aiRiskService.analyze(emp.code, emp.goals, 'manager')
+        .pipe(takeUntilDestroyed(this.destroyRef))
+        .subscribe(result => {
+          this.detailAi = { loading: false, unavailable: !!result.unavailable, result, shapBars: this.toShapBars(result) };
+          this.changeDetector.markForCheck();
+        });
+    }
   }
 
   closeDetailModal(): void {
     this.goalsSub?.unsubscribe();
     this.isDetailModalOpen = false;
     this.selectedEmployeeForDetail = null;
-    this.selectedSummary = null;
+    this.detailStats = null;
     this.goalDeadlines = [];
+    this.detailAiSub?.unsubscribe();  
+    this.detailWithAi = false;  
   }
 
   // ĐÃ THÊM: nút "Đánh giá KPI chi tiết" trong modal chi tiết
@@ -622,5 +779,18 @@ export class ManagerDashboard implements OnDestroy {
 
   ngOnDestroy(): void {
     this.goalsSub?.unsubscribe();
+    this.alertSub?.unsubscribe();
+    this.aiBgSub?.unsubscribe();
+    this.detailAiSub?.unsubscribe();
   }
+  detailAi = { 
+    loading: false, 
+    unavailable: false, 
+    result: null as AiRiskResult | null, 
+    shapBars: [] as ShapBar[] 
+  };
+  
+  detailWithAi = false;   // true khi modal được mở từ nút trong khung AI cảnh báo
+
+  private detailAiSub?: Subscription;
 }
