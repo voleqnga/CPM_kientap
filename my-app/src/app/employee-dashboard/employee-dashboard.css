@@ -106,7 +106,6 @@ button {
 .icon-lg   { font-size: 18px; }
 .icon-xl   { font-size: 20px; }
 .icon-2xl  { font-size: 24px; }
-.icon-3xl  { font-size: 30px; }
  
 .stack { display: flex; flex-direction: column; }
  
@@ -203,41 +202,6 @@ button {
   text-transform: uppercase;
   color: var(--inverse-primary);
 }
- 
-/* Chuyển vai trò */
-.role-switch {
-  margin: var(--space-sm) var(--space-md);
-  padding: var(--space-xs);
-  border-radius: 4px;
-  background: rgba(11, 28, 48, 0.3);
-}
-.role-switch__label {
-  display: block;
-  margin-bottom: 4px;
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  color: var(--inverse-primary);
-}
-.role-switch__field { position: relative; display: flex; align-items: center; }
-.role-switch__icon {
-  position: absolute;
-  left: 8px;
-  color: var(--inverse-primary);
-  pointer-events: none;
-}
-.role-switch__select {
-  width: 100%;
-  padding: 6px 12px 6px 28px;
-  border: 1px solid rgba(196, 197, 213, 0.3);
-  border-radius: 4px;
-  background: var(--inverse-surface);
-  color: var(--inverse-on-surface);
-  font-size: 12px;
-  font-weight: 600;
-}
-.role-switch__select:focus { outline: none; border-color: var(--inverse-primary); }
  
 /* Menu */
 .nav {
@@ -376,9 +340,9 @@ button {
 .user__name { font-size: 14px; font-weight: 700; line-height: 18px; }
 .user__role { font-size: 12px; line-height: 14px; color: var(--secondary); }
 .user__avatar {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
+  width: 35px;
+  height: 35px;
+  border-radius: 80%;
   object-fit: cover;
   box-shadow: 0 0 0 2px var(--surface-variant);
 }
@@ -432,7 +396,6 @@ button {
 .dot--primary { background: var(--primary); }
 .dot--pulse { animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
 .dot--tone { width: 6px; height: 6px; background: var(--tone); }
-.dot--ping { animation: ping 1.2s cubic-bezier(0, 0, 0.2, 1) infinite; }
  
 /* ---------- 1. Welcome ---------- */
 .welcome {
@@ -699,16 +662,6 @@ button {
 .progress__complete:hover { background: var(--surface-lowest); }
 .progress__task-status { color: var(--good-text); font-size: 10px; font-weight: 600; white-space: nowrap; }
 .progress__task-status--pending { color: var(--warn-text); }
-/* Nút hoàn thành cả mục tiêu (goal chưa có task con) */
-.progress__goal-action {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  margin-top: 4px;
-  padding-top: 10px;
-  border-top: 1px solid var(--outline-variant);
-}
-.progress__goal-action .progress__complete { padding: 6px 12px; font-size: 11px; font-weight: 600; }
 
 /* Ghi chú nhỏ trong modal */
 .hint {
@@ -796,7 +749,6 @@ button {
 }
 .table-foot__item { display: flex; align-items: center; gap: 8px; }
 
-.table-history { padding: 10px var(--space-lg); background: var(--surface-low); }
 /* ==========================================================
    MODAL
    ========================================================== */
@@ -832,7 +784,6 @@ button {
 .modal__title h4 { margin: 0; font-size: 16px; line-height: 24px; font-weight: 700; color: var(--on-surface); }
  
 .form { display: flex; flex-direction: column; gap: var(--space-md); }
-.form__row { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-md); }
 .form__actions { display: flex; align-items: center; justify-content: flex-end; gap: var(--space-sm); padding-top: 8px; }
 /* Thông báo lỗi của form */
 .form-error {
@@ -856,7 +807,6 @@ button {
   resize: vertical;
 }
 .input:focus { outline: none; background: var(--surface-lowest); box-shadow: 0 0 0 2px var(--primary); }
-.input--readonly { background: var(--surface-container); color: var(--secondary); cursor: not-allowed; }
  
 .notice {
   display: flex;
@@ -1008,7 +958,7 @@ button {
   .modal__dialog,
   .bar__fill,
   .ring__value { transition: none; animation: none; }
-  .dot--ping, .dot--pulse, .ai-status__ping { animation: none; }
+  .dot--pulse, .ai-status__ping { animation: none; }
 }
  
 /* ==========================================================

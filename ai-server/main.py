@@ -47,6 +47,17 @@ booster.load_model(str(MODEL_PATH))
 FEATURES = list(booster.feature_names or DEFAULT_FEATURES)
 
 app = FastAPI(title="CPM AI server")
+
+# Cấu hình CORS để Netlify có thể gọi API
+app.add_middleware(
+    CORSMiddleware,
+    # Chỗ này tạm thời để "*" cho dễ test. Sau này có link Netlify rồi thì đổi thành ["https://ten-web-cua-bo.netlify.app"] cho bảo mật
+    allow_origins=["*"], 
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=ALLOWED_ORIGINS,

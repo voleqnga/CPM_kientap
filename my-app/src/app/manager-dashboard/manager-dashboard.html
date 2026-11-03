@@ -10,7 +10,7 @@
         <img class="sidebar__logo" [src]="assets.logo" alt="Logo DONASA Sơn Công Nghiệp">
         <div class="sidebar__brand-text">
           <span class="sidebar__name">DONASA</span>
-          <span class="sidebar__sub">Sơn Công Nghiệp</span>
+          <span class="sidebar__sub">SƠN ĐỒNG NAI</span>
         </div>
         <button type="button" class="icon-btn icon-btn--light" (click)="closeSidebar()" aria-label="Đóng menu">
           <span class="material-symbols-outlined icon-xl">close</span>
@@ -86,13 +86,9 @@
       <div class="page-head__text">
         <div class="page-head__tags">
           <span class="role-tag">Vai trò: {{ selectedRole }}</span>
-          <span class="page-head__place">
-            <span class="material-symbols-outlined icon-sm">domain</span>
-            {{ pageInfo.location }}
-          </span>
         </div>
         <h1 class="page-head__title">{{ pageInfo.title }}</h1>
-        <p class="page-head__desc">{{ pageInfo.description }}</p>
+        <p class="page-head__desc">{{ pageInfo.subtitle }}</p>
       </div>
  
       <div class="filters">

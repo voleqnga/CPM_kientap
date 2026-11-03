@@ -271,8 +271,7 @@ export class ManagerDashboard implements OnDestroy {
   pageInfo = {
     location: 'Văn phòng Trụ sở Long Thành',
     title: 'Quản lý Phòng Kinh doanh DONASA - Báo cáo & Đánh giá Nhóm Dự án & Đại lý',
-    description:
-      'Giám sát hiệu suất bán hàng, tiến độ thu hồi công nợ và phê duyệt KPI tháng 10/2024 của các nhóm kinh doanh.'
+    subtitle: 'Báo cáo tổng hợp tiến độ, KPI, rủi ro và nhận xét nhân viên'
   };
 
   /* ---------- Bộ lọc (Template-Driven + [(ngModel)]) ---------- */

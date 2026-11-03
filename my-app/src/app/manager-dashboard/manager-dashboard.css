@@ -189,35 +189,6 @@ button:disabled { cursor: not-allowed; }
   color: var(--inverse-primary);
 }
  
-.role-switch {
-  margin: var(--space-sm) var(--space-md);
-  padding: var(--space-xs);
-  border-radius: 4px;
-  background: rgba(11, 28, 48, 0.3);
-}
-.role-switch__label {
-  display: block;
-  margin-bottom: 4px;
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  color: var(--inverse-primary);
-}
-.role-switch__field { position: relative; display: flex; align-items: center; }
-.role-switch__icon { position: absolute; left: 8px; color: var(--inverse-primary); pointer-events: none; }
-.role-switch__select {
-  width: 100%;
-  padding: 6px 12px 6px 28px;
-  border: 1px solid rgba(196, 197, 213, 0.3);
-  border-radius: 4px;
-  background: var(--inverse-surface);
-  color: var(--inverse-on-surface);
-  font-size: 12px;
-  font-weight: 600;
-}
-.role-switch__select:focus { outline: none; border-color: var(--inverse-primary); }
- 
 .nav { display: flex; flex-direction: column; gap: 4px; padding: 0 var(--space-sm); margin-top: var(--space-xs); }
 .nav__link {
   display: flex;
@@ -458,19 +429,6 @@ button:disabled { cursor: not-allowed; }
   animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 .ai-panel__sub { font-size: 12px; line-height: 16px; font-weight: 500; color: var(--secondary); }
-.confidence {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  align-self: flex-start;
-  padding: 6px 12px;
-  border-radius: 8px;
-  background: var(--surface-lowest);
-  font-size: 11px;
-  color: var(--secondary);
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
-}
-.confidence strong { color: var(--on-surface); }
  
 .alert-box {
   display: flex;
@@ -510,12 +468,9 @@ button:disabled { cursor: not-allowed; }
 .alert-item__name-row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
 .alert-item__name { font-size: 14px; font-weight: 700; }
 .code-chip { padding: 2px 8px; border-radius: 4px; background: var(--surface-container); color: var(--primary); font-size: 11px; font-weight: 500; }
-.alert-item__kpi { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 4px; }
-.kpi-badge { padding: 2px 8px; border-radius: 4px; background: var(--error-container); color: var(--error); font-size: 14px; font-weight: 700; }
  
 /* Nhãn rủi ro XGBoost: xanh / vàng / đỏ */
 .risk-flag { padding: 2px 8px; border-radius: 12px; font-size: 10px; font-weight: 700; letter-spacing: 0.03em; text-transform: uppercase; }
-.risk-flag--normal { background: var(--surface-container); color: var(--primary); }
 .risk-flag--low { background: var(--warn-bg); color: #92400e; }
 .risk-flag--high { background: var(--error-container); color: var(--on-error-container); }
  
@@ -782,7 +737,6 @@ button:disabled { cursor: not-allowed; }
 .triage__chip.is-active small { color:#cbd5f5; }
 .triage__dot { width:8px; height:8px; border-radius:50%; background:#f59e0b; }
 .triage__dot.is-high { background:#dc2626; }
-.patterns { display:flex; gap:10px; align-items:flex-start; padding:12px 14px; margin-bottom:12px; border-radius:12px; background:#fff7e6; border:1px solid #fcd9a0; color:#8a4b00; }
 .forecast { display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin-top:4px; }
 
 
@@ -1027,38 +981,7 @@ button:disabled { cursor: not-allowed; }
 .goal-item__days--urgent  { background: var(--warn-bg); color: var(--warn-text); }
 .goal-item__days--overdue { background: var(--error-container); color: var(--error); }
 
-/* AI-RISK NEW */
-.ai-state { margin: 0; font-size: 12px; line-height: 16px; color: var(--secondary, #565e74); }
-.ai-state--loading { font-style: italic; }
-.ai-state--unavailable { color: var(--warn-text, #b45309); font-weight: 600; }
-.shap-item__head { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
-.shap-item__share { font-size: 12px; font-weight: 700; color: var(--on-surface, #0b1c30); }
 
-/* Thanh SHAP: dài theo |impact|, đỏ = tăng rủi ro, xanh = giảm rủi ro */
-.shap-list { display: flex; flex-direction: column; gap: 10px; margin: 0; padding: 0; list-style: none; }
-.shap-item { display: flex; flex-direction: column; gap: 4px; cursor: help; }
-.shap-item__bar { height: 100%; border-radius: 4px; transition: width 0.5s ease; }
-.shap-item__bar--up { background: var(--error, #ba1a1a); }
-.shap-item__bar--down { background: var(--good, #059669); }
-.shap-item__label { font-size: 12px; font-weight: 600; color: var(--on-surface, #0b1c30); }
-
-.shap-item__track { height: 8px; overflow: hidden; border-radius: 4px; background: var(--surface-container, #e5eeff); }
-/* Danh sách đề xuất của AI (tone good / warn / bad) */
-.ai-actions { display: flex; flex-direction: column; gap: 8px; margin-top: 8px; }
-.ai-action { display: flex; gap: 8px; padding: 10px 12px; border-radius: 4px; background: var(--surface-low, #eff4ff); border-left: 3px solid var(--primary, #00288e); }
-.ai-action__icon { flex-shrink: 0; margin-top: 2px; color: var(--primary, #00288e); }
-.ai-action__title { font-size: 12px; font-weight: 700; color: var(--on-surface, #0b1c30); }
-.ai-action__detail { margin: 2px 0 0; font-size: 12px; line-height: 16px; color: var(--secondary, #565e74); }
-.ai-action--bad  { border-left-color: var(--error, #ba1a1a); background: var(--error-container, #ffdad6); }
-.ai-action--bad .ai-action__icon { color: var(--error, #ba1a1a); }
-.ai-action--warn { border-left-color: var(--warn, #f59e0b); background: var(--warn-bg, #fef3c7); }
-.ai-action--warn .ai-action__icon { color: var(--warn-text, #b45309); }
-.ai-action--good { border-left-color: var(--good, #059669); background: var(--good-bg, #d1fae5); }
-.ai-action--good .ai-action__icon { color: var(--good-text, #047857); }
-
-@media (prefers-reduced-motion: reduce) {
-  .shap-item__bar { transition: none; }
-}
 /* ==========================================================
    ANIMATION
    ========================================================== */
@@ -1099,7 +1022,6 @@ button:disabled { cursor: not-allowed; }
  
 @media (min-width: 768px) {
   .ai-panel__head { flex-direction: row; align-items: center; justify-content: space-between; }
-  .confidence { align-self: auto; }
   .analysis { grid-template-columns: 1fr 1fr; }
 }
  
