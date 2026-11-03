@@ -52,7 +52,7 @@ app = FastAPI(title="CPM AI server")
 app.add_middleware(
     CORSMiddleware,
     # Chỗ này tạm thời để "*" cho dễ test. Sau này có link Netlify rồi thì đổi thành ["https://ten-web-cua-bo.netlify.app"] cho bảo mật
-    allow_origins=["donasacpm.netlify.app"], 
+    allow_origins=["https://donasacpm.netlify.app"], 
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
