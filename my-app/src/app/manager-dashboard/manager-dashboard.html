@@ -682,7 +682,7 @@
           <ng-container *ngIf="!detailAi.loading && detailAi.result as r">
             <p class="analysis__text" *ngIf="r.feedback">{{ r.feedback }}</p>
 
-            <div class="ai-actions" *ngIf="r.actions.length">
+            <div class="ai-actions" *ngIf="r.actions?.length">
               <div class="ai-action" *ngFor="let a of r.actions" [ngClass]="'ai-action--' + a.tone">
                 <span class="material-symbols-outlined icon-lg ai-action__icon">{{ a.icon }}</span>
                 <div>

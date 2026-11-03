@@ -881,6 +881,77 @@ button:disabled { cursor: not-allowed; }
 .shap-item__bar--up { background: var(--error, #ba1a1a); }
 .shap-item__bar--down { background: var(--good, #059669); }
 
+/* ==========================================================
+   ĐỊNH DẠNG KHUNG ĐỀ XUẤT VÀ NHẬN XÉT TỪ AI
+   ========================================================== */
+
+/* Khung chứa danh sách đề xuất */
+.ai-actions { 
+  display: flex; 
+  flex-direction: column; 
+  gap: 8px; 
+  margin-top: 8px; 
+}
+
+/* Thẻ đề xuất đơn lẻ */
+.ai-action {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px;
+  border-radius: 8px;
+  background: var(--surface-low);
+  border-left: 4px solid var(--primary);
+}
+
+.ai-action__icon { 
+  flex-shrink: 0; 
+  margin-top: 2px; 
+}
+
+.ai-action__title { 
+  display: block; 
+  font-size: 13px; 
+  font-weight: 700; 
+  color: var(--on-surface); 
+  margin-bottom: 2px; 
+}
+
+.ai-action__detail { 
+  margin: 0; 
+  font-size: 12px; 
+  line-height: 1.5; 
+  color: var(--secondary); 
+}
+
+/* Màu sắc theo mức độ (tone) */
+.ai-action--bad { 
+  background: var(--error-container); 
+  border-left-color: var(--error); 
+}
+.ai-action--bad .ai-action__title, 
+.ai-action--bad .ai-action__icon { 
+  color: var(--error); 
+}
+
+.ai-action--warn { 
+  background: var(--warn-bg); 
+  border-left-color: var(--warn); 
+}
+.ai-action--warn .ai-action__title, 
+.ai-action--warn .ai-action__icon { 
+  color: var(--warn-text); 
+}
+
+.ai-action--good { 
+  background: var(--good-bg); 
+  border-left-color: var(--good); 
+}
+.ai-action--good .ai-action__title, 
+.ai-action--good .ai-action__icon { 
+  color: var(--good-text); 
+}
+
 .ai-state {
   margin: 0;
   font-size: 12px;
