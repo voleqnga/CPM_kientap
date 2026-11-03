@@ -51,17 +51,13 @@ app = FastAPI(title="CPM AI server")
 # Cấu hình CORS để Netlify có thể gọi API
 app.add_middleware(
     CORSMiddleware,
-    # Chỗ này tạm thời để "*" cho dễ test. Sau này có link Netlify rồi thì đổi thành ["https://ten-web-cua-bo.netlify.app"] cho bảo mật
-    allow_origins=["https://donasacpm.netlify.app"], 
+    allow_origins=[
+        "https://donasacpm.netlify.app",
+        "http://localhost:4200",
+        "http://localhost:4200/",
+    ],
     allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
-
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=ALLOWED_ORIGINS,
-    allow_methods=["*"],
+    allow_methods=["GET", "POST", "OPTIONS"],  # Khai báo tường minh phương thức OPTIONS ở đây luôn
     allow_headers=["*"],
 )
 
@@ -194,6 +190,9 @@ def build_text(goals: list[GoalIn], w: GoalIn, label: str, manager: bool) -> tup
                         "detail": "Tiến độ chưa chậm nhiều nhưng thời gian còn ít. Hãy xác nhận lại kế hoạch cho phần việc còn lại."})
     return feedback, actions
 
+@app.get("/")
+def root():
+    return {"status": "AI server is running"}
 
 @app.get("/health")
 def health():
